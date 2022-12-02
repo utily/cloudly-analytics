@@ -4,4 +4,5 @@ export class Listener {
 	owner: cryptly.Identifier
 	target: string
 	filter: string
+	permitted: string
 }

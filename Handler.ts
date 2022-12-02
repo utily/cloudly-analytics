@@ -15,7 +15,7 @@ export class Handler<E extends Event> {
 		await Promise.all(
 			listeners.map(listener =>
 				selectively
-					.filter(selectively.parse(listener.filter), events)
+					.filter(selectively.parse(listener.filter), selectively.filter(selectively.parse(listener.permitted), events))
 					.map(event => this.hooks.trigger(listener?.target, event))
 			)
 		)
