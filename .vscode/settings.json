@@ -1,14 +1,22 @@
 {
 	"files.exclude": {
 		".*": true,
+		"*.code-workspace": true,
 		"*.json": true,
 		"CODEOWNERS": true,
 		"dist": true,
-		"README.md": true,
 		"LICENSE": true,
-		"tsconfig.*": true,
 		"node_modules": true,
-		"*.code-workspace": true
+		"README.md": true,
+		"test-worker/.*": true,
+		"test-worker/*.d.ts": true,
+		"test-worker/*.js": true,
+		"test-worker/*.json": true,
+		"test-worker/dist": true,
+		"test-worker/node_modules": true,
+		"test-worker/rollup.config.js": true,
+		"test-worker/tsconfig.*": true,
+		"tsconfig.*": true
 	},
 	"files.insertFinalNewline": true,
 	"editor.tabSize": 2,
@@ -40,6 +48,7 @@
 		"smoothly",
 		"tidily",
 		"transactly",
+		"unlisten",
 		"uply"
 	]
 }
