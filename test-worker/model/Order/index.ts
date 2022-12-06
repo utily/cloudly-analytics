@@ -11,7 +11,7 @@ export namespace Order {
 			value &&
 			typeof value == "object" &&
 			typeof value.id == "string" &&
-			typeof value.number == "number" &&
+			typeof value.number == "string" &&
 			typeof value.amount == "number" &&
 			typeof value.currency == "string"
 		)
