@@ -2,6 +2,7 @@ import * as cryptly from "cryptly"
 import * as selectively from "selectively"
 import * as hook from "cloudly-hook"
 import * as storage from "cloudly-storage"
+import { Event } from "./Event"
 import { Listener } from "./Listener"
 
 export class Handler<E extends Event> {
