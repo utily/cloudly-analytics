@@ -1,2 +1,2 @@
-export { Item } from "./Item"
-export { Registration } from "./Registration"
+export { Event } from "./Event"
+export { Order } from "./Order"

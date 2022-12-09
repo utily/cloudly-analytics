@@ -6,18 +6,19 @@ import { router } from "../router"
 
 export async function create(request: http.Request, context: Context): Promise<http.Response.Like | any> {
 	let result: gracely.Result
-	const item = await request.body
-	const hooks = context.hooks
+	const order = await request.body
+	const trigger = context.trigger
 	if (!request.header.authorization)
 		result = gracely.client.unauthorized()
-	else if (!model.Item.is(item))
-		result = gracely.client.invalidContent("Item", "Body is not a valid item.")
-	else if (gracely.Error.is(hooks))
-		result = hooks
+	else if (!model.Order.is(order))
+		result = gracely.client.invalidContent("Order", "Body is not a valid order.")
+	else if (gracely.Error.is(trigger))
+		result = trigger
 	else {
-		hooks.trigger(`item-create/${item.id}`, item)
-		result = gracely.success.created(item)
+		const event = model.Event.Prepare.create(order)
+		trigger(event)
+		result = gracely.success.created(order)
 	}
 	return result
 }
-router.add("POST", "/item", create)
+router.add("POST", "/order", create)

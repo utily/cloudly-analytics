@@ -1,2 +1,2 @@
-# Cloudly Hook
-Library for handling asynchronous webhooks in Cloudaflare Workers.
+# Cloudly Analytics
+Cloudflare Workers analytics Library.

@@ -14,3 +14,8 @@ export interface AccountCreateEvent extends Event {
 	account: string
 	organization: string
 }
+import "jest"
+
+describe("Test", () => {
+	it("true", () => expect(true).toBeTruthy())
+})
