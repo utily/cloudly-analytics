@@ -13,7 +13,7 @@ export class Context {
 		return (
 			this.#hooks ??
 			(this.#hooks =
-				hook.Hooks.open(this.environment.hookNamespace, this.environment.destinationNamespace) ??
+				hook.Hooks.open(this.environment.hookNamespace) ??
 				gracely.server.misconfigured(
 					"namespaces",
 					"Hook queue namespace or hook destination namespace not correctly configured."
