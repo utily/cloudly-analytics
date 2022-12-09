@@ -1,9 +1,9 @@
 import { HookStorage } from "cloudly-hook"
 import { Context } from "./Context"
 
-import "./item"
+import "./model"
 import "./version"
-import "./registration"
+import "./order"
 
 export default {
 	async fetch(request: Request, environment: Context.Environment) {
