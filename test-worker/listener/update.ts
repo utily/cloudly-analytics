@@ -1,3 +1,4 @@
+/*
 import * as cryptly from "cryptly"
 import * as gracely from "gracely"
 import * as analytics from "cloudly-analytics"
@@ -30,3 +31,4 @@ export async function remove(request: http.Request, context: Context): Promise<h
 	return result
 }
 router.add("DELETE", "/listener:owner", remove)
+*/
