@@ -1,8 +1,6 @@
-export interface Environment extends Record<string, undefined | string | DurableObjectNamespace | KVNamespace | Queue> {
+export interface Environment extends Record<string, undefined | string | DurableObjectNamespace | KVNamespace> {
 	adminSecret?: string
-	queueNamespace?: Queue
 	hookNamespace?: DurableObjectNamespace
-	destinationStore?: KVNamespace
-	queueStore?: KVNamespace
+	destinationNamespace?: KVNamespace
 	listenerStore?: string
 }

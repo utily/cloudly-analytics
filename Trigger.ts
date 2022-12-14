@@ -1,9 +1,9 @@
 import { Event } from "./Event"
-import * as platform from "./platform"
+import { Listeners } from "./Listeners"
 
-export type Trigger<E extends Event> = (event: E) => Promise<void>
+export type Trigger = (event: Event) => Promise<void>
 export namespace Trigger {
-	export function create<E extends Event>(backend: platform.Queue | undefined): Trigger<E> | undefined {
-		return backend && (async event => backend.send(event))
+	export function create(backend: Listeners | undefined): Trigger | undefined {
+		return backend && (async event => backend.receive(event))
 	}
 }

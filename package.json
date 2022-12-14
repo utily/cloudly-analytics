@@ -59,8 +59,8 @@
 	},
 	"devDependencies": {
 		"@types/jest": "^29.2.4",
-		"@typescript-eslint/eslint-plugin": "5.46.0",
-		"@typescript-eslint/parser": "5.46.0",
+		"@typescript-eslint/eslint-plugin": "5.46.1",
+		"@typescript-eslint/parser": "5.46.1",
 		"eslint": "^8.29.0",
 		"eslint-plugin-prettierx": "github:utily/eslint-plugin-prettierx#utily-20221021",
 		"eslint-plugin-simple-import-sort": "^8.0.0",
@@ -78,6 +78,7 @@
 		"cryptly": "^3.0.2",
 		"gracely": "^2.0.3",
 		"isoly": "^2.0.14",
+		"npm-check-updates": "^16.5.6",
 		"selectively": "^2.0.2"
 	}
 }

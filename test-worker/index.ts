@@ -1,8 +1,8 @@
 import { HookStorage } from "cloudly-hook"
 import { Context } from "./Context"
 
-import "./model"
 import "./version"
+import "./listener"
 import "./order"
 
 export default {

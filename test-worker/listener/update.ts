@@ -10,7 +10,7 @@ export async function remove(request: http.Request, context: Context): Promise<h
 	let result: gracely.Result
 	const listener = await request.body
 	const owner = request.parameter.owner
-	const queue = context.handler
+	const listeners = context.listeners
 	const key = await context.authenticate(request)
 	if (!key)
 		result = gracely.client.unauthorized()
@@ -23,10 +23,10 @@ export async function remove(request: http.Request, context: Context): Promise<h
 		)
 	else if (!analytics.Listener.is(listener))
 		result = gracely.client.invalidContent("Listener", "Body is not a valid listener.")
-	else if (gracely.Error.is(queue))
-		result = queue
+	else if (gracely.Error.is(listeners))
+		result = listeners
 	else {
-		result = gracely.success.created(queue.listen(listener, owner))
+		result = gracely.success.created(listeners.listen(listener))
 	}
 	return result
 }
