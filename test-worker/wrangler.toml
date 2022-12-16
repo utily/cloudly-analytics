@@ -4,6 +4,14 @@ workers_dev = true
 routes = []
 vars = { }
 main = "./dist/_worker.js"
+kv_namespaces = [
+	{ binding = "listenerStore", id = "aaaaaa", preview_id = "bbbbbbbb" }
+]
+[durable_objects]
+bindings = [
+	{ name = "hookNamespace", class_name = "HookStorage" },
+]
+
 
 [build]
 command = "npm install && npm run build"
@@ -28,4 +36,4 @@ r2_buckets = []
 [miniflare]
 durable_objects_persist = "./.miniflare/durable-objects/"
 kv_persist = "./.miniflare/kv/"
-port = 8788
+port = 8787

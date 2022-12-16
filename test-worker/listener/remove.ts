@@ -11,7 +11,7 @@ export async function remove(request: http.Request, context: Context): Promise<h
 	const key = await context.authenticate(request)
 	if (!key)
 		result = gracely.client.unauthorized()
-	else if (!(cryptly.Identifier.is(body.owner) && cryptly.Identifier.is(body.id)))
+	else if (!cryptly.Identifier.is(body.owner) || !cryptly.Identifier.is(body.id))
 		result = gracely.client.invalidContent("Owner, Id", "Body must contain a valid owner id, and a valid listener id.")
 	else if (gracely.Error.is(listeners))
 		result = listeners
