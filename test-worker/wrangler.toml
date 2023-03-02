@@ -5,11 +5,9 @@ routes = []
 vars = { }
 main = "./dist/_worker.js"
 kv_namespaces = [
-	{ binding = "listenerStore", id = "aaaaaa", preview_id = "bbbbbbbb" }
 ]
 [durable_objects]
 bindings = [
-	{ name = "hookNamespace", class_name = "HookStorage" },
 ]
 
 

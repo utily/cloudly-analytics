@@ -1,11 +1,10 @@
 {
 	"compilerOptions": {
 		"outDir": "./dist",
-		"module": "es2015",
-		"target": "es2019",
+		"module": "esnext",
+		"target": "esnext",
 		"lib": [
-			"es2019",
-			"webworker"
+			"esnext"
 		],
 		"alwaysStrict": true,
 		"strict": true,
@@ -21,8 +20,7 @@
 		"noImplicitThis": true,
 		"strictNullChecks": true,
 		"types": [
-			"@cloudflare/workers-types",
-			"node"
+			"@cloudflare/workers-types"
 		],
 		"resolveJsonModule": true
 	},

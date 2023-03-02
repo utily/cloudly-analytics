@@ -7,17 +7,14 @@ import { router } from "../router"
 export async function update(request: http.Request, context: Context): Promise<http.Response.Like | any> {
 	let result: gracely.Result
 	const order = await request.body
-	const trigger = context.trigger
 	if (!request.header.authorization)
 		result = gracely.client.unauthorized()
 	else if (!model.Order.is(order))
-		result = gracely.client.invalidContent("Order", "Body is not a valid order.")
-	else if (gracely.Error.is(trigger))
-		result = trigger
+		result = gracely.client.flawedContent(model.Order.flaw(order))
 	else {
-		const event = model.Event.Paid.create(order)
-		trigger(event)
-		result = gracely.success.created(order)
+		const updatedOrder = { ...order, paid: true }
+		context.analytics.register({ entity: "order", action: "paid", amount: updatedOrder.amount, order: updatedOrder })
+		result = gracely.success.ok(updatedOrder)
 	}
 	return result
 }

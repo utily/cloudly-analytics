@@ -7,16 +7,13 @@ import { router } from "../router"
 export async function create(request: http.Request, context: Context): Promise<http.Response.Like | any> {
 	let result: gracely.Result
 	const order = await request.body
-	const trigger = context.trigger
 	if (!request.header.authorization)
 		result = gracely.client.unauthorized()
-	else if (!model.Order.is(order))
-		result = gracely.client.invalidContent("Order", "Body is not a valid order.")
-	else if (gracely.Error.is(trigger))
-		result = trigger
+	else if (!model.Order.UnPaid.is(order))
+		result = gracely.client.flawedContent(model.Order.UnPaid.flaw(order))
 	else {
-		const event = model.Event.Prepare.create(order)
-		trigger(event)
+		context.analytics.register({ entity: "order", action: "prepared", order })
+
 		result = gracely.success.created(order)
 	}
 	return result

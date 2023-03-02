@@ -11,7 +11,7 @@ import { Batch, Event } from "./model"
  */
 type ExtraAndDefault<T extends object, E extends object = object, D extends Partial<T & E> = never> =
 	// E: Extends type, with default values as optional
-	// `E extends any ?...:never` is a trick to keep E as a possible unionen: https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#distributive-conditional-types
+	// `E extends any ? ... : never` is a trick to keep E as a possible union: https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#distributive-conditional-types
 	(E extends any
 		? Omit<E, D extends never ? never : keyof D> &
 				Partial<
@@ -69,7 +69,6 @@ export class Analytics<E extends Record<string, any> = object, D extends Partial
 	 * @param events
 	 * @returns
 	 */
-	// DistributiveOmit<E & Event, keyof D>
 	public register(events: MaybeArray<ExtraAndDefault<Event, E, D>>): void | Promise<void> {
 		const batch: Batch = {
 			events: (Array.isArray(events) ? events : [events]).map(event => ({ ...this.defaultValues, ...event } as Event)),
@@ -80,6 +79,7 @@ export class Analytics<E extends Record<string, any> = object, D extends Partial
 		if (this.configuration.httpEndpoint)
 			promise = this.registerHttp(batch, this.configuration.httpEndpoint)
 		else {
+			console.error("Analytics without httpEndpoint. Not implemented!")
 			throw "Not implemented!"
 		}
 		if (this.executionContext) {
