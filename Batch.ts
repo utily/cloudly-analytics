@@ -12,7 +12,7 @@ export namespace Batch {
 	export const type = isly.object<Batch>(
 		{
 			events: isly.array(Event.type),
-			cloudflare: isly.optional(isly.any()),
+			cloudflare: isly.any().optional(),
 			header: isly.record(isly.string(), isly.any()),
 		},
 		"Batch"

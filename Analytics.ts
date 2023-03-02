@@ -1,7 +1,8 @@
 import type { ExecutionContext } from "@cloudflare/workers-types"
 import { http, Request as HttpRequest } from "cloudly-http"
 import * as isly from "isly"
-import { Batch, Event } from "./model"
+import { Batch } from "./Batch"
+import { Event } from "./Event"
 /**
  * Define extra fields in E,
  * Define type of default values in D,
@@ -41,20 +42,20 @@ type MaybeArray<T> = T | T[]
  * * D: Type of object providing default values for properties in Event and in E
  */
 export class Analytics<E extends Record<string, any> = object, D extends Partial<Event & E> = never> {
-	protected readonly configuration: Analytics.Configuration
-	protected readonly executionContext?: ExecutionContext
-	protected readonly request?: HttpRequest
-	protected readonly defaultValues: D
-	constructor(context: {
+	private readonly configuration: Analytics.Configuration
+	private readonly executionContext?: Pick<ExecutionContext, "waitUntil">
+	private readonly request?: HttpRequest
+	private readonly default: D
+	constructor(options: {
 		readonly configuration?: Analytics.Configuration
-		readonly executionContext?: ExecutionContext
+		readonly executionContext?: Pick<ExecutionContext, "waitUntil">
 		readonly request?: HttpRequest
-		readonly defaultValues?: D
+		readonly default?: D
 	}) {
-		this.configuration = context.configuration ?? {}
-		this.executionContext = context.executionContext
-		this.request = context.request
-		this.defaultValues = context.defaultValues ?? ({} as never)
+		this.configuration = options.configuration ?? {}
+		this.executionContext = options.executionContext
+		this.request = options.request
+		this.default = options.default ?? ({} as never)
 	}
 
 	/**
@@ -69,36 +70,32 @@ export class Analytics<E extends Record<string, any> = object, D extends Partial
 	 * @param events
 	 * @returns
 	 */
-	public register(events: MaybeArray<ExtraAndDefault<Event, E, D>>): void | Promise<void> {
+	send(events: MaybeArray<ExtraAndDefault<Event, E, D>>): void | Promise<void> {
 		const batch: Batch = {
-			events: (Array.isArray(events) ? events : [events]).map(event => ({ ...this.defaultValues, ...event } as Event)),
+			events: (Array.isArray(events) ? events : [events]).map(event => ({ ...this.default, ...event } as Event)),
 			cloudflare: this.request?.cloudflare,
 			header: this.request?.header ?? {},
 		}
-		let promise: Promise<void>
+		let result: Promise<void>
 		if (this.configuration.httpEndpoint)
-			promise = this.registerHttp(batch, this.configuration.httpEndpoint)
+			result = this.sendHttp(batch, this.configuration.httpEndpoint)
 		else {
 			console.error("Analytics without httpEndpoint. Not implemented!")
 			throw "Not implemented!"
 		}
-		if (this.executionContext) {
-			this.executionContext.waitUntil(promise)
-		} else {
-			return promise
-		}
+		return this.executionContext ? this.executionContext.waitUntil(result) : result
 	}
-
-	protected registerHttp(batch: Batch, endpoint: string): Promise<void> {
+	// listeners?: {
+	// 	[System.]
+	// 	listen(listener)
+	// 	unlisten(listener)
+	// }
+	private sendHttp(batch: Batch, endpoint: string): Promise<void> {
 		return http
 			.fetch({
 				url: `${endpoint}/batch`,
 				method: "POST",
-				body: JSON.stringify(batch),
-				header: {
-					"content-type": "application/json;charset=UTF-8",
-					// 	authorization: "Bearer " + (await this.getToken()),
-				},
+				body: batch,
 			})
 			.then(async response => {
 				if (response.status != 201) {
@@ -106,9 +103,7 @@ export class Analytics<E extends Record<string, any> = object, D extends Partial
 					console.error(JSON.stringify(await response.body, null, 2))
 				}
 			})
-			.catch(error => {
-				console.error("Error in Analytics.register", error)
-			})
+			.catch(error => console.error("Error in Analytics.register", error))
 	}
 }
 export namespace Analytics {
