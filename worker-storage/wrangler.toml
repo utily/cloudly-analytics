@@ -1,7 +1,7 @@
 compatibility_date = "2022-11-25"
 compatibility_flags = ["durable_object_alarms"]
 
-name = "worker-analytics"
+name = "cloudly-analytics-storage"
 workers_dev = true
 routes = []
 vars = { }
@@ -9,12 +9,11 @@ main = "./dist/_worker.js"
 
 
 kv_namespaces = [
-	{ binding = "listenerConfigurationStorage", id = "<TODO listenerConfigurationStorage id>", preview_id = "<TODO listenerConfigurationStorage preview_id>" }
+	{ binding = "listenerConfigurationStorage", id = "caa14ee7713348029984fd1a297b6842", preview_id = "4793f1258dd5459f86d814ab5e0658bf"}
 ]
 
 [build]
 command = "npm install && npm run build"
-upload.format = "modules"
 
 
 [durable_objects]
@@ -22,6 +21,10 @@ bindings = [
 	{ name = "eventStorage", class_name = "EventStorage" },
 	{ name = "bucketStorage", class_name = "BucketStorage" },
 ]
+
+[[migrations]]
+tag = "v2023-03-07"
+new_classes = ["EventStorage", "BucketStorage"]
 
 [env.production]
 workers_dev = false

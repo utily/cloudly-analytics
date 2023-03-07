@@ -10,7 +10,14 @@ export default {
 	},
 }
 
-// Durable objects:
+/**
+ * Durable objects:
+ *
+ * Also add this to wrangler.toml
+ * [durable_objects]
+ * bindings = [
+ *   { name = "eventStorage", class_name = "EventStorage" },
+ *   { name = "bucketStorage", class_name = "BucketStorage" },
+ * ]
+ */
 export { EventStorage, BucketStorage } from "cloudly-analytics/Storage"
-// export const EventStorage = Context.Events.Storage
-// export const BucketStorage = Context.Bucket.Storage
