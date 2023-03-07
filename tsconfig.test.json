@@ -1,10 +1,10 @@
 {
 	"compilerOptions": {
-		"target": "es2021",
-		"module": "es2020",
+		"target": "esnext",
+		"module": "esnext",
 		"lib": [
-			"es2021",
-			"dom"
+			"esnext",
+			"webworker"
 		],
 		"allowJs": true,
 		"allowSyntheticDefaultImports": true,
@@ -27,12 +27,10 @@
 		"types": ["jest"]
 	},
 	"files": [
-		"index.ts"
+		"index.ts",
+		"workers-jwt.d.ts"
 	],
 	"typeAcquisition": {
 		"enable": true
-	},
-	"exclude": [
-     "test-worker/**",
- ]
+	}
 }

@@ -1,2 +1,2 @@
 export { Analytics } from "./Analytics"
-export { Event } from "./Event"
+export { Event } from "./types"

@@ -1,8 +1,7 @@
-import type { ExecutionContext } from "@cloudflare/workers-types"
-import { http, Request as HttpRequest } from "cloudly-http"
+import { ExecutionContext } from "@cloudflare/workers-types"
+import * as http from "cloudly-http"
 import * as isly from "isly"
-import { Batch } from "./Batch"
-import { Event } from "./Event"
+import { Batch, Event } from "./types"
 /**
  * Define extra fields in E,
  * Define type of default values in D,
@@ -44,12 +43,12 @@ type MaybeArray<T> = T | T[]
 export class Analytics<E extends Record<string, any> = object, D extends Partial<Event & E> = never> {
 	private readonly configuration: Analytics.Configuration
 	private readonly executionContext?: Pick<ExecutionContext, "waitUntil">
-	private readonly request?: HttpRequest
+	private readonly request?: http.Request
 	private readonly default: D
 	constructor(options: {
 		readonly configuration?: Analytics.Configuration
 		readonly executionContext?: Pick<ExecutionContext, "waitUntil">
-		readonly request?: HttpRequest
+		readonly request?: http.Request
 		readonly default?: D
 	}) {
 		this.configuration = options.configuration ?? {}
@@ -61,13 +60,13 @@ export class Analytics<E extends Record<string, any> = object, D extends Partial
 	/**
 	 * In worker: (Where executionContext exists)
 	 * NonBlocking. (Returns void)
-	 * Usage: `analytics.register(...)`
+	 * Usage: `analytics.send(...)`
 	 *
 	 * In DurableObject alarm:
 	 * Returns Promise<void>
-	 * Usage: `await analytics.register(...)`
+	 * Usage: `await analytics.send(...)`
 	 *
-	 * @param events
+	 * @param events An Event with E and D optional.
 	 * @returns
 	 */
 	send(events: MaybeArray<ExtraAndDefault<Event, E, D>>): void | Promise<void> {
@@ -95,7 +94,11 @@ export class Analytics<E extends Record<string, any> = object, D extends Partial
 			.fetch({
 				url: `${endpoint}/batch`,
 				method: "POST",
-				body: batch,
+				body: JSON.stringify(batch),
+				header: {
+					"content-type": "application/json;charset=UTF-8",
+					// 	authorization: "Bearer " + (await this.getToken()),
+				},
 			})
 			.then(async response => {
 				if (response.status != 201) {
@@ -103,14 +106,18 @@ export class Analytics<E extends Record<string, any> = object, D extends Partial
 					console.error(JSON.stringify(await response.body, null, 2))
 				}
 			})
-			.catch(error => console.error("Error in Analytics.register", error))
+			.catch(error => console.error("Error in Analytics.send", error))
 	}
 }
 export namespace Analytics {
 	export type Configuration = {
 		httpEndpoint?: string
 	}
-	export const Configuration = isly.object<Configuration>({
-		httpEndpoint: isly.string(),
-	})
+	export namespace Configuration {
+		export const type = isly.object<Configuration>({
+			httpEndpoint: isly.string(),
+		})
+		export const is = type.is
+		export const flaw = type.is
+	}
 }

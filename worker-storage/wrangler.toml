@@ -1,0 +1,43 @@
+compatibility_date = "2022-11-25"
+compatibility_flags = ["durable_object_alarms"]
+
+name = "worker-analytics"
+workers_dev = true
+routes = []
+vars = { }
+main = "./dist/_worker.js"
+
+
+kv_namespaces = [
+	{ binding = "listenerConfigurationStorage", id = "<TODO listenerConfigurationStorage id>", preview_id = "<TODO listenerConfigurationStorage preview_id>" }
+]
+
+[build]
+command = "npm install && npm run build"
+upload.format = "modules"
+
+
+[durable_objects]
+bindings = [
+	{ name = "eventStorage", class_name = "EventStorage" },
+	{ name = "bucketStorage", class_name = "BucketStorage" },
+]
+
+[env.production]
+workers_dev = false
+vars = {  }
+#durable_objects.bindings = []
+#kv_namespaces = []
+r2_buckets = []
+
+[env.local]
+workers_dev = true
+vars = { adminSecret = "adminSecret" }
+#durable_objects.bindings = []
+#kv_namespaces = []
+r2_buckets = []
+
+[miniflare]
+durable_objects_persist = "./.miniflare/durable-objects/"
+kv_persist = "./.miniflare/kv/"
+port = 8788
