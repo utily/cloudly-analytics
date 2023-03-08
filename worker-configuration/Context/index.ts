@@ -1,10 +1,17 @@
 import * as gracely from "gracely"
+import { Configuration } from "cloudly-analytics/Configuration"
 import * as http from "cloudly-http"
 import { router } from "../router"
 import { Environment as ContextEnvironment } from "./Environment"
 
-export class Context {
+export class Context implements Configuration.WorkerContext {
 	constructor(public readonly environment: Context.Environment) {}
+
+	#analyticsConfiguration: Configuration.Context | undefined
+	get analyticsConfiguration(): Configuration.Context {
+		return (this.#analyticsConfiguration ??= new Configuration.Context(this.environment))
+	}
+
 	async authenticate(request: http.Request): Promise<"admin" | undefined> {
 		return this.environment.adminSecret && request.header.authorization == `Basic ${this.environment.adminSecret}`
 			? "admin"

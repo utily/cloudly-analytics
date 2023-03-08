@@ -1,12 +1,12 @@
 {
-	"name": "cloudly-storage",
-	"version": "0.7.1",
-	"description": "Library to simplify usage of Cloudflare Workers Storage.",
-	"author": "Simon Mika",
+	"name": "cloudly-analytics",
+	"version": "0.1.0",
+	"description": "Library to create analytics api.",
+	"author": "Utily Contributors",
 	"license": "MIT",
-	"repository": "https://github.com/utily/cloudly-storage",
+	"repository": "https://github.com/utily/cloudly-analytics",
 	"bugs": {
-		"url": "https://github.com/utily/cloudly-storage/issues"
+		"url": "https://github.com/utily/cloudly-analytics/issues"
 	},
 	"homepage": "https://github.com/utily",
 	"private": false,
@@ -20,7 +20,8 @@
 	],
 	"exports": {
 		".": "./dist/index.js",
-		"./Storage": "./dist/Storage/index.js"
+		"./Storage": "./dist/Storage/index.js",
+		"./Configuration": "./dist/Configuration/index.js"
 	},
 	"exportsComments": [
 		"https://stackoverflow.com/a/61829317/1003172"
@@ -92,7 +93,7 @@
 		"gracely": "^2.0.3",
 		"isoly": "^2.0.14",
 		"isly": "github:utily/isly#0a0e9212fb90f2d4361378245159569e5617c730",
-		"cloudly-storage": "^0.7.5",
+		"cloudly-storage": "^0.7.7",
 		"selectively": "^2.0.4",
 		"ua-parser-js": "^1.0.34",
 		"authly": "github:utily/authly#tvartom-kid"

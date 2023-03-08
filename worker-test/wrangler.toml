@@ -15,7 +15,7 @@ bindings = [
 command = "npm install && npm run build"
 
 [build.upload]
-format = "modules"
+format = "modules" # Miniflare needs this
 
 [env.production]
 workers_dev = false

@@ -1,16 +1,18 @@
+import { Context } from "./Context"
+
+// Let endpoints register:
+import "./version"
+import "./analytics"
+
 // Worker:
 export default {
-	async fetch(request: Request, environment: Partial<Record<string, any>>, executionContext: ExecutionContext) {
-		return new Response(
-			JSON.stringify({
-				name: "cloudly-analytics-storage",
-			})
-		)
+	async fetch(request: Request, environment: Context.Environment, executionContext: ExecutionContext) {
+		return await Context.handle(request, environment)
 	},
 }
 
 /**
- * All that is needed for a worker to be responsible for the durable object is this:
+ * Durable objects:
  *
  * Also add this to wrangler.toml
  * [durable_objects]

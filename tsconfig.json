@@ -12,5 +12,6 @@
 	"files": [
 		"index.ts",
 		"Storage/index.ts",
+		"Configuration/index.ts",
 	]
 }

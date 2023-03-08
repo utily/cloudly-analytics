@@ -3,11 +3,11 @@ import * as http from "cloudly-http"
 import * as isly from "isly"
 import { Batch, Event } from "./types"
 /**
- * Define extra fields in E,
- * Define type of default values in D,
- *
  * Result is a type with all properties of T and E, with all properties of D as optional.
- * If E is a union it is preserved.
+ *
+ * Define extra fields in E.
+ * Define type of default values in D.
+ * If E is a union it is preserved as union.
  */
 type ExtraAndDefault<T extends object, E extends object = object, D extends Partial<T & E> = never> =
 	// E: Extends type, with default values as optional
@@ -106,7 +106,9 @@ export class Analytics<E extends Record<string, any> = object, D extends Partial
 					console.error(JSON.stringify(await response.body, null, 2))
 				}
 			})
-			.catch(error => console.error("Error in Analytics.send", error))
+			.catch(error => {
+				console.error("Error in Analytics.send", error)
+			})
 	}
 }
 export namespace Analytics {

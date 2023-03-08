@@ -19,12 +19,7 @@
 		"outDir": "dist",
 		"moduleResolution": "node",
 		"resolveJsonModule": true,
-		"paths": {
-			"*": [
-				"types/*"
-			]
-		},
-		"types": ["jest"]
+		"types": ["jest"],
 	},
 	"files": [
 		"index.ts",

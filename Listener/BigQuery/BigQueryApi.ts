@@ -15,7 +15,14 @@ export class BigQueryApi {
 	private async getToken() {
 		if (!this.#token) {
 			const privateKey = this.listenerConfiguration.privateKey
-			const key = authly.Algorithm.RS256(undefined, privateKey.private_key)
+
+			const base64key = (
+				(privateKey.private_key.match(
+					/(?:^|-+\s*BEGIN PRIVATE KEY\s*-+\s*)([A-Za-z0-9+/\s]+={0,3})(?:\s*-+\s*END PRIVATE KEY\s*-+|$)/s
+				) ?? [])[1] ?? ""
+			).replace(/\s/g, "")
+
+			const key = authly.Algorithm.RS256(undefined, base64key)
 			if (key) {
 				key.kid = privateKey.private_key_id
 				const issuer = authly.Issuer.create(privateKey.client_email, key)

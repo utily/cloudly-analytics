@@ -5,7 +5,7 @@
 			"type": "node",
 			"request": "launch",
 			"runtimeExecutable": "node",
-			"cwd": "${workspaceFolder}/worker-test",
+			"cwd": "${workspaceFolder}/worker-configuration",
 			"runtimeArgs": [
 				"--experimental-vm-modules",
 				"--inspect",

@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "module": "esnext",
+    "target": "esnext",
+    "lib": ["esnext"],
+    "alwaysStrict": true,
+    "strict": true,
+    "preserveConstEnums": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "types": ["@cloudflare/workers-types"],
+		"resolveJsonModule": true,
+		"noImplicitAny": true,
+		"removeComments": true,
+		"forceConsistentCasingInFileNames": true,
+		"noImplicitThis": true,
+		"strictNullChecks": true,
+		"allowJs": true,
+		"paths": {"*": ["./*"]},
+  },
+  "include": [
+    "*.ts",
+    "**/*.ts",
+    "./node_modules/@cloudflare/workers-types/index.d.ts"
+  ],
+  "exclude": ["*.spec.ts", "**/*.spec.ts", "node_modules/", "dist/"]
+}

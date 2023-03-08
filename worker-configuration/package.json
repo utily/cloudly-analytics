@@ -92,7 +92,6 @@
 		"isoly": "^2.0.14"
 	},
 	"dependenciesComments": {
-		"isly": "github:utily/isly#version-0-1",
-		"cloudly-http": "^0.1.2"
+		"isly": "github:utily/isly#version-0-1"
 	}
 }
