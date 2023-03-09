@@ -9,3 +9,14 @@ export default {
 		return await Context.handle(request, environment, executionContext)
 	},
 }
+
+/**
+ * Add this to wrangler.toml
+ * script_name is the worker responsible for the durable objects.
+ * [durable_objects]
+ * bindings = [
+ *   { name = "eventStorage", class_name = "EventStorage", script_name = "cloudly-analytics-storage" }
+ * ]
+ */
+// Uncomment this to run locally with Miniflare
+//export { EventStorage } from "cloudly-analytics/dist/Storage"

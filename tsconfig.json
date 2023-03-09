@@ -13,5 +13,6 @@
 		"index.ts",
 		"Storage/index.ts",
 		"Configuration/index.ts",
+		"Sender/index.ts",
 	]
 }

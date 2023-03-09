@@ -13,6 +13,10 @@ export async function update(request: http.Request, context: Context): Promise<h
 		result = gracely.client.flawedContent(model.Order.flaw(order))
 	else {
 		const updatedOrder = { ...order, paid: true }
+		// Demonstrating sending analytics.
+		// Note that type { entity: "order", action: "paid"} demands
+		// property amount. See Context/analytics.
+		// This function uses executionEnvironment.waitUntil, and will not block thread or response.
 		context.analytics.send({ entity: "order", action: "paid", amount: updatedOrder.amount, order: updatedOrder })
 		result = gracely.success.ok(updatedOrder)
 	}

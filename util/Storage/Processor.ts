@@ -1,18 +1,21 @@
 import * as gracely from "gracely"
-import { DurableObject, DurableObjectState, Request, Response } from "@cloudflare/workers-types"
+import { DurableObjectState, Request, Response } from "@cloudflare/workers-types"
 import * as http from "cloudly-http"
-import { Environment } from "../../Storage"
 import { Context } from "./Context"
+import { DurableObjectWithEnvironment } from "./DurableObjectWithEnvironment"
 import { Router } from "./Router"
-
-export class Processor<DO extends DurableObject> {
+/**
+ * @template DO DurableObject-implementation class
+ * @template E Environment
+ */
+export class Processor<DO extends DurableObjectWithEnvironment> {
 	constructor(public readonly storageRouter: Router<DO>) {}
 	/**
 	 * The DurableObject is calling this method
 	 */
 	async handle(
 		request: Request,
-		environment: Environment,
+		environment: DO["environment"],
 		state: DurableObjectState,
 		durableObject: DO
 	): Promise<Response> {
@@ -31,7 +34,7 @@ export class Processor<DO extends DurableObject> {
 	/**
 	 * The DurableObject is calling this method
 	 */
-	async alarm(environment: Environment, state: DurableObjectState, durableObject: DO): Promise<void> {
+	async alarm(environment: DO["environment"], state: DurableObjectState, durableObject: DO): Promise<void> {
 		const storageContext = new Context<DO>(environment, state, durableObject)
 		if (this.storageRouter.alarm) {
 			await this.storageRouter.alarm(storageContext)

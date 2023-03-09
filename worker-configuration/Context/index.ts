@@ -1,5 +1,5 @@
 import * as gracely from "gracely"
-import { Configuration } from "cloudly-analytics/Configuration"
+import { Configuration } from "cloudly-analytics/dist/Configuration"
 import * as http from "cloudly-http"
 import { router } from "../router"
 import { Environment as ContextEnvironment } from "./Environment"

@@ -1,4 +1,4 @@
-import { Configuration } from "cloudly-analytics/Configuration"
+import { Configuration } from "cloudly-analytics/dist/Configuration"
 
 export type Environment = Configuration.Environment &
 	Partial<{

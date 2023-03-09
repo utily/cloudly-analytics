@@ -1,9 +1,10 @@
 import * as gracely from "gracely"
-import { generateKeyBatch } from "util/Storage/functions"
+import { Configuration } from "../../../Configuration"
 import { Filter } from "../../../Filter"
 import { BaseFilter } from "../../../Filter/Base"
 import { Listener } from "../../../Listener"
 import { Batch, EventWithMetadata, HasUuid } from "../../../types"
+import { generateKeyBatch } from "../../../util/Storage/functions"
 import { storageRouter } from "../storageRouter"
 type CompiledListeners = Record<string, Listener.Configuration & { filterImplementations: BaseFilter[] }>
 
@@ -55,37 +56,34 @@ function* generateBucket(waitingBatches: Map<string, Batch>, listeners: Compiled
 }
 
 storageRouter.alarm = async function alarm(storageContext) {
-	// // Dynamic import to avoid Circular dependency:
-	// const { Context } = await import("Context")
-	// const workerContext = await Context.load(storageContext.environment)
-	// if (!workerContext)
-	// 	throw gracely.server.misconfigured("Configuration", "Configuration is missing.")
-	// const kvListenerConfiguration = workerContext.listenerConfiguration
-	// if (gracely.Error.is(kvListenerConfiguration))
-	// 	throw kvListenerConfiguration
-	// const waitingBatches = await storageContext.state.storage.list<Batch>()
-	// const listeners: CompiledListeners = Object.fromEntries(
-	// 	(await kvListenerConfiguration.listValues()).map(listener => [
-	// 		listener.name,
-	// 		{
-	// 			...listener,
-	// 			filterImplementations: Filter.createList(listener.filter),
-	// 		},
-	// 	])
-	// )
-	// const bucketStorage = workerContext.bucket
-	// if (gracely.Error.is(bucketStorage)) {
-	// 	throw bucketStorage
-	// }
-	// for (const [listenerName, events] of generateBucket(waitingBatches, listeners)) {
-	// 	console.log(`Filling bucket "${listenerName}" with ${events.length} events.`)
-	// 	const appendResult = await bucketStorage.addEvents(listeners[listenerName], events)
-	// 	if (gracely.Error.is(appendResult)) {
-	// 		console.error(appendResult)
-	// 	}
-	// }
-	// // Delete bucketed values:
-	// for (const keyBatch of generateKeyBatch(waitingBatches, 128)) {
-	// 	await storageContext.state.storage.delete(keyBatch)
-	// }
+	const configurationContext = new Configuration.Context(storageContext.environment)
+
+	const kvListenerConfiguration = configurationContext.listenerConfiguration
+	if (gracely.Error.is(kvListenerConfiguration))
+		throw kvListenerConfiguration
+	const waitingBatches = await storageContext.state.storage.list<Batch>()
+	const listeners: CompiledListeners = Object.fromEntries(
+		(await kvListenerConfiguration.listValues()).map(listener => [
+			listener.name,
+			{
+				...listener,
+				filterImplementations: Filter.createList(listener.filter),
+			},
+		])
+	)
+	const bucketStorage = configurationContext.bucket
+	if (gracely.Error.is(bucketStorage)) {
+		throw bucketStorage
+	}
+	for (const [listenerName, events] of generateBucket(waitingBatches, listeners)) {
+		console.log(`Filling bucket "${listenerName}" with ${events.length} events.`)
+		const appendResult = await bucketStorage.addEvents(listeners[listenerName], events)
+		if (gracely.Error.is(appendResult)) {
+			console.error(appendResult)
+		}
+	}
+	// Delete bucketed values:
+	for (const keyBatch of generateKeyBatch(waitingBatches, 128)) {
+		await storageContext.state.storage.delete(keyBatch)
+	}
 }

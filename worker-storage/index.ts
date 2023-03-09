@@ -9,9 +9,9 @@ export default {
 	},
 }
 
+// All that is needed for a worker to be responsible for the durable object is this:
+export { EventStorage, BucketStorage } from "cloudly-analytics/dist/Storage"
 /**
- * All that is needed for a worker to be responsible for the durable object is this:
- *
  * Also add this to wrangler.toml
  * [durable_objects]
  * bindings = [
@@ -19,4 +19,3 @@ export default {
  *   { name = "bucketStorage", class_name = "BucketStorage" },
  * ]
  */
-export { EventStorage, BucketStorage } from "cloudly-analytics/Storage"

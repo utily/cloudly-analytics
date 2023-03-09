@@ -1,9 +1,10 @@
 // Let handlers register in the storageRouter:
 import "./batch"
 import "./events"
-import { DurableObject, DurableObjectState, Request, Response } from "@cloudflare/workers-types"
+import { DurableObjectState, Request, Response } from "@cloudflare/workers-types"
+import type { Configuration } from "Configuration"
+import { DurableObjectWithEnvironment } from "util/Storage/DurableObjectWithEnvironment"
 import { Storage } from "../../util/Storage"
-import type { Environment } from ".."
 import { storageRouter } from "./storageRouter"
 //import "./alarm"
 
@@ -15,7 +16,7 @@ export const storageProcessor = new Storage.Processor(storageRouter)
  * Batcher-inspiration from
  * https://blog.cloudflare.com/durable-objects-alarms/
  */
-export class EventStorage implements DurableObject {
+export class EventStorage implements DurableObjectWithEnvironment<Configuration.Environment> {
 	private lastTimestamp = 0
 	/**
 	 * Get a current timestamp, guaranteed to be unique in this durable object.
@@ -30,7 +31,7 @@ export class EventStorage implements DurableObject {
 		return this.lastTimestamp
 	}
 
-	constructor(private readonly state: DurableObjectState, private readonly environment: Environment) {}
+	constructor(private readonly state: DurableObjectState, public readonly environment: Configuration.Environment) {}
 
 	async fetch(request: Request): Promise<Response> {
 		return storageProcessor.handle(request, this.environment, this.state, this)

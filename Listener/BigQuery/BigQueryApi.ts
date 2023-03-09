@@ -16,6 +16,7 @@ export class BigQueryApi {
 		if (!this.#token) {
 			const privateKey = this.listenerConfiguration.privateKey
 
+			// The downloaded key from google has the private_key in PEM-format, transform it:
 			const base64key = (
 				(privateKey.private_key.match(
 					/(?:^|-+\s*BEGIN PRIVATE KEY\s*-+\s*)([A-Za-z0-9+/\s]+={0,3})(?:\s*-+\s*END PRIVATE KEY\s*-+|$)/s
@@ -26,7 +27,7 @@ export class BigQueryApi {
 			if (key) {
 				key.kid = privateKey.private_key_id
 				const issuer = authly.Issuer.create(privateKey.client_email, key)
-				issuer.duration = 3600
+				issuer.duration = 3600 // Always exactly an hour
 				this.#token = await issuer.sign({
 					iss: privateKey.client_email,
 					sub: privateKey.client_email,

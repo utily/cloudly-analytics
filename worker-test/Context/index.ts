@@ -1,26 +1,27 @@
 import * as gracely from "gracely"
-import { Analytics } from "cloudly-analytics"
+import { Sender } from "cloudly-analytics/dist/Sender"
 import * as http from "cloudly-http"
 import { router } from "../router"
-import { analyticsConfiguration, AnalyticsDefault, analyticsDefault, AnalyticsExtra } from "./analytics"
+import { analyticsDefault, AnalyticsExtra } from "./analytics"
 import { Environment as ContextEnvironment } from "./Environment"
 
-export class Context {
-	#analytics?: Analytics<AnalyticsExtra, AnalyticsDefault>
-	get analytics() {
-		return (this.#analytics ??= new Analytics<AnalyticsExtra, AnalyticsDefault>({
-			executionContext: this.executionContext,
-			request: this.request,
-			default: analyticsDefault,
-			configuration: analyticsConfiguration,
-		}))
-	}
-
+export class Context implements Sender.WorkerContext<AnalyticsExtra, typeof analyticsDefault> {
 	constructor(
 		public readonly environment: Context.Environment,
 		public readonly executionContext?: ExecutionContext,
 		public readonly request?: http.Request
 	) {}
+
+	#analytics?: Sender.Context<AnalyticsExtra, typeof analyticsDefault>
+	get analytics() {
+		return (this.#analytics ??= new Sender.Context<AnalyticsExtra, typeof analyticsDefault>({
+			environment: this.environment,
+			executionContext: this.executionContext,
+			request: this.request,
+			default: analyticsDefault,
+		}))
+	}
+
 	async authenticate(request: http.Request): Promise<"admin" | undefined> {
 		return this.environment.adminSecret && request.header.authorization == `Basic ${this.environment.adminSecret}`
 			? "admin"

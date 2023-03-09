@@ -8,6 +8,7 @@ kv_namespaces = [
 ]
 [durable_objects]
 bindings = [
+	{ name = "eventStorage", class_name = "EventStorage" }
 ]
 
 
