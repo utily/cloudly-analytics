@@ -10,8 +10,6 @@ export namespace Sender {
 
 	export type Environment = SenderEnvironment
 
-	// export const attachEndpoints = senderAttachEndpoints
-
 	export type WorkerContext<E extends Record<string, any> = object, D extends Partial<Event & E> = never> = {
 		analytics: SenderContext<E, D>
 	}

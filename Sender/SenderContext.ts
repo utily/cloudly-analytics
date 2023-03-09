@@ -1,7 +1,6 @@
 import * as gracely from "gracely"
 import { ExecutionContext } from "@cloudflare/workers-types"
 import * as http from "cloudly-http"
-import { Analytics } from "../Analytics"
 import { Events as ClientEvents } from "../StorageClient/Events"
 import { Batch, Event } from "../types"
 import { SenderEnvironment } from "./SenderEnvironment"
@@ -59,10 +58,6 @@ export class SenderContext<E extends Record<string, any> = object, D extends Par
 		return (this.#events ??=
 			ClientEvents.open(this.options.environment.eventStorage) ??
 			gracely.server.misconfigured("eventStorage", "Events storage configuration missing."))
-	}
-	#analytics?: Analytics<E, D>
-	private get analytics() {
-		return (this.#analytics ??= new Analytics<E, D>(this.options))
 	}
 	/**
 	 * In worker: (Where executionContext exists)
