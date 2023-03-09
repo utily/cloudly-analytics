@@ -1,4 +1,4 @@
-import { Listener } from "service/Listener"
+import { Listener } from "../Listener"
 
 export const config: Listener.Configuration = {
 	name: "worker-analytics-test-bigquery",
