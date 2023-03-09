@@ -2,12 +2,12 @@
 import "./listener"
 import * as http from "cloudly-http"
 import * as cloudlyRouter from "cloudly-router"
-import type { Configuration } from ".."
-import { configurationRouter } from "./configurationRouter"
+import type { Administration } from ".."
+import { administrationRouter } from "./administrationRouter"
 
 async function handle(
 	request: http.Request,
-	workerContext: Configuration.WorkerContext
+	workerContext: Administration.WorkerContext
 ): Promise<http.Response.Like | any> {
 	//TODO: Add Authentication here!
 	// if (!request.header.authorization)
@@ -15,7 +15,7 @@ async function handle(
 	// else
 	let result
 	try {
-		result = await configurationRouter.handle(request, workerContext.analyticsConfiguration)
+		result = await administrationRouter.handle(request, workerContext.analyticsAdministration)
 	} catch (e) {
 		console.error(e)
 	}
@@ -26,6 +26,6 @@ async function handle(
 /**
  * @param router The router for your worker.
  */
-export function attachEndpoints(router: cloudlyRouter.Router<Configuration.WorkerContext>) {
+export function attachEndpoints(router: cloudlyRouter.Router<Administration.WorkerContext>) {
 	router.add(["POST", "GET", "DELETE"], "/listener*", handle)
 }

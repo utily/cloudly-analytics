@@ -1,10 +1,10 @@
 import * as gracely from "gracely"
 import { ListenerConfiguration as ClientListenerConfiguration } from "../StorageClient"
 import { Bucket as ClientBucket } from "../StorageClient/Bucket"
-import { ConfigurationEnvironment } from "./ConfigurationEnvironment"
+import { AdministrationEnvironment } from "./AdministrationEnvironment"
 
-export class ConfigurationContext {
-	constructor(public readonly environment: ConfigurationEnvironment) {}
+export class AdministrationContext {
+	constructor(public readonly environment: AdministrationEnvironment) {}
 
 	#bucket?: ClientBucket | gracely.Error
 	get bucket(): ClientBucket | gracely.Error {

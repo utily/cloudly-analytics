@@ -1,6 +1,6 @@
 import { DurableObjectNamespace, KVNamespace } from "@cloudflare/workers-types"
 
-export type ConfigurationEnvironment = Partial<{
+export type AdministrationEnvironment = Partial<{
 	bucketStorage: DurableObjectNamespace
 	listenerConfigurationStorage: KVNamespace
 }>

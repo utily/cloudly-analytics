@@ -1,9 +1,9 @@
 import * as gracely from "gracely"
 import * as http from "cloudly-http"
-import type { ConfigurationContext } from "../../ConfigurationContext"
-import { configurationRouter } from "../configurationRouter"
+import type { AdministrationContext } from "../../AdministrationContext"
+import { administrationRouter } from "../administrationRouter"
 
-async function list(request: http.Request, context: ConfigurationContext): Promise<http.Response.Like | any> {
+async function list(request: http.Request, context: AdministrationContext): Promise<http.Response.Like | any> {
 	let result: gracely.Result
 	if (gracely.Error.is(context.listenerConfiguration)) {
 		result = context.listenerConfiguration
@@ -17,4 +17,4 @@ async function list(request: http.Request, context: ConfigurationContext): Promi
 
 	return result
 }
-configurationRouter.add("GET", "/listener", list)
+administrationRouter.add("GET", "/listener", list)

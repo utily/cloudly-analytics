@@ -1,10 +1,10 @@
 import * as gracely from "gracely"
 import * as http from "cloudly-http"
 import { Listener } from "../../../Listener"
-import type { ConfigurationContext } from "../../ConfigurationContext"
-import { configurationRouter } from "../configurationRouter"
+import type { AdministrationContext } from "../../AdministrationContext"
+import { administrationRouter } from "../administrationRouter"
 
-async function create(request: http.Request, context: ConfigurationContext): Promise<http.Response.Like | any> {
+async function create(request: http.Request, context: AdministrationContext): Promise<http.Response.Like | any> {
 	let result: gracely.Result
 	const listenerConfiguration = await request.body
 	const client = context.listenerConfiguration
@@ -22,4 +22,4 @@ async function create(request: http.Request, context: ConfigurationContext): Pro
 	return result
 }
 
-configurationRouter.add("POST", "/listener", create)
+administrationRouter.add("POST", "/listener", create)

@@ -12,7 +12,7 @@
 	"files": [
 		"index.ts",
 		"Storage/index.ts",
-		"Configuration/index.ts",
+		"Administration/index.ts",
 		"Sender/index.ts",
 	]
 }

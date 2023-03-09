@@ -1,10 +1,10 @@
 import * as gracely from "gracely"
 import * as http from "cloudly-http"
 import * as isly from "isly"
-import type { ConfigurationContext } from "../../ConfigurationContext"
-import { configurationRouter } from "../configurationRouter"
+import type { AdministrationContext } from "../../AdministrationContext"
+import { administrationRouter } from "../administrationRouter"
 
-async function remove(request: http.Request, context: ConfigurationContext): Promise<http.Response.Like | any> {
+async function remove(request: http.Request, context: AdministrationContext): Promise<http.Response.Like | any> {
 	let result: gracely.Result
 	const name = request.parameter.name
 	if (!isly.string().is(name))
@@ -19,4 +19,4 @@ async function remove(request: http.Request, context: ConfigurationContext): Pro
 	}
 	return result
 }
-configurationRouter.add("DELETE", "/listener/:name", remove)
+administrationRouter.add("DELETE", "/listener/:name", remove)

@@ -21,7 +21,7 @@
 	"exports": {
 		".": "./dist/index.js",
 		"./Storage": "./dist/Storage/index.js",
-		"./Configuration": "./dist/Configuration/index.js"
+		"./Administration": "./dist/Administration/index.js"
 	},
 	"exportsComments": [
 		"https://stackoverflow.com/a/61829317/1003172"
