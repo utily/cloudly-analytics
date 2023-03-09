@@ -19,4 +19,4 @@ export default {
  * ]
  */
 // Uncomment this to run locally with Miniflare
-//export { EventStorage } from "cloudly-analytics/dist/Storage"
+//export { EventStorage } from "cloudly-analytics/Storage"

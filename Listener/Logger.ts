@@ -17,7 +17,7 @@ export namespace Logger {
 
 	export class Implementation extends BaseListener<Logger> {
 		async addStatusDetails(result: BaseListener.StatusResult): Promise<BaseListener.StatusResult> {
-			console.log(`Status from Listener.Logger (Name: ${this.configuration.name}`)
+			console.log(`Status from Listener.Logger (Name: ${this.configuration.name})`)
 			return result
 		}
 		setup() {

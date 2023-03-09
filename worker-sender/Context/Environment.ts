@@ -1,4 +1,4 @@
-import { Sender } from "cloudly-analytics/dist/Sender"
+import { Sender } from "cloudly-analytics/Sender"
 
 export type Environment = Sender.Environment &
 	Partial<{

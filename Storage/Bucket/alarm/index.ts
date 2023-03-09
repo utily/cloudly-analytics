@@ -29,6 +29,7 @@ function* generateListenerBatch(waitingBatches: Map<string, HasUuid[]>, size: nu
 }
 
 storageRouter.alarm = async function (storageContext) {
+	console.log("Enter Bucket:alarm")
 	const listenerConfiguration = await storageContext.durableObject.getListenerConfiguration()
 	if (!listenerConfiguration)
 		throw new Error("No listenerConfiguration in bucket.")

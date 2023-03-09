@@ -1,5 +1,5 @@
 import * as gracely from "gracely"
-import { Configuration } from "../../../Configuration"
+import { Administration } from "../../../Administration"
 import { Filter } from "../../../Filter"
 import { BaseFilter } from "../../../Filter/Base"
 import { Listener } from "../../../Listener"
@@ -25,12 +25,10 @@ function* generateBucket(waitingBatches: Map<string, Batch>, listeners: Compiled
 				// Run all filters on this eventWithMetaData
 				const filteredValue: any | undefined = listener.filterImplementations.reduce<object | undefined>(
 					(filterValue, filter) => {
-						console.log(`Filter, value before ${filter.type}:`, filterValue)
 						return filterValue ? filter.filter(filterValue) : filterValue
 					},
 					eventWithMetaData
 				)
-				//console.log(`Filtered value:`, filteredValue)
 
 				if (filteredValue) {
 					filteredValue.uuid = uuid
@@ -56,7 +54,8 @@ function* generateBucket(waitingBatches: Map<string, Batch>, listeners: Compiled
 }
 
 storageRouter.alarm = async function alarm(storageContext) {
-	const configurationContext = new Configuration.Context(storageContext.environment)
+	console.log("Enter Events:alarm")
+	const configurationContext = new Administration.Context(storageContext.environment)
 
 	const kvListenerConfiguration = configurationContext.listenerConfiguration
 	if (gracely.Error.is(kvListenerConfiguration))

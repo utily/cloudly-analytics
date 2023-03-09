@@ -25,6 +25,6 @@ export type AnalyticsExtra =
  */
 /* eslint-disable */
 export const analyticsDefault = {
-	source: "test-worker",
+	source: "worker-sender",
 	currency: "SEK",
 } satisfies Partial<Event & AnalyticsExtra>

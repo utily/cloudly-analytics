@@ -1,6 +1,6 @@
-import { Configuration } from "cloudly-analytics/dist/Configuration"
+import { Administration } from "cloudly-analytics/Administration"
 
-export type Environment = Configuration.Environment &
+export type Environment = Administration.Environment &
 	Partial<{
 		adminSecret: string
 	}>

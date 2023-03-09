@@ -1,7 +1,7 @@
-compatibility_date = "2022-11-25"
+compatibility_date = "2023-03-09"
 compatibility_flags = ["durable_object_alarms"]
 
-name = "cloudly-analytics-configuration"
+name = "cloudly-analytics-administration"
 workers_dev = true
 routes = []
 vars = { }

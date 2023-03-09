@@ -1,12 +1,12 @@
 // Let handlers register in the storageRouter:
 import "./batch"
 import "./events"
+import "./alarm"
 import { DurableObjectState, Request, Response } from "@cloudflare/workers-types"
 import type { Administration } from "Administration"
 import { DurableObjectWithEnvironment } from "util/Storage/DurableObjectWithEnvironment"
 import { Storage } from "../../util/Storage"
 import { storageRouter } from "./storageRouter"
-//import "./alarm"
 
 export const storageProcessor = new Storage.Processor(storageRouter)
 
