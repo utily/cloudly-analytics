@@ -3,7 +3,7 @@ import "./configuration"
 import "./events"
 import "./alarm"
 import { DurableObjectState, Request, Response } from "@cloudflare/workers-types"
-import { Configuration } from "Configuration"
+import { Administration } from "Administration"
 import { DurableObjectWithEnvironment } from "util/Storage/DurableObjectWithEnvironment"
 import { Listener } from "../../Listener"
 import { Storage } from "../../util/Storage"
@@ -17,7 +17,7 @@ export const storageProcessor = new Storage.Processor(storageRouter)
  * Batcher-inspiration from
  * https://blog.cloudflare.com/durable-objects-alarms/
  */
-export class BucketStorage implements DurableObjectWithEnvironment<Configuration.Environment> {
+export class BucketStorage implements DurableObjectWithEnvironment<Administration.Environment> {
 	private lastTimestamp = 0
 	/**
 	 * Get a current timestamp, guaranteed to be unique in this durable object.
@@ -37,7 +37,7 @@ export class BucketStorage implements DurableObjectWithEnvironment<Configuration
 		return (this.listenerConfiguration ??= await this.state.storage.get<Listener.Configuration>("/configuration"))
 	}
 
-	constructor(private readonly state: DurableObjectState, public readonly environment: Configuration.Environment) {}
+	constructor(private readonly state: DurableObjectState, public readonly environment: Administration.Environment) {}
 	async fetch(request: Request): Promise<Response> {
 		return storageProcessor.handle(request, this.environment, this.state, this)
 	}

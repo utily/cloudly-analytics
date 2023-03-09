@@ -9,6 +9,8 @@ export default {
 	},
 }
 
+// This is just for demonstration, an other alternative is to combine storage and administration in same worker.
+
 // All that is needed for a worker to be responsible for the durable object is this:
 export { EventStorage, BucketStorage } from "cloudly-analytics/dist/Storage"
 /**

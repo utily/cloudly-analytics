@@ -57,7 +57,7 @@
 			"label": "TypeScript watcher",
 			"command": "./node_modules/.bin/rollup",
 			"options": {
-				"cwd": "${workspaceFolder}/worker-test"
+				"cwd": "${workspaceFolder}/worker-sender"
 			},
 			"args": [
 				"--config",

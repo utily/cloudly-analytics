@@ -1,4 +1,4 @@
-import { Configuration } from "cloudly-analytics/Configuration"
+import { Administration } from "cloudly-analytics/Administration"
 import { router } from "./router"
 
-Configuration.attachEndpoints(router)
+Administration.attachEndpoints(router)
