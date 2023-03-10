@@ -2,12 +2,12 @@ import * as gracely from "gracely"
 import * as http from "cloudly-http"
 import { Event, SavedBatch } from "../../../types"
 import { Storage } from "../../../util/Storage"
-import type { EventStorage } from ".."
+import type { BufferStorage } from ".."
 import { storageRouter } from "../storageRouter"
 
 async function fetch(
 	request: http.Request,
-	storageContext: Storage.Context<EventStorage>
+	storageContext: Storage.Context<BufferStorage>
 ): Promise<http.Response.Like | any> {
 	let result: gracely.Result
 	try {

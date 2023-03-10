@@ -16,7 +16,7 @@ export const storageProcessor = new Storage.Processor(storageRouter)
  * Batcher-inspiration from
  * https://blog.cloudflare.com/durable-objects-alarms/
  */
-export class EventStorage implements DurableObjectWithEnvironment<Administration.Environment> {
+export class BufferStorage implements DurableObjectWithEnvironment<Administration.Environment> {
 	private lastTimestamp = 0
 	/**
 	 * Get a current timestamp, guaranteed to be unique in this durable object.

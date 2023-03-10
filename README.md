@@ -22,7 +22,7 @@ npm i cloudly-analytics
 In `./index.ts` add:
 
 ```typescript
-export { EventStorage, BucketStorage } from "cloudly-analytics/Storage"
+export { BufferStorage, BucketStorage } from "cloudly-analytics/Storage"
 ```
 
 In `./wrangler.toml` add:
@@ -30,7 +30,7 @@ In `./wrangler.toml` add:
 ```
 [durable_objects]
 bindings = [
-	{ name = "eventStorage", class_name = "EventStorage" },
+	{ name = "bufferStorage", class_name = "BufferStorage" },
 	{ name = "bucketStorage", class_name = "BucketStorage" },
 ]
 ```

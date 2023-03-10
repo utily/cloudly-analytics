@@ -1,10 +1,10 @@
 // import { DurableObjectNamespace, KVNamespace } from "@cloudflare/workers-types"
 
-export { EventStorage } from "./Events"
+export { BufferStorage } from "./Buffer"
 export { BucketStorage } from "./Bucket"
 
 // export type Environment = {
-// 	eventStorage: DurableObjectNamespace
+// 	bufferStorage: DurableObjectNamespace
 // 	bucketStorage: DurableObjectNamespace
 // 	listenerConfigurationStorage: KVNamespace
 // }

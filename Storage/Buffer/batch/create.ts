@@ -2,14 +2,14 @@ import * as gracely from "gracely"
 import * as http from "cloudly-http"
 import { Batch, SavedBatch } from "../../../types"
 import { Storage } from "../../../util/Storage"
-import type { EventStorage } from ".."
+import type { BufferStorage } from ".."
 import { storageRouter } from "../storageRouter"
 
 const SECONDS = 1000
 
 async function create(
 	request: http.Request,
-	storageContext: Storage.Context<EventStorage>
+	storageContext: Storage.Context<BufferStorage>
 ): Promise<http.Response.Like | any> {
 	let result: gracely.Result
 	const batch = await request.body

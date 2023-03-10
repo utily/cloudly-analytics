@@ -1,7 +1,7 @@
 import * as gracely from "gracely"
 import { ExecutionContext } from "@cloudflare/workers-types"
 import * as http from "cloudly-http"
-import { Events as ClientEvents } from "../StorageClient/Events"
+import { Buffer as ClientBuffer } from "../StorageClient/Buffer"
 import { Batch, Event } from "../types"
 import { SenderEnvironment } from "./SenderEnvironment"
 
@@ -53,11 +53,11 @@ export class SenderContext<E extends Record<string, any> = object, D extends Par
 		}
 	) {}
 
-	#events?: ClientEvents | gracely.Error
-	private get events() {
-		return (this.#events ??=
-			ClientEvents.open(this.options.environment.eventStorage) ??
-			gracely.server.misconfigured("eventStorage", "Events storage configuration missing."))
+	#buffer?: ClientBuffer | gracely.Error
+	private get buffer() {
+		return (this.#buffer ??=
+			ClientBuffer.open(this.options.environment.bufferStorage) ??
+			gracely.server.misconfigured("bufferStorage", "Buffer storage configuration missing."))
 	}
 	/**
 	 * In worker: (Where executionContext exists)
@@ -69,6 +69,7 @@ export class SenderContext<E extends Record<string, any> = object, D extends Par
 	 * Usage: `await analytics.send(...)`
 	 *
 	 * @param events An Event with E and D optional.
+	 * @param shard For heavy loads (More than )
 	 * @returns
 	 */
 	send(events: MaybeArray<ExtraAndDefault<Event, E, D>>): void | Promise<void> {
@@ -79,10 +80,10 @@ export class SenderContext<E extends Record<string, any> = object, D extends Par
 			header: request?.header ?? {},
 		}
 		let result: Promise<void> | void
-		if (gracely.Error.is(this.events))
-			console.error("Error when sending analytics.", this.events)
+		if (gracely.Error.is(this.buffer))
+			console.error("Error when sending analytics.", this.buffer)
 		else {
-			result = this.events
+			result = this.buffer
 				.addBatch(batch)
 				.then(response => {
 					if (gracely.Error.is(response)) {

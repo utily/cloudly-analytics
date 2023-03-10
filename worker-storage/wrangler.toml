@@ -20,13 +20,13 @@ format = "modules" # Miniflare needs this
 
 [durable_objects]
 bindings = [
-	{ name = "eventStorage", class_name = "EventStorage" },
+	{ name = "bufferStorage", class_name = "BufferStorage" },
 	{ name = "bucketStorage", class_name = "BucketStorage" },
 ]
 
 [[migrations]]
 tag = "v2023-03-07"
-new_classes = ["EventStorage", "BucketStorage"]
+new_classes = ["BufferStorage", "BucketStorage"]
 
 [env.production]
 workers_dev = false

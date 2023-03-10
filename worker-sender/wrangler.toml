@@ -8,7 +8,7 @@ kv_namespaces = [
 ]
 [durable_objects]
 bindings = [
-	{ name = "eventStorage", class_name = "EventStorage", script_name = "cloudly-analytics-administration" }
+	{ name = "bufferStorage", class_name = "BufferStorage", script_name = "cloudly-analytics-administration" }
 ]
 
 

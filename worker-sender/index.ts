@@ -15,8 +15,8 @@ export default {
  * script_name is the worker responsible for the durable objects.
  * [durable_objects]
  * bindings = [
- *   { name = "eventStorage", class_name = "EventStorage", script_name = "cloudly-analytics-storage" }
+ *   { name = "bufferStorage", class_name = "BufferStorage", script_name = "cloudly-analytics-storage" }
  * ]
  */
 // Uncomment this to run locally with Miniflare
-//export { EventStorage } from "cloudly-analytics/Storage"
+//export { BufferStorage } from "cloudly-analytics/Storage"

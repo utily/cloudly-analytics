@@ -54,7 +54,7 @@ function* generateBucket(waitingBatches: Map<string, Batch>, listeners: Compiled
 }
 
 storageRouter.alarm = async function alarm(storageContext) {
-	console.log("Enter Events:alarm")
+	console.log("Enter Buffer:alarm")
 	const configurationContext = new Administration.Context(storageContext.environment)
 
 	const kvListenerConfiguration = configurationContext.listenerConfiguration

@@ -1,3 +1,3 @@
 export { Bucket } from "./Bucket"
-export { Events } from "./Events"
+export { Buffer } from "./Buffer"
 export { ListenerConfiguration } from "./ListenerConfiguration"

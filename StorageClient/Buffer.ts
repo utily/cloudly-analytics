@@ -4,7 +4,7 @@ import * as http from "cloudly-http"
 import * as storage from "cloudly-storage"
 import * as types from "../types"
 
-export class Events {
+export class Buffer {
 	private constructor(private readonly backend: storage.DurableObject.Namespace<gracely.Error>) {}
 
 	public async addEvents(events: types.Event | types.Event[], request: http.Request) {
@@ -16,15 +16,11 @@ export class Events {
 	}
 
 	async addBatch(batch: types.Batch, shard?: number): Promise<types.Batch | gracely.Error> {
-		const storageClient = this.backend.open("events" + (shard ?? ""))
+		const storageClient = this.backend.open("buffer" + (shard ?? ""))
 		return await storageClient.post<types.Batch>("/batch", batch)
 	}
 
-	async fetch(shard?: number): Promise<types.Event[] | gracely.Error> {
-		const storageClient = this.backend.open("events" + (shard ?? ""))
-		return await storageClient.get<types.Event[]>("/events")
-	}
-	static open(backend?: DurableObjectNamespace | storage.DurableObject.Namespace): Events | undefined {
+	static open(backend?: DurableObjectNamespace | storage.DurableObject.Namespace): Buffer | undefined {
 		if (!storage.DurableObject.Namespace.is(backend))
 			backend = storage.DurableObject.Namespace.open(backend)
 		return backend ? new this(backend) : undefined

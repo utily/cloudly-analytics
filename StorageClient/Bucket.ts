@@ -15,6 +15,11 @@ export class Bucket {
 		return (await this.getStorageClient(listenerConfiguration)).post<Batch>("/events", events)
 	}
 
+	// async deleteBucket(name: string): {
+	// 	const client = this.storageClient[listenerConfiguration.name] ?? this.backend.open(name)
+	//  	await result.delete("/configuration")
+	// }
+
 	private async getStorageClient(
 		listenerConfiguration: Listener.Configuration
 	): Promise<storage.DurableObject.Client<gracely.Error>> {
@@ -22,6 +27,7 @@ export class Bucket {
 		if (!result) {
 			result = this.backend.open(listenerConfiguration.name)
 			await result.post<Listener.Configuration>("/configuration", listenerConfiguration)
+			this.storageClient[listenerConfiguration.name] = result
 		}
 		return result
 	}
