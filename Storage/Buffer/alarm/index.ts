@@ -5,7 +5,7 @@ import { BaseFilter } from "../../../Filter/Base"
 import { Listener } from "../../../Listener"
 import { Batch, EventWithMetadata, HasUuid } from "../../../types"
 import { generateKeyBatch } from "../../../util/Storage/functions"
-import { storageRouter } from "../storageRouter"
+import { bufferRouter } from "../bufferRouter"
 type CompiledListeners = Record<string, Listener.Configuration & { filterImplementations: BaseFilter[] }>
 
 function* generateBucket(waitingBatches: Map<string, Batch>, listeners: CompiledListeners) {
@@ -53,11 +53,10 @@ function* generateBucket(waitingBatches: Map<string, Batch>, listeners: Compiled
 	}
 }
 
-storageRouter.alarm = async function alarm(storageContext) {
-	console.log("Enter Buffer:alarm")
-	const configurationContext = new Administration.Context(storageContext.environment)
+bufferRouter.alarm = async function alarm(storageContext) {
+	const administrationContext = new Administration.Context(storageContext.environment)
 
-	const kvListenerConfiguration = configurationContext.listenerConfiguration
+	const kvListenerConfiguration = administrationContext.listenerConfiguration
 	if (gracely.Error.is(kvListenerConfiguration))
 		throw kvListenerConfiguration
 	const waitingBatches = await storageContext.state.storage.list<Batch>()
@@ -70,7 +69,7 @@ storageRouter.alarm = async function alarm(storageContext) {
 			},
 		])
 	)
-	const bucketStorage = configurationContext.bucket
+	const bucketStorage = administrationContext.bucket
 	if (gracely.Error.is(bucketStorage)) {
 		throw bucketStorage
 	}

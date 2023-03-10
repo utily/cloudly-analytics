@@ -6,9 +6,9 @@ import { DurableObjectState, Request, Response } from "@cloudflare/workers-types
 import type { Administration } from "Administration"
 import { DurableObjectWithEnvironment } from "util/Storage/DurableObjectWithEnvironment"
 import { Storage } from "../../util/Storage"
-import { storageRouter } from "./storageRouter"
+import { bufferRouter } from "./bufferRouter"
 
-export const storageProcessor = new Storage.Processor(storageRouter)
+export const bufferProcessor = new Storage.Processor(bufferRouter)
 
 /**
  * This is the actual durable object-class
@@ -34,9 +34,9 @@ export class BufferStorage implements DurableObjectWithEnvironment<Administratio
 	constructor(private readonly state: DurableObjectState, public readonly environment: Administration.Environment) {}
 
 	async fetch(request: Request): Promise<Response> {
-		return storageProcessor.handle(request, this.environment, this.state, this)
+		return bufferProcessor.handle(request, this.environment, this.state, this)
 	}
 	async alarm(): Promise<void> {
-		return storageProcessor.alarm(this.environment, this.state, this)
+		return bufferProcessor.alarm(this.environment, this.state, this)
 	}
 }

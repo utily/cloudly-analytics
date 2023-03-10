@@ -1,7 +1,7 @@
 import { Listener } from "../../../Listener"
 import { HasUuid } from "../../../types"
 import { generateKeyBatch } from "../../../util/Storage/functions"
-import { storageRouter } from "../storageRouter"
+import { bucketRouter } from "../bucketRouter"
 
 /**
  * WaitingBatches is stored in the Bucket. This generator function read these,
@@ -28,8 +28,7 @@ function* generateListenerBatch(waitingBatches: Map<string, HasUuid[]>, size: nu
 		yield batch
 }
 
-storageRouter.alarm = async function (storageContext) {
-	console.log("Enter Bucket:alarm")
+bucketRouter.alarm = async function (storageContext) {
 	const listenerConfiguration = await storageContext.durableObject.getListenerConfiguration()
 	if (!listenerConfiguration)
 		throw new Error("No listenerConfiguration in bucket.")

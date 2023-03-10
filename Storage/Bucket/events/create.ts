@@ -3,7 +3,7 @@ import * as http from "cloudly-http"
 import * as isly from "isly"
 import { Storage } from "../../../util/Storage"
 import { BucketStorage } from ".."
-import { storageRouter } from "../storageRouter"
+import { bucketRouter } from "../bucketRouter"
 
 const SECONDS = 1000
 
@@ -38,4 +38,4 @@ export async function create(
 	return result
 }
 
-storageRouter.router.add("POST", "/events", create)
+bucketRouter.router.add("POST", "/events", create)

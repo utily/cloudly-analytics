@@ -7,9 +7,9 @@ import { Administration } from "Administration"
 import { DurableObjectWithEnvironment } from "util/Storage/DurableObjectWithEnvironment"
 import { Listener } from "../../Listener"
 import { Storage } from "../../util/Storage"
-import { storageRouter } from "./storageRouter"
+import { bucketRouter } from "./bucketRouter"
 
-export const storageProcessor = new Storage.Processor(storageRouter)
+export const bucketProcessor = new Storage.Processor(bucketRouter)
 
 /**
  * This is the actual durable object-class
@@ -39,9 +39,9 @@ export class BucketStorage implements DurableObjectWithEnvironment<Administratio
 
 	constructor(private readonly state: DurableObjectState, public readonly environment: Administration.Environment) {}
 	async fetch(request: Request): Promise<Response> {
-		return storageProcessor.handle(request, this.environment, this.state, this)
+		return bucketProcessor.handle(request, this.environment, this.state, this)
 	}
 	async alarm(): Promise<void> {
-		return storageProcessor.alarm(this.environment, this.state, this)
+		return bucketProcessor.alarm(this.environment, this.state, this)
 	}
 }

@@ -1,7 +1,7 @@
 import * as cloudlyRouter from "cloudly-router"
 import { Storage } from "../../util/Storage"
-import type { BufferStorage } from "."
+import { BucketStorage } from "."
 
-export const storageRouter: Storage.Router<BufferStorage> = {
+export const bucketRouter: Storage.Router<BucketStorage> = {
 	router: new cloudlyRouter.Router(),
 }

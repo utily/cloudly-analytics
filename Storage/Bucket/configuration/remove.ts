@@ -2,7 +2,7 @@ import * as gracely from "gracely"
 import * as http from "cloudly-http"
 import { Storage } from "../../../util/Storage"
 import { BucketStorage } from ".."
-import { storageRouter } from "../storageRouter"
+import { bucketRouter } from "../bucketRouter"
 
 export async function remove(
 	request: http.Request,
@@ -17,4 +17,4 @@ export async function remove(
 
 	return result
 }
-storageRouter.router.add("DELETE", "/configuration", remove)
+bucketRouter.router.add("DELETE", "/configuration", remove)

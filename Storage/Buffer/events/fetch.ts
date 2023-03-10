@@ -3,7 +3,7 @@ import * as http from "cloudly-http"
 import { Event, SavedBatch } from "../../../types"
 import { Storage } from "../../../util/Storage"
 import type { BufferStorage } from ".."
-import { storageRouter } from "../storageRouter"
+import { bufferRouter } from "../bufferRouter"
 
 async function fetch(
 	request: http.Request,
@@ -29,4 +29,4 @@ async function fetch(
 	return result
 }
 
-storageRouter.router.add("GET", "/events", fetch)
+bufferRouter.router.add("GET", "/events", fetch)

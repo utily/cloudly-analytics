@@ -8,26 +8,26 @@ import { Batch, HasUuid } from "../types"
  * selected for a specific listener.
  */
 export class Bucket {
-	private storageClient: Record<string, storage.DurableObject.Client<gracely.Error> | undefined> = {}
+	private bucketClient: Record<string, storage.DurableObject.Client<gracely.Error> | undefined> = {}
 	private constructor(private readonly backend: storage.DurableObject.Namespace<gracely.Error>) {}
 
 	async addEvents(listenerConfiguration: Listener.Configuration, events: HasUuid[]): Promise<Batch | gracely.Error> {
-		return (await this.getStorageClient(listenerConfiguration)).post<Batch>("/events", events)
+		return (await this.getBucketClient(listenerConfiguration)).post<Batch>("/events", events)
 	}
 
-	// async deleteBucket(name: string): {
-	// 	const client = this.storageClient[listenerConfiguration.name] ?? this.backend.open(name)
-	//  	await result.delete("/configuration")
+	// async deleteBucket(name: string) {
+	// 	const bucketClient = this.bucketClient[name] ?? this.backend.open(name)
+	// 	await bucketClient.delete("/configuration")
 	// }
 
-	private async getStorageClient(
+	private async getBucketClient(
 		listenerConfiguration: Listener.Configuration
 	): Promise<storage.DurableObject.Client<gracely.Error>> {
-		let result = this.storageClient[listenerConfiguration.name]
+		let result = this.bucketClient[listenerConfiguration.name]
 		if (!result) {
 			result = this.backend.open(listenerConfiguration.name)
 			await result.post<Listener.Configuration>("/configuration", listenerConfiguration)
-			this.storageClient[listenerConfiguration.name] = result
+			this.bucketClient[listenerConfiguration.name] = result
 		}
 		return result
 	}

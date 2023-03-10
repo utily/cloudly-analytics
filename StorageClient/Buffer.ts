@@ -16,8 +16,8 @@ export class Buffer {
 	}
 
 	async addBatch(batch: types.Batch, shard?: number): Promise<types.Batch | gracely.Error> {
-		const storageClient = this.backend.open("buffer" + (shard ?? ""))
-		return await storageClient.post<types.Batch>("/batch", batch)
+		const bufferClient = this.backend.open("buffer" + (shard ?? ""))
+		return await bufferClient.post<types.Batch>("/batch", batch)
 	}
 
 	static open(backend?: DurableObjectNamespace | storage.DurableObject.Namespace): Buffer | undefined {

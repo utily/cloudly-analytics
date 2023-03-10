@@ -3,7 +3,7 @@ import * as http from "cloudly-http"
 import { Batch, SavedBatch } from "../../../types"
 import { Storage } from "../../../util/Storage"
 import type { BufferStorage } from ".."
-import { storageRouter } from "../storageRouter"
+import { bufferRouter } from "../bufferRouter"
 
 const SECONDS = 1000
 
@@ -34,4 +34,4 @@ async function create(
 	return result
 }
 
-storageRouter.router.add("POST", "/batch", create)
+bufferRouter.router.add("POST", "/batch", create)

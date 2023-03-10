@@ -3,7 +3,7 @@ import * as http from "cloudly-http"
 import { Listener } from "../../../Listener"
 import { Storage } from "../../../util/Storage"
 import { BucketStorage } from ".."
-import { storageRouter } from "../storageRouter"
+import { bucketRouter } from "../bucketRouter"
 
 export async function fetch(
 	request: http.Request,
@@ -21,4 +21,4 @@ export async function fetch(
 
 	return result
 }
-storageRouter.router.add("GET", "/configuration", fetch)
+bucketRouter.router.add("GET", "/configuration", fetch)

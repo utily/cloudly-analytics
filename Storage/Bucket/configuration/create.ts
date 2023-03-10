@@ -3,7 +3,7 @@ import * as http from "cloudly-http"
 import { Listener } from "../../../Listener"
 import { Storage } from "../../../util/Storage"
 import { BucketStorage } from ".."
-import { storageRouter } from "../storageRouter"
+import { bucketRouter } from "../bucketRouter"
 
 export async function create(
 	request: http.Request,
@@ -25,4 +25,4 @@ export async function create(
 	return result
 }
 
-storageRouter.router.add("POST", "/configuration", create)
+bucketRouter.router.add("POST", "/configuration", create)
