@@ -9,7 +9,7 @@ type FetchResult = {
 	status: BaseListener.StatusResult
 } & Partial<Listener.Configuration.Metadata>
 
-type CreateResult = Partial<FetchResult> & { setup: Listener.SetupResult }
+type CreateResult = Partial<FetchResult> & { setup: Listener.SetupResult; action?: "created" | "updated" }
 
 type ListenerConfigurationResult = { value: Listener.Configuration; meta?: Listener.Configuration.Metadata }
 
@@ -23,8 +23,8 @@ export class ListenerConfiguration {
 			setup: await Listener.create(listenerConfiguration).setup(),
 		}
 		if (result.setup.success) {
-			await this.saveListenerConfiguration(listenerConfiguration)
-			//TODO update config in bucket!
+			result.action = await this.saveListenerConfiguration(listenerConfiguration)
+
 			const fetchResult = await this.fetch(listenerConfiguration.name)
 			if (!fetchResult) {
 				result.setup.success = false
@@ -53,8 +53,10 @@ export class ListenerConfiguration {
 		return result
 	}
 
-	async remove(name: string): Promise<boolean> {
+	async remove(name: string): Promise<"missing" | "deleted"> {
 		return (await this.getListenerConfiguration(name).then(Boolean)) && (await this.backend.set(name).then(() => true))
+			? "deleted"
+			: "missing"
 	}
 
 	async listKeys(): Promise<string[]> {
@@ -75,12 +77,16 @@ export class ListenerConfiguration {
 		return valueWithMetadata && (metadata ? valueWithMetadata : valueWithMetadata.value)
 	}
 
-	private async saveListenerConfiguration(listenerConfiguration: Listener.Configuration): Promise<void> {
+	private async saveListenerConfiguration(
+		listenerConfiguration: Listener.Configuration
+	): Promise<"created" | "updated"> {
 		const { meta: oldMetadata } = (await this.backend.get(listenerConfiguration.name)) ?? { meta: undefined }
-		const newMetadata: Listener.Configuration.Metadata = oldMetadata?.created
-			? { created: oldMetadata.created, updated: isoly.DateTime.now() }
-			: { created: isoly.DateTime.now() }
-		return await this.backend.set(listenerConfiguration.name, listenerConfiguration, { meta: newMetadata })
+
+		const [result, newMetadata]: ["created" | "updated", Listener.Configuration.Metadata] = oldMetadata?.created
+			? ["updated", { created: oldMetadata.created, updated: isoly.DateTime.now() }]
+			: ["created", { created: isoly.DateTime.now() }]
+		await this.backend.set(listenerConfiguration.name, listenerConfiguration, { meta: newMetadata })
+		return result
 	}
 
 	static open(kvNamespace: KVNamespace): ListenerConfiguration | undefined {

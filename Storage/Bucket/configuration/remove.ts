@@ -11,6 +11,7 @@ export async function remove(
 	let result: void | gracely.Error
 	try {
 		await context.state.storage.deleteAll()
+		await context.state.storage.deleteAlarm()
 	} catch (error) {
 		result = gracely.server.databaseFailure(error instanceof Error ? error.message : undefined)
 	}

@@ -15,10 +15,18 @@ export class Bucket {
 		return (await this.getBucketClient(listenerConfiguration)).post<Batch>("/events", events)
 	}
 
-	// async deleteBucket(name: string) {
-	// 	const bucketClient = this.bucketClient[name] ?? this.backend.open(name)
-	// 	await bucketClient.delete("/configuration")
-	// }
+	async delete(name: string): Promise<gracely.Error | void> {
+		const bucketClient = this.bucketClient[name] ?? this.backend.open(name)
+		delete this.bucketClient[name]
+		return await bucketClient.delete("/configuration")
+	}
+
+	async updateConfiguration(
+		listenerConfiguration: Listener.Configuration
+	): Promise<Listener.Configuration | gracely.Error> {
+		const bucketClient = this.bucketClient[listenerConfiguration.name] ?? this.backend.open(listenerConfiguration.name)
+		return await bucketClient.post<Listener.Configuration>("/configuration", listenerConfiguration)
+	}
 
 	private async getBucketClient(
 		listenerConfiguration: Listener.Configuration
