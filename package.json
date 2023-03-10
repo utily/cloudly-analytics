@@ -94,7 +94,7 @@
 		"gracely": "^2.0.3",
 		"isoly": "^2.0.14",
 		"isly": "github:utily/isly#0a0e9212fb90f2d4361378245159569e5617c730",
-		"cloudly-storage": "^0.7.7",
+		"cloudly-storage": "github:utily/cloudly-storage#635075a2c4238b62dcec0cdd95c6b39c8e713d97",
 		"selectively": "^2.0.4",
 		"ua-parser-js": "^1.0.34",
 		"authly": "github:utily/authly#tvartom-kid"
