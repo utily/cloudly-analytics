@@ -1,3 +1,4 @@
+import * as gracely from "gracely"
 // Let endpoints register
 import "./listener"
 import * as http from "cloudly-http"
@@ -5,27 +6,27 @@ import * as cloudlyRouter from "cloudly-router"
 import type { Administration } from ".."
 import { administrationRouter } from "./administrationRouter"
 
-async function handle(
-	request: http.Request,
-	workerContext: Administration.WorkerContext
-): Promise<http.Response.Like | any> {
-	//TODO: Add Authentication here!
-	// if (!request.header.authorization)
-	// 	result = gracely.client.unauthorized()
-	// else
-	let result
-	try {
-		result = await administrationRouter.handle(request, workerContext.analyticsAdministration)
-	} catch (e) {
-		console.error(e)
-	}
+type MaybePromise<T> = T | Promise<T>
 
-	return result
-}
-
-/**
- * @param router The router for your worker.
- */
-export function attachEndpoints(router: cloudlyRouter.Router<Administration.WorkerContext>) {
-	router.add(["POST", "GET", "DELETE"], "/listener*", handle)
+export function attachEndpoints<C extends Administration.WorkerContext>(
+	router: cloudlyRouter.Router<C>,
+	authenticator: (request: http.Request, context: C) => MaybePromise<boolean>
+) {
+	router.add(["POST", "GET", "DELETE"], "/listener*", async function (request: http.Request, workerContext: C): Promise<
+		http.Response.Like | any
+	> {
+		let result
+		if (!(await authenticator(request, workerContext)))
+			result = gracely.client.unauthorized()
+		else
+			try {
+				result = await administrationRouter.handle(request, workerContext.analyticsAdministration)
+			} catch (e) {
+				result = gracely.server.backendFailure(
+					"Unexpected error in Analytics Administration",
+					e instanceof Error ? e.message : undefined
+				)
+			}
+		return result
+	})
 }
