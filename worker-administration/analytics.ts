@@ -1,7 +1,7 @@
-import { Administration } from "cloudly-analytics/dist/Administration"
+import { attachEndpoints } from "@cloudly-analytics/administration"
 import { Context } from "Context"
 import { router } from "./router"
 
-Administration.attachEndpoints<Context>(router, async (request, context) => {
+attachEndpoints<Context>(router, async (request, context) => {
 	return (await context.authenticate(request)) == "admin"
 })

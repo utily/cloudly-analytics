@@ -83,6 +83,6 @@
 		"wrangler": "^2.12.2"
 	},
 	"dependencies": {
-		"cloudly-analytics": "file:.."
+		"@cloudly-analytics/storage": "file:../packages/storage"
 	}
 }

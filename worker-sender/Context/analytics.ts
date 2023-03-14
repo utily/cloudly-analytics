@@ -1,4 +1,4 @@
-import { Event } from "cloudly-analytics"
+import { types } from "@cloudly-analytics/sender"
 import type { Order, Test } from "../model"
 
 // It is possible to declare a type with extra properties for analytics.
@@ -27,4 +27,4 @@ export type AnalyticsExtra =
 export const analyticsDefault = {
 	source: "worker-sender",
 	currency: "SEK",
-} satisfies Partial<Event & AnalyticsExtra>
+} satisfies Partial<types.Event & AnalyticsExtra>

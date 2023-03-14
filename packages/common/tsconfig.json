@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "esnext",
+		"moduleResolution": "node",
+		"sourceMap": true,
+		"declaration": true,
+		"strict": true,
+		"incremental": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"rootDir": ".",
+		"outDir": "./dist",
+		"composite": true
+	}
+}

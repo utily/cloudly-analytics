@@ -1,4 +1,6 @@
-import { Listener } from "../Listener"
+import { Listener } from "../Administration/Listener"
+
+// https://docs.openbridge.com/en/articles/1856793-how-to-set-up-google-bigquery-creating-and-configuring-service-accounts-in-google-cloud-console
 
 export const config: Listener.Configuration = {
 	name: "worker-analytics-test-bigquery",

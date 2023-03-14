@@ -10,7 +10,7 @@
 		"url": "https://github.com/utily/cloudly-analytics/issues"
 	},
 	"homepage": "https://github.com/utily",
-	"main": "dist/_worker.mjs",
+	"module": "dist/_worker.mjs",
 	"typings": "dist/_worker.d.ts",
 	"type": "module",
 	"git": {
@@ -61,7 +61,6 @@
 		"clean": "rimraf dist node_modules coverage"
 	},
 	"devDependencies": {
-		"wrangler": "^2.12.2",
 		"@rollup/plugin-commonjs": "^24.0.1",
 		"@rollup/plugin-json": "^6.0.0",
 		"@rollup/plugin-node-resolve": "^15.0.1",
@@ -81,14 +80,18 @@
 		"rollup-plugin-terser": "^7.0.2",
 		"ts-jest": "^29.0.5",
 		"tslib": "^2.5.0",
-		"typescript": "^4.9.5"
+		"typescript": "^4.9.5",
+		"wrangler": "^2.12.2"
 	},
 	"dependencies": {
-		"isly": "github:utily/isly#0a0e9212fb90f2d4361378245159569e5617c730",
 		"authly": "^3.0.1",
+		"@cloudly-analytics/sender": "file:../packages/sender",
 		"cloudly-http": "^0.1.3",
 		"cloudly-router": "^0.1.1",
-		"cloudly-analytics": "file:..",
-		"gracely": "^2.0.3"
+		"gracely": "^2.0.3",
+		"isly": "github:utily/isly#0a0e9212fb90f2d4361378245159569e5617c730"
+	},
+	"overrides": {
+		"@cloudly-analytics/common": "file:../packages/common"
 	}
 }

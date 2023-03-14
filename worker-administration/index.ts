@@ -12,7 +12,7 @@ export default {
 }
 
 // All code that is needed for a worker to be responsible for the durable object is this:
-export { BufferStorage, BucketStorage } from "cloudly-analytics/Storage"
+export { BufferStorage, BucketStorage } from "@cloudly-analytics/storage"
 /**
  * Also add this to wrangler.toml
  * [durable_objects]

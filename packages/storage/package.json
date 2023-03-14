@@ -1,0 +1,13 @@
+{
+	"name": "@cloudly-analytics/storage",
+	"version": "1.0.0",
+	"description": "",
+	"main": "./dist/index.js",
+	"scripts": {
+		"build": "tsc --build"
+	},
+	"dependencies": {
+		"@cloudly-analytics/common": "^1.0.0",
+		"@cloudly-analytics/administration": "^1.0.0"
+	}
+}

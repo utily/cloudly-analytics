@@ -1,6 +1,6 @@
-import { Sender } from "cloudly-analytics/Sender"
+import { Environment as SenderEnvironment } from "@cloudly-analytics/sender"
 
-export type Environment = Sender.Environment &
+export type Environment = SenderEnvironment &
 	Partial<{
 		adminSecret: string
 	}>

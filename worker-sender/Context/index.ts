@@ -1,20 +1,20 @@
 import * as gracely from "gracely"
-import { Sender } from "cloudly-analytics/Sender"
+import * as sender from "@cloudly-analytics/sender"
 import * as http from "cloudly-http"
 import { router } from "../router"
 import { analyticsDefault, AnalyticsExtra } from "./analytics"
 import { Environment as ContextEnvironment } from "./Environment"
 
-export class Context implements Sender.WorkerContext<AnalyticsExtra, typeof analyticsDefault> {
+export class Context implements sender.WorkerContext<AnalyticsExtra, typeof analyticsDefault> {
 	constructor(
 		public readonly environment: Context.Environment,
 		public readonly executionContext?: ExecutionContext,
 		public readonly request?: http.Request
 	) {}
 
-	#analytics?: Sender.Context<AnalyticsExtra, typeof analyticsDefault>
+	#analytics?: sender.Context<AnalyticsExtra, typeof analyticsDefault>
 	get analytics() {
-		return (this.#analytics ??= new Sender.Context<AnalyticsExtra, typeof analyticsDefault>({
+		return (this.#analytics ??= new sender.Context<AnalyticsExtra, typeof analyticsDefault>({
 			environment: this.environment,
 			executionContext: this.executionContext,
 			request: this.request,
