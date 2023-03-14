@@ -7,7 +7,7 @@ export type AnalyticsExtra =
 	| Order.AnalyticEvents
 	| Test.AnalyticEvents
 	| {
-			entity: "test"
+			entity: "demo"
 			action: "pong"
 	  }
 	

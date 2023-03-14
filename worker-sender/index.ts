@@ -2,7 +2,7 @@ import { Context } from "./Context"
 
 import "./version"
 import "./order"
-import "./test"
+import "./demo"
 
 export default {
 	async fetch(request: Request, environment: Context.Environment, executionContext: ExecutionContext) {
@@ -19,4 +19,4 @@ export default {
  * ]
  */
 // Uncomment this to run locally with Miniflare
-//export { BufferStorage } from "@cloudly-analytics/administration"
+//export { BufferStorage } from "@cloudly-analytics/storage"
