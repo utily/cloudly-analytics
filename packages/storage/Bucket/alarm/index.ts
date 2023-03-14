@@ -1,5 +1,5 @@
-import { types } from "@cloudly-analytics/common"
-import { Listener } from "@cloudly-analytics/administration"
+import { Listener } from "cloudly-analytics-administration"
+import { types } from "cloudly-analytics-common"
 import { generateKeyBatch } from "../../utility/Storage/functions"
 import { bucketRouter } from "../bucketRouter"
 
@@ -24,12 +24,14 @@ function* generateListenerBatch(waitingBatches: Map<string, types.HasUuid[]>, si
 			}
 		}
 	}
-	if (batch.length > 0) yield batch
+	if (batch.length > 0)
+		yield batch
 }
 
 bucketRouter.alarm = async function (storageContext) {
 	const listenerConfiguration = await storageContext.durableObject.getListenerConfiguration()
-	if (!listenerConfiguration) throw new Error("No listenerConfiguration in bucket.")
+	if (!listenerConfiguration)
+		throw new Error("No listenerConfiguration in bucket.")
 	const listener = Listener.create(listenerConfiguration)
 
 	try {

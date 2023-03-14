@@ -1,6 +1,6 @@
 import * as gracely from "gracely"
 import { DurableObjectNamespace } from "@cloudflare/workers-types"
-import { types } from "@cloudly-analytics/common"
+import { types } from "cloudly-analytics-common"
 import * as storage from "cloudly-storage"
 import { Listener } from "../Listener"
 /**

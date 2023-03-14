@@ -1,4 +1,4 @@
-import { types } from "@cloudly-analytics/common"
+import { types } from "cloudly-analytics-common"
 import * as isly from "isly"
 import { BaseFilter } from "../Base"
 import { Selector } from "./Selector"

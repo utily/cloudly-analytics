@@ -19,4 +19,4 @@ export default {
  * ]
  */
 // Uncomment this to run locally with Miniflare
-//export { BufferStorage } from "@cloudly-analytics/storage"
+//export { BufferStorage } from "cloudly-analytics-storage"

@@ -1,5 +1,5 @@
 import * as gracely from "gracely"
-import { types } from "@cloudly-analytics/common"
+import { types } from "cloudly-analytics-common"
 import * as isly from "isly"
 import { BaseListener } from "../Base"
 import { BigQueryApi } from "./BigQueryApi"

@@ -1,6 +1,6 @@
 import * as gracely from "gracely"
+import { Listener } from "cloudly-analytics-administration"
 import * as http from "cloudly-http"
-import { Listener } from "@cloudly-analytics/administration"
 import { Storage } from "../../utility/Storage"
 import { BucketStorage } from ".."
 import { bucketRouter } from "../bucketRouter"

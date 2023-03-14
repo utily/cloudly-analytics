@@ -1,6 +1,6 @@
 {
-	"name": "@cloudly-analytics/common",
-	"version": "1.0.0",
+	"name": "cloudly-analytics-common",
+	"version": "0.0.0",
 	"description": "",
 	"main": "dist/index.js",
 	"scripts": {

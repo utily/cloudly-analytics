@@ -1,6 +1,6 @@
 import * as gracely from "gracely"
 import { ExecutionContext } from "@cloudflare/workers-types"
-import { types } from "@cloudly-analytics/common"
+import { types } from "cloudly-analytics-common"
 import * as http from "cloudly-http"
 import { Environment } from "./Environment"
 import { Buffer as ClientBuffer } from "./storageClient/Buffer"

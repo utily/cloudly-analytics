@@ -1,13 +1,13 @@
 {
-	"name": "@cloudly-analytics/administration",
-	"version": "1.0.0",
+	"name": "cloudly-analytics-administration",
+	"version": "0.0.0",
 	"description": "",
 	"main": "./dist/index.js",
 	"scripts": {
 		"build": "tsc --build"
 	},
 	"dependencies": {
-		"@cloudly-analytics/common": "^1.0.0",
+		"cloudly-analytics-common": "^0.0.0",
 		"cloudly-router": "^0.1.1",
 		"authly": "github:utily/authly#tvartom-kid",
 		"isly": "github:utily/isly#0a0e9212fb90f2d4361378245159569e5617c730",

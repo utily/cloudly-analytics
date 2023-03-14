@@ -1,6 +1,6 @@
 import * as gracely from "gracely"
-import { ContextMember, Filter, Listener } from "@cloudly-analytics/administration"
-import { types } from "@cloudly-analytics/common"
+import { ContextMember, Filter, Listener } from "cloudly-analytics-administration"
+import { types } from "cloudly-analytics-common"
 import { generateKeyBatch } from "../../utility/Storage/functions"
 import { bufferRouter } from "../bufferRouter"
 type CompiledListeners = Record<string, Listener.Configuration & { filterImplementations: Filter.Base[] }>

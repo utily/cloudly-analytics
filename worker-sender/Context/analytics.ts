@@ -1,4 +1,4 @@
-import { types } from "@cloudly-analytics/sender"
+import { types } from "cloudly-analytics-sender"
 import type { Order, Test } from "../model"
 
 // It is possible to declare a type with extra properties for analytics.

@@ -1,5 +1,5 @@
 import * as gracely from "gracely"
-import { ContextMember as AdministrationContextMember, WorkerContext } from "@cloudly-analytics/administration"
+import { ContextMember as AdministrationContextMember, WorkerContext } from "cloudly-analytics-administration"
 import * as http from "cloudly-http"
 import { router } from "../router"
 import { Environment as ContextEnvironment } from "./Environment"

@@ -75,7 +75,7 @@
 	"dependencies": {
 		"cloudly-http": "^0.1.3",
 		"gracely": "^2.0.3",
-		"cloudly-storage": "github:utily/cloudly-storage#635075a2c4238b62dcec0cdd95c6b39c8e713d97"
+		"cloudly-storage": "^0.7.14"
 	},
 	"workspaces": [
 		"packages/*"

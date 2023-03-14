@@ -1,4 +1,4 @@
-import { Environment as SenderEnvironment } from "@cloudly-analytics/sender"
+import { Environment as SenderEnvironment } from "cloudly-analytics-sender"
 
 export type Environment = SenderEnvironment &
 	Partial<{
