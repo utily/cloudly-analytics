@@ -7,7 +7,7 @@ import { Environment as ContextEnvironment } from "./Environment"
 
 export class Context implements sender.WorkerContext<AnalyticsExtra, typeof analyticsDefault> {
 	constructor(
-		public readonly environment: Context.Environment,
+		public readonly environment: ContextEnvironment,
 		public readonly executionContext?: ExecutionContext,
 		public readonly request?: http.Request
 	) {}

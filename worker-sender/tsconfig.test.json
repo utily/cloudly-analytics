@@ -18,7 +18,7 @@
 		"alwaysStrict": true,
 		"strict": true,
 		"allowJs": true,
-    "types": ["@cloudflare/workers-types","jest"]
+    "types": ["@cloudflare/workers-types","node","jest"]
 	},
 	"typeAcquisition": {
 		"enable": true

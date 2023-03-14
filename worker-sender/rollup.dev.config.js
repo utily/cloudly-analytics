@@ -8,11 +8,11 @@ import json from "@rollup/plugin-json"
 import path from "path"
 
 export default {
-  input: "./index.ts",
+  input: "index.ts",
   output: {
     exports: "named",
     format: "es",
-    file: "./dist/_worker.mjs",
+    file: "dist/_worker.mjs",
     sourcemap: true,
 		sourcemapPathTransform: relativeSourcePath => path.resolve(__dirname, relativeSourcePath.replace(/^(..\/)+/, "")),
   },

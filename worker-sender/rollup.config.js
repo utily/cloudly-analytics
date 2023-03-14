@@ -9,13 +9,20 @@ import json from "@rollup/plugin-json"
 import path from "path"
 
 export default {
-	input: "index.ts",
-	output: {
-		exports: "named",
-		format: "es",
-		file: "dist/_worker.js",
-		sourcemap: true,
+  input: "index.ts",
+  output: {
+    exports: "named",
+    format: "es",
+    file: "dist/_worker.js",
+    sourcemap: true,
 		sourcemapPathTransform: relativeSourcePath => path.resolve(__dirname, relativeSourcePath.replace(/^(..\/)+/, "")),
+  },
+  plugins: [commonjs(), nodeResolve({ browser: true }), terser(), typescript({ resolveJsonModule: true }), json()],
+	watch: {
+		clearScreen: false,
 	},
-	plugins: [commonjs(), nodeResolve({ browser: true }), terser(), typescript({ resolveJsonModule: true }), json()],
+	onwarn: warning => {
+		if ( warning.code !== 'THIS_IS_UNDEFINED' )
+			console.warn( warning.message );
+	},
 }

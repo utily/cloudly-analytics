@@ -1,5 +1,5 @@
 {
-	"name": "worker-analytics",
+	"name": "worker-cloudly-analytics-administration",
 	"version": "0.0.18",
 	"description": "Typescript template for Cloudflare Worker.",
 	"author": "Utily Contributors",
