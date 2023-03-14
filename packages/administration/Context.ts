@@ -3,9 +3,9 @@ import { Environment } from "./Environment"
 import { ListenerConfiguration as ClientListenerConfiguration } from "./storageClient"
 import { Bucket as ClientBucket } from "./storageClient/Bucket"
 
-export type WorkerContext = { analyticsAdministration: Context }
+export type WorkerContext = { analyticsAdministration: ContextMember }
 
-export class Context {
+export class ContextMember {
 	constructor(public readonly environment: Environment) {}
 
 	#bucket?: ClientBucket | gracely.Error

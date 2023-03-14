@@ -1,5 +1,5 @@
 import * as gracely from "gracely"
-import { Context, Filter, Listener } from "@cloudly-analytics/administration"
+import { ContextMember, Filter, Listener } from "@cloudly-analytics/administration"
 import { types } from "@cloudly-analytics/common"
 import { generateKeyBatch } from "../../utility/Storage/functions"
 import { bufferRouter } from "../bufferRouter"
@@ -51,7 +51,7 @@ function* generateBucket(waitingBatches: Map<string, types.Batch>, listeners: Co
 }
 
 bufferRouter.alarm = async function alarm(storageContext) {
-	const administrationContext = new Context(storageContext.environment)
+	const administrationContext = new ContextMember(storageContext.environment)
 
 	const kvListenerConfiguration = administrationContext.listenerConfiguration
 	if (gracely.Error.is(kvListenerConfiguration))

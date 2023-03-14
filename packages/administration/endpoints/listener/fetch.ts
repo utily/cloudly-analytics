@@ -1,10 +1,10 @@
 import * as gracely from "gracely"
 import * as http from "cloudly-http"
 import * as isly from "isly"
-import type { Context } from "../../Context"
+import type { ContextMember } from "../../Context"
 import { administrationRouter } from "../administrationRouter"
 
-async function fetch(request: http.Request, context: Context): Promise<http.Response.Like | any> {
+async function fetch(request: http.Request, context: ContextMember): Promise<http.Response.Like | any> {
 	let result: gracely.Result
 	const name = request.parameter.name
 	if (!isly.string().is(name))

@@ -12,9 +12,9 @@ export class Context implements sender.WorkerContext<AnalyticsExtra, typeof anal
 		public readonly request?: http.Request
 	) {}
 
-	#analytics?: sender.Context<AnalyticsExtra, typeof analyticsDefault>
+	#analytics?: sender.ContextMember<AnalyticsExtra, typeof analyticsDefault>
 	get analytics() {
-		return (this.#analytics ??= new sender.Context<AnalyticsExtra, typeof analyticsDefault>({
+		return (this.#analytics ??= new sender.ContextMember<AnalyticsExtra, typeof analyticsDefault>({
 			environment: this.environment,
 			executionContext: this.executionContext,
 			request: this.request,

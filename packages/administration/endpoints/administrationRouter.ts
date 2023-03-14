@@ -1,4 +1,4 @@
 import * as cloudRouter from "cloudly-router"
-import { Context } from "../Context"
+import { ContextMember } from "../Context"
 
-export const administrationRouter = new cloudRouter.Router<Context>()
+export const administrationRouter = new cloudRouter.Router<ContextMember>()

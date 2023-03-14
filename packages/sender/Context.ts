@@ -35,7 +35,7 @@ type ExtraAndDefault<T extends object, E extends object = object, D extends Part
 type MaybeArray<T> = T | T[]
 
 export type WorkerContext<E extends Record<string, any> = object, D extends Partial<types.Event & E> = never> = {
-	analytics: Context<E, D>
+	analytics: ContextMember<E, D>
 }
 /**
  *
@@ -46,7 +46,7 @@ export type WorkerContext<E extends Record<string, any> = object, D extends Part
  * * E: Type with extra fields to add the event.
  * * D: Type of object providing default values for properties in Event and in E
  */
-export class Context<E extends Record<string, any> = object, D extends Partial<types.Event & E> = never> {
+export class ContextMember<E extends Record<string, any> = object, D extends Partial<types.Event & E> = never> {
 	constructor(
 		public readonly options: {
 			readonly environment: Environment

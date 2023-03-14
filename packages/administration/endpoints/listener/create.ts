@@ -1,10 +1,10 @@
 import * as gracely from "gracely"
 import * as http from "cloudly-http"
-import type { Context as Context } from "../../Context"
+import type { ContextMember as ContextMember } from "../../Context"
 import { Listener } from "../../Listener"
 import { administrationRouter } from "../administrationRouter"
 
-async function create(request: http.Request, context: Context): Promise<http.Response.Like | any> {
+async function create(request: http.Request, context: ContextMember): Promise<http.Response.Like | any> {
 	let result: gracely.Result
 	const listenerConfiguration = await request.body
 
