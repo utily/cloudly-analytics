@@ -17,6 +17,9 @@
 		"worker-*/node_modules": true,
 		"worker-*/rollup.config.js": true,
 		"worker-*/tsconfig.*": true,
+		"packages/*/dist": true,
+		"packages/*/package.json": true,
+		"packages/*/tsconfig.json": true,
 		"tsconfig.*": true
 	},
 	// Make it possible to open excluded files with Ctrl + P
