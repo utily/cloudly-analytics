@@ -1,6 +1,6 @@
 {
 	"name": "cloudly-analytics",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Library to create analytics api.",
 	"author": "Utily Contributors",
 	"license": "MIT",
