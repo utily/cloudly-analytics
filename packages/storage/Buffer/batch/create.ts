@@ -13,7 +13,8 @@ async function create(
 ): Promise<http.Response.Like | any> {
 	let result: gracely.Result
 	const batch = await request.body
-	if (!types.Batch.type.is(batch)) result = gracely.client.flawedContent(types.Batch.flaw(batch))
+	if (!types.Batch.type.is(batch))
+		result = gracely.client.flawedContent(types.Batch.flaw(batch))
 	else {
 		try {
 			const timestamp = storageContext.durableObject.getUniqueTimestamp()

@@ -16,7 +16,8 @@ export async function create(
 	const listenerConfiguration = await context.durableObject.getListenerConfiguration()
 	if (!isly.array(isly.object()).is(events))
 		result = gracely.client.flawedContent(isly.array(isly.object()).flaw(events))
-	else if (!listenerConfiguration?.batchInterval) result = gracely.client.notFound("No configuration found in bucket.")
+	else if (!listenerConfiguration?.batchInterval)
+		result = gracely.client.notFound("No configuration found in bucket.")
 	else
 		try {
 			await context.state.storage.put<object[]>(
