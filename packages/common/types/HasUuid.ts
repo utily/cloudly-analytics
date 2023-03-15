@@ -1,4 +1,4 @@
-import * as isly from "isly"
+import { isly } from "isly"
 
 export interface HasUuid {
 	uuid: string

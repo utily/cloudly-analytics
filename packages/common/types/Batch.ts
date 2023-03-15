@@ -1,6 +1,6 @@
 import { Request } from "@cloudflare/workers-types"
 import * as http from "cloudly-http"
-import * as isly from "isly"
+import { isly } from "isly"
 import { Event } from "./Event"
 
 export interface Batch {

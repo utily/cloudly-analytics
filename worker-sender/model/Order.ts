@@ -1,4 +1,4 @@
-import * as isly from "isly"
+import { isly } from "isly"
 export interface Order {
 	id: string
 	number: string

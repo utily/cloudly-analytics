@@ -1,6 +1,6 @@
 import * as gracely from "gracely"
 import * as http from "cloudly-http"
-import * as isly from "isly"
+import { isly } from "isly"
 import type { ContextMember } from "../../Context"
 import { administrationRouter } from "../administrationRouter"
 

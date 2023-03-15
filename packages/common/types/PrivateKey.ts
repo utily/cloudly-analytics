@@ -1,4 +1,4 @@
-import * as isly from "isly"
+import { isly } from "isly"
 
 /**
  * This is the format for private keys downloaded form Google.

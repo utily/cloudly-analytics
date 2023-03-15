@@ -1,5 +1,5 @@
 import { types } from "cloudly-analytics-common"
-import * as isly from "isly"
+import { isly } from "isly"
 
 export abstract class BaseFilter<C extends BaseFilter.Configuration = BaseFilter.Configuration> {
 	constructor(protected readonly filterConfiguration: C) {}

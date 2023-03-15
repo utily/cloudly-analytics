@@ -1,6 +1,6 @@
 import * as gracely from "gracely"
 import { types } from "cloudly-analytics-common"
-import * as isly from "isly"
+import { isly } from "isly"
 import { Filter } from "../Filter"
 
 export abstract class BaseListener<C extends BaseListener.Configuration> {

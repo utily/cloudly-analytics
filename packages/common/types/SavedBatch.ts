@@ -1,4 +1,4 @@
-import * as isly from "isly"
+import { isly } from "isly"
 import { Batch } from "./Batch"
 
 export interface SavedBatch extends Batch {

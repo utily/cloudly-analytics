@@ -1,5 +1,5 @@
 import * as isoly from "isoly"
-import * as isly from "isly"
+import { isly } from "isly"
 import { BaseListener } from "./Base"
 import { BigQuery } from "./BigQuery"
 import { Http } from "./Http"

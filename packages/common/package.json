@@ -7,7 +7,6 @@
 		"build": "tsc --build"
 	},
 	"dependencies": {
-		"isly": "github:utily/isly#0a0e9212fb90f2d4361378245159569e5617c730",
 		"isoly": "^2.0.14"
 	}
 }

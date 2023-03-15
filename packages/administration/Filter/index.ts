@@ -1,4 +1,4 @@
-import * as isly from "isly"
+import { isly } from "isly"
 import { BaseFilter } from "./Base"
 import { Mapping } from "./Mapping"
 import { Selectively } from "./Selectively"

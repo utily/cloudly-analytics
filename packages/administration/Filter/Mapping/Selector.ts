@@ -1,4 +1,4 @@
-import * as isly from "isly"
+import { isly } from "isly"
 
 // Inspired by https://github.com/pax2pay/model-cde/blob/master/Proxy/Selector.ts
 

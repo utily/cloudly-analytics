@@ -1,6 +1,6 @@
 import { selectively } from "selectively"
 import { types } from "cloudly-analytics-common"
-import * as isly from "isly"
+import { isly } from "isly"
 import { BaseFilter } from "./Base"
 
 export interface Selectively extends BaseFilter.Configuration {

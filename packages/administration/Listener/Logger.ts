@@ -1,5 +1,5 @@
 import { types } from "cloudly-analytics-common"
-import * as isly from "isly"
+import { isly } from "isly"
 import { BaseListener } from "./Base"
 export interface Logger extends BaseListener.Configuration {
 	readonly type: "logger"

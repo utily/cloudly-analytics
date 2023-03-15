@@ -2,7 +2,7 @@ import * as gracely from "gracely"
 import * as authly from "authly"
 import type { InsertRowsOptions, InsertRowsStreamResponse, TableField, TableMetadata } from "@google-cloud/bigquery"
 import { http, Response } from "cloudly-http"
-import * as isly from "isly"
+import { isly } from "isly"
 import type { BigQuery as BigQueryConfiguration } from "."
 
 export class BigQueryApi {
