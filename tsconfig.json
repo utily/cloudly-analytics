@@ -1,15 +1,31 @@
 {
-	"extends": "./tsconfig.test.json",
-	"compilerOptions": {
-		"declaration": true,
-		"sourceMap": true,
-		"sourceRoot": "../",
-		"outDir": "dist",
-		"baseUrl": ".",
-		"allowSyntheticDefaultImports":true,
-		"types": []
-	},
-	"files": [
-		"index.ts",
-	]
+  "compilerOptions": {
+    "incremental": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "declaration": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "rootDir": "./src",
+    "outDir": "./build"
+  },
+  "files": [
+  ],
+  "references": [
+    {
+      "path": "./packages/common"
+    },
+		{
+      "path": "./packages/sender"
+    },
+		{
+      "path": "./packages/administration"
+    },
+		{
+      "path": "./packages/storage"
+    }
+  ]
 }

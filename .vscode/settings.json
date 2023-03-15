@@ -1,4 +1,5 @@
 {
+	// Update search.exclude if you add a pattern to files.exclude
 	"files.exclude": {
 		".*": true,
 		"*.code-workspace": true,
@@ -8,15 +9,38 @@
 		"LICENSE": true,
 		"node_modules": true,
 		"README.md": true,
-		"test-worker/.*": true,
-		"test-worker/*.d.ts": true,
-		"test-worker/*.js": true,
-		"test-worker/*.json": true,
-		"test-worker/dist": true,
-		"test-worker/node_modules": true,
-		"test-worker/rollup.config.js": true,
-		"test-worker/tsconfig.*": true,
+		"worker-*/.*": true,
+		"worker-*/*.d.ts": true,
+		"worker-*/*.js": true,
+		"worker-*/*.json": true,
+		"worker-*/dist": true,
+		"worker-*/node_modules": true,
+		"worker-*/rollup.config.js": true,
+		"worker-*/tsconfig.*": true,
+		"packages/*/dist": true,
+		"packages/*/package.json": true,
+		"packages/*/tsconfig.json": true,
 		"tsconfig.*": true
+	},
+	// Make it possible to open excluded files with Ctrl + P
+	"search.exclude": {
+		".*": false,
+		"*.code-workspace": false,
+		"*.json": false,
+		"CODEOWNERS": false,
+		"dist": false,
+		"LICENSE": false,
+		"node_modules": false,
+		"README.md": false,
+		"worker-*/.*": false,
+		"worker-*/*.d.ts": false,
+		"worker-*/*.js": false,
+		"worker-*/*.json": false,
+		"worker-*/dist": false,
+		"worker-*/node_modules": false,
+		"worker-*/rollup.config.js": false,
+		"worker-*/tsconfig.*": false,
+		"tsconfig.*": false
 	},
 	"files.insertFinalNewline": true,
 	"editor.tabSize": 2,
@@ -38,10 +62,13 @@
 		"cryptly",
 		"flagly",
 		"gracely",
+		"isly",
 		"isoly",
 		"langly",
+		"Miniflare",
 		"paramly",
 		"persistly",
+		"prettierx",
 		"selectivly",
 		"servly",
 		"servly-azure",
@@ -49,6 +76,7 @@
 		"tidily",
 		"transactly",
 		"unlisten",
-		"uply"
+		"uply",
+		"utily"
 	]
 }

@@ -1,16 +1,16 @@
 {
 	"compilerOptions": {
-		"target": "es2021",
-		"module": "es2020",
+		"target": "esnext",
+		"module": "esnext",
 		"lib": [
-			"es2021",
+			"esnext",
 			"webworker"
 		],
 		"allowJs": true,
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
 		"noImplicitAny": true,
-		"removeComments": true,
+		"removeComments": false,
 		"preserveConstEnums": true,
 		"forceConsistentCasingInFileNames": true,
 		"noImplicitThis": true,
@@ -19,12 +19,7 @@
 		"outDir": "dist",
 		"moduleResolution": "node",
 		"resolveJsonModule": true,
-		"paths": {
-			"*": [
-				"types/*"
-			]
-		},
-		"types": ["jest"]
+		"types": ["jest"],
 	},
 	"files": [
 		"index.ts"

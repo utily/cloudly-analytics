@@ -1,0 +1,12 @@
+{
+	"name": "cloudly-analytics-common",
+	"version": "0.1.0",
+	"description": "",
+	"main": "dist/index.js",
+	"scripts": {
+		"build": "tsc --build"
+	},
+	"dependencies": {
+		"isoly": "^2.0.14"
+	}
+}

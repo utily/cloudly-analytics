@@ -1,0 +1,38 @@
+compatibility_date = "2023-03-09"
+name = "cloudly-analytics-sender"
+workers_dev = true
+routes = []
+vars = { }
+main = "./dist/_worker.js"
+kv_namespaces = [
+]
+[durable_objects]
+bindings = [
+	{ name = "bufferStorage", class_name = "BufferStorage", script_name = "cloudly-analytics-administration" }
+]
+
+
+[build]
+command = "npm install && npm run build"
+
+[build.upload]
+format = "modules" # Miniflare needs this
+
+[env.production]
+workers_dev = false
+vars = {  }
+durable_objects.bindings = []
+kv_namespaces = []
+r2_buckets = []
+
+[env.local]
+workers_dev = true
+vars = { adminSecret = "adminSecret" }
+durable_objects.bindings = []
+kv_namespaces = []
+r2_buckets = []
+
+[miniflare]
+durable_objects_persist = "./.miniflare/durable-objects/"
+kv_persist = "./.miniflare/kv/"
+port = 8787

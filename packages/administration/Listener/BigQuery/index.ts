@@ -1,0 +1,102 @@
+import * as gracely from "gracely"
+import { types } from "cloudly-analytics-common"
+import { isly } from "isly"
+import { BaseListener } from "../Base"
+import { BigQueryApi } from "./BigQueryApi"
+
+export interface BigQuery extends BaseListener.Configuration {
+	type: "bigquery"
+	privateKey: types.PrivateKey
+	projectName: string
+	datasetName: string
+	tableName: string
+	tableSchema: BigQueryApi.TableSchemaField[]
+}
+
+export namespace BigQuery {
+	export const type = BaseListener.Configuration.type.extend<BigQuery>(
+		{
+			type: isly.string("bigquery"),
+			privateKey: types.PrivateKey.type,
+			projectName: isly.string(),
+			datasetName: isly.string(),
+			tableName: isly.string(),
+			tableSchema: isly.array(BigQueryApi.TableSchemaField.type),
+		},
+		"Listener.BigQuery"
+	)
+
+	export class Implementation extends BaseListener<BigQuery> {
+		async addStatusDetails(result: BaseListener.StatusResult): Promise<BaseListener.StatusResult> {
+			const bigQueryApi = new BigQueryApi(this.configuration)
+			;(result.details ??= {}).table = await bigQueryApi.getTable()
+
+			return result
+		}
+		getConfiguration() {
+			return { ...this.configuration, privateKey: { ...this.configuration.privateKey, private_key: "********" } }
+		}
+
+		async setup(oldConfiguration?: BigQuery): Promise<BaseListener.SetupResult> {
+			const bigQueryApi = new BigQueryApi(this.configuration)
+			const result: BaseListener.SetupResult = { success: true }
+			const table = await bigQueryApi.getTable()
+			if (BigQueryApi.TableResponse.type.is(table)) {
+				;(result.details ??= []).push(`Table ${this.configuration.tableName} exists.`)
+				const allFieldsExists = this.configuration.tableSchema.every(field =>
+					table.schema.fields.some(existingField =>
+						(["name", "type", "mode"] as const).every(
+							property => !field[property] || existingField[property] == field[property]
+						)
+					)
+				)
+				if (allFieldsExists) {
+					;(result.details ??= []).push(`Table ${this.configuration.tableName} has all needed fields.`)
+				} else {
+					;(result.details ??= []).push(`Table ${this.configuration.tableName} needs to be patched.`)
+					const patchResult = await bigQueryApi.patchTable()
+					if (gracely.Error.is(patchResult)) {
+						result.success = false
+						;(result.details ??= []).push(patchResult)
+					} else
+						(result.details ??= []).push(`Table ${this.configuration.tableName} successfully patched.`)
+				}
+			} else {
+				;(result.details ??= []).push(`Table ${this.configuration.tableName} does not exists.`)
+				const createResult = await bigQueryApi.createTable()
+				if (gracely.Error.is(createResult)) {
+					result.success = false
+					;(result.details ??= []).push(createResult)
+				} else
+					(result.details ??= []).push(`Table ${this.configuration.tableName} created.`)
+			}
+			return result
+		}
+
+		async processBatch(batch: types.HasUuid[]): Promise<boolean[]> {
+			const bigQueryApi = new BigQueryApi(this.configuration)
+			const response = await bigQueryApi.insertAll(
+				batch.map((item, index) => {
+					const { uuid: insertId, ...json } = item
+					return {
+						// https://cloud.google.com/bigquery/docs/streaming-data-into-bigquery#dataconsistency
+						insertId,
+						json,
+					}
+				})
+			)
+			let success = false
+			if (!response) {
+				console.error(
+					`Listener.BigQuery (Name: ${this.configuration.name}) failed to store values. Http-request failed.`
+				)
+			} else if ((response.insertErrors?.length ?? 0) > 0) {
+				console.error(`Listener.BigQuery (Name: ${this.configuration.name}) failed to store values.`)
+				console.error(response.insertErrors)
+			} else {
+				success = true
+			}
+			return batch.map(item => success)
+		}
+	}
+}
