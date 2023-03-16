@@ -1,6 +1,4 @@
 {
-	"name": "cloudly-analytics",
-	"version": "0.1.1",
 	"description": "Library to create analytics api.",
 	"author": "Utily Contributors",
 	"license": "MIT",
@@ -10,10 +8,6 @@
 	},
 	"homepage": "https://github.com/utily",
 	"private": false,
-	"(Remove)main": "./dist/Administration/index.js",
-	"(Remove)module": "./dist/Administration/index.js",
-	"(Remove)types": "./dist/index.d.ts",
-	"(Remove)type": "module",
 	"git": {
 		"tagName": "v${version}"
 	},
