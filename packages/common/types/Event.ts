@@ -7,6 +7,7 @@ export interface Event {
 	action: string
 	created?: isoly.DateTime
 	isError?: boolean
+	message?: string
 }
 
 export namespace Event {
@@ -17,6 +18,7 @@ export namespace Event {
 			action: isly.string(),
 			created: isly.fromIs("DateTime", isoly.DateTime.is).optional(),
 			isError: isly.boolean().optional(),
+			message: isly.string().optional(),
 		},
 		"Event"
 	)
