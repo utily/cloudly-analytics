@@ -7,7 +7,7 @@
 		"build": "tsc --build"
 	},
 	"dependencies": {
-		"cloudly-analytics-common": "0.1.0",
+		"cloudly-analytics-common": "*",
 		"cloudly-router": "^0.1.1",
 		"authly": "^3.0.2",
 		"isoly": "^2.0.14",

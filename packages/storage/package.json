@@ -7,7 +7,7 @@
 		"build": "tsc --build"
 	},
 	"dependencies": {
-		"cloudly-analytics-common": "0.1.0",
-		"cloudly-analytics-administration": "0.1.0"
+		"cloudly-analytics-common": "*",
+		"cloudly-analytics-administration": "*"
 	}
 }
