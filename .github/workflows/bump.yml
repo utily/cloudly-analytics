@@ -25,7 +25,7 @@ jobs:
         id: version-bump
         env:
           GITHUB_TOKEN: ${{ secrets.ADMIN_TOKEN }}
-          GIT_AUTHOR_NAME: "lerna version"
-          GIT_AUTHOR_EMAIL: "lerna@example.com"
         run: |
+          git config --global user.name "lerna version"
+          git config --global user.email lerna@example.com
           npx lerna version patch --yes
