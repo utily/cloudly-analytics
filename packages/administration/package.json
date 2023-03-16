@@ -1,15 +1,15 @@
 {
 	"name": "cloudly-analytics-administration",
-	"version": "0.1.0",
+	"version": "0.1.2",
 	"description": "",
 	"main": "./dist/index.js",
 	"scripts": {
 		"build": "tsc --build"
 	},
 	"dependencies": {
-		"cloudly-analytics-common": "*",
-		"cloudly-router": "^0.1.1",
 		"authly": "^3.0.2",
+		"cloudly-analytics-common": "^0.1.2",
+		"cloudly-router": "^0.1.1",
 		"isoly": "^2.0.14",
 		"selectively": "^2.0.4",
 		"ua-parser-js": "^1.0.34"
