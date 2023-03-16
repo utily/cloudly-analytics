@@ -26,4 +26,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.ADMIN_TOKEN }}
         run: |
-          npx lerna version
+          npx lerna version patch
