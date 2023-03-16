@@ -58,7 +58,9 @@
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20230307.0",
+		"@google-cloud/bigquery": "^6.1.0",
 		"@types/jest": "^29.4.1",
+		"@types/ua-parser-js": "^0.7.36",
 		"@typescript-eslint/eslint-plugin": "5.55.0",
 		"@typescript-eslint/parser": "5.55.0",
 		"eslint": "^8.36.0",
@@ -68,14 +70,12 @@
 		"prettierx": "github:utily/prettierx#utily-20221229",
 		"rimraf": "^4.4.0",
 		"ts-jest": "^29.0.5",
-		"typescript": "^4.9.5",
-		"@types/ua-parser-js": "^0.7.36",
-		"@google-cloud/bigquery": "^6.1.0"
+		"typescript": "^4.9.5"
 	},
 	"dependencies": {
 		"cloudly-http": "^0.1.3",
-		"gracely": "^2.0.3",
 		"cloudly-storage": "^0.7.14",
+		"gracely": "^2.0.3",
 		"isly": "^0.1.1"
 	},
 	"workspaces": [

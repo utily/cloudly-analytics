@@ -1,9 +1,11 @@
 {
 	// Update search.exclude if you add a pattern to files.exclude
 	"files.exclude": {
+		"package.json": false,
+		"packages/*/package.json": false,
 		".*": true,
 		"*.code-workspace": true,
-		"*.json": true,
+		"package-lock.json": true,
 		"CODEOWNERS": true,
 		"dist": true,
 		"LICENSE": true,
@@ -18,7 +20,6 @@
 		"worker-*/rollup.config.js": true,
 		"worker-*/tsconfig.*": true,
 		"packages/*/dist": true,
-		"packages/*/package.json": true,
 		"packages/*/tsconfig.json": true,
 		"tsconfig.*": true
 	},
