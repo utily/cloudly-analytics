@@ -7,6 +7,9 @@
 		"build": "tsc --build"
 	},
 	"dependencies": {
-		"cloudly-analytics-common": "^0.1.7"
+		"cloudly-analytics-common": "^0.1.7",
+		"cloudly-http": "^0.1.3",
+		"cloudly-storage": "^0.7.14",
+		"gracely": "^2.0.3"
 	}
 }

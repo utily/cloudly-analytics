@@ -66,12 +66,6 @@
 		"ts-jest": "^29.0.5",
 		"typescript": "^4.9.5"
 	},
-	"dependencies": {
-		"cloudly-http": "^0.1.3",
-		"cloudly-storage": "^0.7.14",
-		"gracely": "^2.0.3",
-		"isly": "^0.1.1"
-	},
 	"workspaces": [
 		"packages/*"
 	]

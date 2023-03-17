@@ -8,6 +8,9 @@
 	},
 	"dependencies": {
 		"cloudly-analytics-administration": "^0.1.7",
-		"cloudly-analytics-common": "^0.1.7"
+		"cloudly-analytics-common": "^0.1.7",
+		"gracely": "^2.0.3",
+		"cloudly-http": "^0.1.3",
+		"isly": "^0.1.1"
 	}
 }
