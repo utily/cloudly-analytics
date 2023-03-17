@@ -83,9 +83,10 @@ export class ContextMember<E extends Record<string, any> = object, D extends Par
 			header: request?.header ?? {},
 		}
 		let result: Promise<void> | void
-		if (gracely.Error.is(this.buffer))
-			console.error("Error when sending analytics.", this.buffer)
-		else {
+		if (gracely.Error.is(this.buffer)) {
+			console.error("Buffer for sending analytics missing, will log to console.", this.buffer)
+			console.log(batch)
+		} else {
 			result = this.buffer
 				.addBatch(batch)
 				.then(response => {
