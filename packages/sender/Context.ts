@@ -78,14 +78,14 @@ export class ContextMember<E extends Record<string, any> = object, D extends Par
 	send(events: MaybeArray<ExtraAndDefault<types.Event, E, D>>): void | Promise<void> {
 		const { executionContext, default: defaultValue, request } = this.options
 		const batch: types.Batch = {
-			events: (Array.isArray(events) ? events : [events]).map(event => ({ ...defaultValue, ...event } as types.Event)),
 			cloudflare: request?.cloudflare,
 			header: request?.header ?? {},
+			events: (Array.isArray(events) ? events : [events]).map(event => ({ ...defaultValue, ...event } as types.Event)),
 		}
 		let result: Promise<void> | void
 		if (gracely.Error.is(this.buffer)) {
-			console.error("Buffer for sending analytics missing, will log to console.", this.buffer)
-			console.log(batch)
+			console.error("Buffer for sending analytics is missing, will log to console.", this.buffer)
+			console.log(JSON.stringify(batch, null, 2))
 		} else {
 			result = this.buffer
 				.addBatch(batch)
