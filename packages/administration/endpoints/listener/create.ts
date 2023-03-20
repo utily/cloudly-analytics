@@ -8,7 +8,7 @@ async function create(request: http.Request, context: ContextMember): Promise<ht
 	let result: gracely.Result
 	const listenerConfiguration = await request.body
 
-	const listenerConfigurationClient = context.listenerConfiguration
+	const listenerConfigurationClient = context.listenerConfigurationClient
 	const bucketClient = context.bucket
 
 	if (!Listener.Configuration.is(listenerConfiguration))
@@ -18,20 +18,25 @@ async function create(request: http.Request, context: ContextMember): Promise<ht
 	else if (gracely.Error.is(bucketClient))
 		result = bucketClient
 	else {
-		const createResult = await listenerConfigurationClient.create(listenerConfiguration)
+		const create = listenerConfigurationClient.create(listenerConfiguration)
+		if (create === false) {
+			result = gracely.client.methodNotAllowed(["POST"])
+		} else {
+			const createResult = await create
 
-		if (createResult.action == "updated") {
-			const updateConfiguration = await bucketClient.updateConfiguration(listenerConfiguration)
-			if (gracely.Error.is(updateConfiguration)) {
-				;(createResult.setup.details ??= []).push("Failed to update configuration in bucket.")
-				createResult.setup.success = false
+			if (createResult.action == "updated") {
+				const updateConfiguration = await bucketClient.updateConfiguration(listenerConfiguration)
+				if (gracely.Error.is(updateConfiguration)) {
+					;(createResult.setup.details ??= []).push("Failed to update configuration in bucket.")
+					createResult.setup.success = false
+				}
 			}
-		}
 
-		if (!createResult.setup.success) {
-			result = gracely.server.backendFailure(createResult)
-		} else
-			result = gracely.success.created(createResult)
+			if (!createResult.setup.success) {
+				result = gracely.server.backendFailure(createResult)
+			} else
+				result = gracely.success.created(createResult)
+		}
 	}
 	return result
 }

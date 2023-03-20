@@ -25,6 +25,6 @@ export type AnalyticsExtra =
  */
 /* eslint-disable */
 export const analyticsDefault = {
-	source: "worker-sender",
+	source: "cloudly-analytics-demo",
 	currency: "SEK",
 } satisfies Partial<types.Event & AnalyticsExtra>

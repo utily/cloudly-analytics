@@ -1,2 +1,2 @@
 export { Bucket } from "./Bucket"
-export { ListenerConfiguration } from "./ListenerConfiguration"
+export { ListenerConfigurationClient } from "./ListenerConfigurationClient"

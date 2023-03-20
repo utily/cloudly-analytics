@@ -8,7 +8,7 @@ async function remove(request: http.Request, context: ContextMember): Promise<ht
 	let result: gracely.Result
 	const name = request.parameter.name
 
-	const listenerConfigurationClient = context.listenerConfiguration
+	const listenerConfigurationClient = context.listenerConfigurationClient
 	const bucketClient = context.bucket
 
 	if (!isly.string().is(name))
@@ -18,11 +18,16 @@ async function remove(request: http.Request, context: ContextMember): Promise<ht
 	else if (gracely.Error.is(bucketClient))
 		result = bucketClient
 	else {
-		if ((await listenerConfigurationClient.remove(name)) == "missing")
-			result = gracely.client.notFound(`No listener found with the name ${name}.`)
-		else {
-			bucketClient.delete(name)
-			result = gracely.success.ok(true)
+		const remove = listenerConfigurationClient.remove(name)
+		if (remove === false) {
+			result = gracely.client.methodNotAllowed(["DELETE"])
+		} else {
+			if ((await remove) == "missing")
+				result = gracely.client.notFound(`No listener found with the name ${name}.`)
+			else {
+				bucketClient.delete(name)
+				result = gracely.success.ok(true)
+			}
 		}
 	}
 	return result

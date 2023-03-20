@@ -1,13 +1,13 @@
-import { Listener } from "../Listener"
+import { Listener } from "cloudly-analytics-administration"
 
 export const config: Listener.Configuration = {
-	name: "worker-analytics-test-logger",
+	name: "cloudly-analytics-demo-logger",
 	type: "logger",
 
 	filter: [
 		{
 			type: "selectively",
-			expression: "source:worker-analytics",
+			expression: "source:cloudly-analytics-demo",
 		},
 		{ type: "useragent" },
 		{

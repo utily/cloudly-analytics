@@ -5,10 +5,10 @@ import { administrationRouter } from "../administrationRouter"
 
 async function list(request: http.Request, context: ContextMember): Promise<http.Response.Like | any> {
 	let result: gracely.Result
-	if (gracely.Error.is(context.listenerConfiguration)) {
-		result = context.listenerConfiguration
+	if (gracely.Error.is(context.listenerConfigurationClient)) {
+		result = context.listenerConfigurationClient
 	} else {
-		const value = await context.listenerConfiguration.listKeys()
+		const value = await context.listenerConfigurationClient.listKeys()
 		if (gracely.Error.is(value))
 			result = value
 		else

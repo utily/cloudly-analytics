@@ -53,12 +53,12 @@ function* generateBucket(waitingBatches: Map<string, types.Batch>, listeners: Co
 bufferRouter.alarm = async function alarm(storageContext) {
 	const administrationContext = new ContextMember(storageContext.environment)
 
-	const kvListenerConfiguration = administrationContext.listenerConfiguration
-	if (gracely.Error.is(kvListenerConfiguration))
-		throw kvListenerConfiguration
+	const listenerConfigurationClient = administrationContext.listenerConfigurationClient
+	if (gracely.Error.is(listenerConfigurationClient))
+		throw listenerConfigurationClient
 	const waitingBatches = await storageContext.state.storage.list<types.Batch>()
 	const listeners: CompiledListeners = Object.fromEntries(
-		(await kvListenerConfiguration.listValues()).map(listener => [
+		(await listenerConfigurationClient.listValues()).map(listener => [
 			listener.name,
 			{
 				...listener,

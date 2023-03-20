@@ -47,7 +47,7 @@
 		"build": "tsc --build --verbose",
 		"test": "jest --maxWorkers=2",
 		"prepare": "npm run build",
-		"clean": "rimraf dist node_modules coverage packages/**/dist",
+		"clean": "rimraf dist coverage packages/**/dist",
 		"start": "npm --prefix test-worker run start"
 	},
 	"devDependencies": {

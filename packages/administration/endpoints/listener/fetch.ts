@@ -9,10 +9,10 @@ async function fetch(request: http.Request, context: ContextMember): Promise<htt
 	const name = request.parameter.name
 	if (!isly.string().is(name))
 		result = gracely.client.invalidPathArgument("listener/:name", "name", "string", "A valid identifier is required.")
-	else if (gracely.Error.is(context.listenerConfiguration)) {
-		result = context.listenerConfiguration
+	else if (gracely.Error.is(context.listenerConfigurationClient)) {
+		result = context.listenerConfigurationClient
 	} else {
-		const value = await context.listenerConfiguration.fetch(name)
+		const value = await context.listenerConfigurationClient.fetch(name)
 		if (!value)
 			result = gracely.client.notFound(`Listener with name "${name}" not found.`)
 		else if (gracely.Error.is(value))

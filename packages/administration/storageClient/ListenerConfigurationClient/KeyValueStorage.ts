@@ -1,22 +1,16 @@
 import * as isoly from "isoly"
 import { KVNamespace } from "@cloudflare/workers-types"
 import * as storage from "cloudly-storage"
-import { Listener } from "../Listener"
-import { BaseListener } from "../Listener/Base"
+import { Listener } from "../../Listener"
+import type { CreateResult, FetchResult, ListenerConfigurationResult } from "."
+import { Base } from "./Base"
 
-type FetchResult = {
-	configuration: Listener.Configuration
-	status: BaseListener.StatusResult
-} & Partial<Listener.Configuration.Metadata>
-
-type CreateResult = Partial<FetchResult> & { setup: Listener.SetupResult; action?: "created" | "updated" }
-
-type ListenerConfigurationResult = { value: Listener.Configuration; meta?: Listener.Configuration.Metadata }
-
-export class ListenerConfiguration {
+export class KeyValueStorage extends Base {
 	private constructor(
 		private readonly backend: storage.KeyValueStore<Listener.Configuration, Listener.Configuration.Metadata>
-	) {}
+	) {
+		super()
+	}
 
 	async create(listenerConfiguration: Listener.Configuration) {
 		const result: CreateResult = {
@@ -89,8 +83,8 @@ export class ListenerConfiguration {
 		return result
 	}
 
-	static open(kvNamespace: KVNamespace): ListenerConfiguration | undefined {
+	static open(kvNamespace: KVNamespace): KeyValueStorage | undefined {
 		const backend = storage.KeyValueStore.Json.create(kvNamespace)
-		return backend ? new ListenerConfiguration(backend) : undefined
+		return backend ? new KeyValueStorage(backend) : undefined
 	}
 }

@@ -2,14 +2,19 @@ import * as gracely from "gracely"
 import { ContextMember as AdministrationContextMember, WorkerContext } from "cloudly-analytics-administration"
 import * as http from "cloudly-http"
 import { router } from "../router"
+import { config as cloudlyAnalyticsDemoBigquery } from "./analyticsConfiguration/cloudly-analytics-demo-bigquery"
+import { config as cloudlyAnalyticsDemoLogger } from "./analyticsConfiguration/cloudly-analytics-demo-logger"
 import { Environment as ContextEnvironment } from "./Environment"
+
+const config = [cloudlyAnalyticsDemoBigquery, cloudlyAnalyticsDemoLogger]
 
 export class Context implements WorkerContext {
 	constructor(public readonly environment: Context.Environment) {}
 
 	#analyticsAdministration?: AdministrationContextMember
 	get analyticsAdministration() {
-		return (this.#analyticsAdministration ??= new AdministrationContextMember(this.environment))
+		// Remove `config` to store and use key-value-store.
+		return (this.#analyticsAdministration ??= new AdministrationContextMember(this.environment, config))
 	}
 
 	async authenticate(request: http.Request): Promise<"admin" | undefined> {

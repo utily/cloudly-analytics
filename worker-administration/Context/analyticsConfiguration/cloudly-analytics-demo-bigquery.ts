@@ -1,15 +1,15 @@
-import { Listener } from "../Administration/Listener"
+import { Listener } from "cloudly-analytics-administration"
 
 // https://docs.openbridge.com/en/articles/1856793-how-to-set-up-google-bigquery-creating-and-configuring-service-accounts-in-google-cloud-console
 
 export const config: Listener.Configuration = {
-	name: "worker-analytics-test-bigquery",
+	name: "cloudly-analytics-demo-bigquery",
 	type: "bigquery",
 
 	filter: [
 		{
 			type: "selectively",
-			expression: "source:worker-analytics",
+			expression: "source:cloudly-analytics-demo",
 		},
 		{ type: "useragent" },
 		{
