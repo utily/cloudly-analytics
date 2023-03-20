@@ -13,10 +13,12 @@ export namespace Selector {
 			.flatMap(property => (property.endsWith("]") ? property.split("[") : property))
 			.map(property => (property.endsWith("]") ? Number.parseInt(property.slice(0, -1)) : property))
 	}
-	export function get<T = any>(data: any, selector: Selector | (string | number)[]): T {
+	export function get<T = any>(data: any, selector: Selector | (string | number)[]): T | undefined {
 		let result: any
 		if (typeof selector == "string")
 			result = get(data, parse(selector))
+		else if (data == undefined)
+			result = undefined
 		else
 			result = selector.length == 0 ? data : get(data[selector[0]], selector.slice(1))
 		return result as T
