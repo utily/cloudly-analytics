@@ -32,7 +32,9 @@ type ExtraAndDefault<T extends object, E extends object = object, D extends Part
 				[K in keyof T & keyof D]: T[K] | D[K]
 			}
 		>
+
 type MaybeArray<T> = T | T[]
+type MaybePromise<T> = T | Promise<T>
 
 export type WorkerContext<E extends Record<string, any> = object, D extends Partial<types.Event & E> = never> = {
 	analytics: ContextMember<E, D>
@@ -71,24 +73,31 @@ export class ContextMember<E extends Record<string, any> = object, D extends Par
 	 * Returns Promise<void>
 	 * Usage: `await analytics.send(...)`
 	 *
-	 * @param events An Event with E and D optional.
+	 * @param eventsToSend An Event with E (Properties in D is optional, since they have a default value.).
 	 * @param shard For heavy loads (More than )
 	 * @returns
 	 */
-	send(events: MaybeArray<ExtraAndDefault<types.Event, E, D>>): void | Promise<void> {
+	send(eventsToSend: MaybePromise<MaybeArray<ExtraAndDefault<types.Event, E, D>>>): void | Promise<void> {
 		const { executionContext, default: defaultValue, request } = this.options
-		const batch: types.Batch = {
-			cloudflare: request?.cloudflare,
-			header: request?.header ?? {},
-			events: (Array.isArray(events) ? events : [events]).map(event => ({ ...defaultValue, ...event } as types.Event)),
+		const generateBatch = async () => {
+			const eventsMaybeArray = "then" in eventsToSend ? await eventsToSend : eventsToSend
+			const events = (Array.isArray(eventsMaybeArray) ? eventsMaybeArray : [eventsMaybeArray]).map(
+				e => ({ ...defaultValue, ...e } as types.Event)
+			)
+			return {
+				cloudflare: request?.cloudflare,
+				header: request?.header ?? {},
+				events,
+			} as types.Batch
 		}
+
 		let result: Promise<void> | void
 		if (gracely.Error.is(this.buffer)) {
 			console.error("Buffer for sending analytics is missing, will log to console.", this.buffer)
-			console.log(JSON.stringify(batch, null, 2))
+			generateBatch().then(batch => console.log(JSON.stringify(batch, null, 2)))
 		} else {
 			result = this.buffer
-				.addBatch(batch)
+				.addBatch(generateBatch())
 				.then(response => {
 					if (gracely.Error.is(response)) {
 						console.error("Analytics.send: Error when storing analytics.", response)

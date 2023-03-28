@@ -24,7 +24,7 @@ export namespace Order {
 	export const is = type.is
 	export const flaw = type.flaw
 
-	export type AnalyticEvents = { entity: "order"; order: Order } & (
+	export type AnalyticEvents = { entity: { type: "order" }; order: Order } & (
 		| {
 				action: "prepared"
 		  }

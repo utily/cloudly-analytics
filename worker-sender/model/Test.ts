@@ -12,7 +12,7 @@ export namespace Test {
 	export const flaw = type.flaw
 
 	export type AnalyticEvents = {
-		entity: "demo"
+		entity: { type: "demo" }
 		action: "ping"
 		metadata: Test["metadata"]
 	}
