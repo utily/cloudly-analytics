@@ -12,7 +12,7 @@ export async function create(request: http.Request, context: Context): Promise<h
 	else if (!model.Order.UnPaid.is(order))
 		result = gracely.client.flawedContent(model.Order.UnPaid.flaw(order))
 	else {
-		context.analytics.send({ entity: "order", action: "prepared", order })
+		context.analytics.send({ entity: { type: "order" }, action: "prepared", order })
 
 		result = gracely.success.created(order)
 	}
