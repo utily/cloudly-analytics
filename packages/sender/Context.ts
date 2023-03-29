@@ -73,21 +73,20 @@ export class ContextMember<E extends Record<string, any> = object, D extends Par
 	 * Returns Promise<void>
 	 * Usage: `await analytics.send(...)`
 	 *
-	 * @param eventsToSend An Event with E (Properties in D is optional, since they have a default value.).
+	 * @param events An Event with E (Properties in D is optional, since they have a default value.).
 	 * @param shard For heavy loads (More than )
 	 * @returns
 	 */
-	send(eventsToSend: MaybePromise<MaybeArray<ExtraAndDefault<types.Event, E, D>>>): void | Promise<void> {
+	send(events: MaybePromise<MaybeArray<ExtraAndDefault<types.Event, E, D>>>): void | Promise<void> {
 		const { executionContext, default: defaultValue, request } = this.options
 		const generateBatch = async () => {
-			const eventsMaybeArray = "then" in eventsToSend ? await eventsToSend : eventsToSend
-			const events = (Array.isArray(eventsMaybeArray) ? eventsMaybeArray : [eventsMaybeArray]).map(
-				e => ({ ...defaultValue, ...e } as types.Event)
-			)
+			const eventsMaybeArray = await events
 			return {
 				cloudflare: request?.cloudflare,
 				header: request?.header ?? {},
-				events,
+				events: (Array.isArray(eventsMaybeArray) ? eventsMaybeArray : [eventsMaybeArray]).map(
+					e => ({ ...defaultValue, ...e } as types.Event)
+				),
 			} as types.Batch
 		}
 
