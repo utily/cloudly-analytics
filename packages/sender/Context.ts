@@ -6,13 +6,19 @@ import { Environment } from "./Environment"
 import { Buffer as ClientBuffer } from "./storageClient/Buffer"
 
 /**
+ * Deconstruct + reconstruct.
+ * Doesn't change the type, but makes it readable.
+ */
+type Prettify<T> = T extends infer Tb ? { [K in keyof Tb]: Tb[K] } : never
+
+/**
  * Result is a type with all properties of T and E, with all properties of D as optional.
  *
  * Define extra fields in E.
  * Define type of default values in D.
  * If E is a union it is preserved as union.
  */
-type ExtraAndDefault<T extends object, E extends object = object, D extends Partial<T & E> = never> =
+type ExtraAndDefault<T extends object, E extends object = object, D extends Partial<T & E> = never> = Prettify<
 	// E: Extends type, with default values as optional
 	// `E extends any ? ... : never` is a trick to keep E as a possible union: https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#distributive-conditional-types
 	(E extends any
@@ -32,6 +38,7 @@ type ExtraAndDefault<T extends object, E extends object = object, D extends Part
 				[K in keyof T & keyof D]: T[K] | D[K]
 			}
 		>
+>
 
 type MaybeArray<T> = T | T[]
 type MaybePromise<T> = T | Promise<T>
