@@ -3,7 +3,7 @@ import * as gracely from "gracely"
 import "./listener"
 import * as http from "cloudly-http"
 import * as cloudlyRouter from "cloudly-router"
-import type { WorkerContext } from ".."
+import type { WorkerContext } from "../index"
 import { administrationRouter } from "./administrationRouter"
 
 type MaybePromise<T> = T | Promise<T>
