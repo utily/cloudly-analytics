@@ -1,5 +1,5 @@
 import { Listener } from "../../Listener"
-import type { FetchResult } from "."
+import type { CreateResult, FetchResult } from "."
 import { Base } from "./Base"
 
 export class TypescriptApi extends Base {
@@ -9,14 +9,31 @@ export class TypescriptApi extends Base {
 		super()
 		this.listenerConfiguration = Object.fromEntries(listenerConfiguration.map(v => [v.name, v]))
 	}
-
-	create(listenerConfiguration: Listener.Configuration) {
+	/**
+	 * It is not possible to create an listener defined by Typescript.
+	 */
+	create(_: Listener.Configuration) {
 		return false as const
+	}
+
+	async setup(name: string) {
+		const listenerConfiguration = this.getListenerConfiguration(name)
+
+		const result: CreateResult | undefined = listenerConfiguration
+			? {
+					setup: await Listener.create(listenerConfiguration).setup(),
+			  }
+			: undefined
+		if (listenerConfiguration && result && result.setup.success) {
+			result.action = "updated"
+			Object.assign(result, await this.fetch(listenerConfiguration.name))
+		}
+		return result
 	}
 
 	async fetch(name: string): Promise<FetchResult | undefined> {
 		let result: FetchResult | undefined
-		const listenerConfiguration = this.listenerConfiguration[name]
+		const listenerConfiguration = this.getListenerConfiguration(name)
 		if (!listenerConfiguration) {
 			result = undefined
 		} else {
@@ -40,5 +57,9 @@ export class TypescriptApi extends Base {
 
 	async listValues(): Promise<Listener.Configuration[]> {
 		return Object.values(this.listenerConfiguration)
+	}
+
+	private getListenerConfiguration(name: string): Listener.Configuration | undefined {
+		return this.listenerConfiguration[name]
 	}
 }

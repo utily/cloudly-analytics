@@ -22,15 +22,27 @@ export class KeyValueStorage extends Base {
 			const fetchResult = await this.fetch(listenerConfiguration.name)
 			if (!fetchResult) {
 				result.setup.success = false
-				;(result.setup.details ??= []).push("Failed to store listenerconfiguration in KeyValue-store.")
+				;(result.setup.details ??= []).push("Failed to store listener configuration in KeyValue-store.")
 			} else {
-				;(result.setup.details ??= []).push("Listenerconfiguration stored in KeyValue-store.")
+				;(result.setup.details ??= []).push("Listener configuration stored in KeyValue-store.")
 				Object.assign(result, fetchResult)
 			}
 		}
 		return result
 	}
-
+	async setup(name: string) {
+		const listenerConfiguration = await this.getListenerConfiguration(name)
+		if (!listenerConfiguration)
+			return undefined
+		const result: CreateResult = {
+			setup: await Listener.create(listenerConfiguration).setup(),
+		}
+		if (result.setup.success) {
+			result.action == "updated"
+			Object.assign(result, await this.fetch(listenerConfiguration.name))
+		}
+		return result
+	}
 	async fetch(name: string): Promise<FetchResult | undefined> {
 		let result: FetchResult | undefined
 		const listenerConfiguration = await this.getListenerConfiguration(name, true)
