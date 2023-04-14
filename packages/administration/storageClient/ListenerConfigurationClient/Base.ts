@@ -3,7 +3,7 @@ import type { CreateResult, FetchResult } from "."
 
 export abstract class Base {
 	abstract create(listenerConfiguration: Listener.Configuration): Promise<CreateResult> | false
-
+	abstract setup(name: string): Promise<CreateResult | undefined> | false
 	abstract fetch(name: string): Promise<FetchResult | undefined>
 
 	abstract remove(name: string): Promise<"missing" | "deleted"> | false
