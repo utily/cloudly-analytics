@@ -36,11 +36,10 @@ bucketRouter.alarm = async function (storageContext) {
 	if (gracely.Error.is(listenerConfigurationClient))
 		throw listenerConfigurationClient
 
-	const listenerConfigurationName = storageContext.durableObject.getName()
-	if (!listenerConfigurationName)
-		throw new Error("listenerConfigurationName is missing in Bucket.alarm.")
+	const listenerConfigurationName = await storageContext.durableObject.getName()
 
-	const listenerConfiguration = await listenerConfigurationClient.getListenerConfiguration(listenerConfigurationName)
+	const listenerConfiguration =
+		listenerConfigurationName && (await listenerConfigurationClient.getListenerConfiguration(listenerConfigurationName))
 
 	if (!listenerConfiguration) {
 		// Id the listenerConfigurationClient has a delay before values are fully propagated (Like KeyValueStorage)
@@ -48,7 +47,7 @@ bucketRouter.alarm = async function (storageContext) {
 		// is added later.
 		storageContext.state.storage.deleteAll()
 		storageContext.state.storage.deleteAlarm()
-		console.error(`No listenerConfiguration for bucket ${storageContext.durableObject.getName()}.`, "Bucket terminated")
+		console.error(`No listenerConfiguration for bucket '${listenerConfigurationName}'.`, "Bucket terminated")
 		return
 	}
 	const listener = Listener.create(listenerConfiguration)

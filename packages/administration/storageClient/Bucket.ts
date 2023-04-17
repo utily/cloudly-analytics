@@ -27,7 +27,15 @@ export class Bucket {
 	private async getBucketClient(
 		listenerConfiguration: Listener.Configuration
 	): Promise<storage.DurableObject.Client<gracely.Error>> {
-		return (this.bucketClient[listenerConfiguration.name] ??= this.backend.open(listenerConfiguration.name))
+		let result = this.bucketClient[listenerConfiguration.name]
+		if (!result) {
+			result = this.backend.open(listenerConfiguration.name)
+			const existingName = await result.get<string>("/name")
+			if (existingName != existingName)
+				await result.post<string>("/name", listenerConfiguration.name)
+			this.bucketClient[listenerConfiguration.name] = result
+		}
+		return result
 	}
 
 	static open(backend?: DurableObjectNamespace | storage.DurableObject.Namespace): Bucket | undefined {
