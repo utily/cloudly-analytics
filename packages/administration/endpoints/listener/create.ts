@@ -24,14 +24,6 @@ async function create(request: http.Request, context: ContextMember): Promise<ht
 		} else {
 			const createResult = await create
 
-			if (createResult.action == "updated") {
-				const updateConfiguration = await bucketClient.updateConfiguration(listenerConfiguration)
-				if (gracely.Error.is(updateConfiguration)) {
-					;(createResult.setup.details ??= []).push("Failed to update configuration in bucket.")
-					createResult.setup.success = false
-				}
-			}
-
 			if (!createResult.setup.success) {
 				result = gracely.server.backendFailure(createResult)
 			} else

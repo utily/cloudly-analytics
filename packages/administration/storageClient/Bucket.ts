@@ -21,28 +21,13 @@ export class Bucket {
 	async delete(name: string): Promise<gracely.Error | void> {
 		const bucketClient = this.bucketClient[name] ?? this.backend.open(name)
 		delete this.bucketClient[name]
-		return await bucketClient.delete("/configuration")
-	}
-
-	async updateConfiguration(
-		listenerConfiguration: Listener.Configuration
-	): Promise<Listener.Configuration | gracely.Error> {
-		const bucketClient = this.bucketClient[listenerConfiguration.name] ?? this.backend.open(listenerConfiguration.name)
-		return await bucketClient.post<Listener.Configuration>("/configuration", listenerConfiguration)
+		return await bucketClient.delete("/all")
 	}
 
 	private async getBucketClient(
 		listenerConfiguration: Listener.Configuration
 	): Promise<storage.DurableObject.Client<gracely.Error>> {
-		let result = this.bucketClient[listenerConfiguration.name]
-		if (!result) {
-			result = this.backend.open(listenerConfiguration.name)
-			const existing = await result.get<Listener.Configuration>("/configuration")
-			if (JSON.stringify(listenerConfiguration) != JSON.stringify(existing))
-				await result.post<Listener.Configuration>("/configuration", listenerConfiguration)
-			this.bucketClient[listenerConfiguration.name] = result
-		}
-		return result
+		return (this.bucketClient[listenerConfiguration.name] ??= this.backend.open(listenerConfiguration.name))
 	}
 
 	static open(backend?: DurableObjectNamespace | storage.DurableObject.Namespace): Bucket | undefined {

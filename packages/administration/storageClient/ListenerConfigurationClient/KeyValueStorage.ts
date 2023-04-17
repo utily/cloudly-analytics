@@ -31,7 +31,7 @@ export class KeyValueStorage extends Base {
 		return result
 	}
 	async setup(name: string) {
-		const listenerConfiguration = await this.getListenerConfiguration(name)
+		const listenerConfiguration = await this.getListenerConfigurationRaw(name)
 		if (!listenerConfiguration)
 			return undefined
 		const result: CreateResult = {
@@ -45,7 +45,7 @@ export class KeyValueStorage extends Base {
 	}
 	async fetch(name: string): Promise<FetchResult | undefined> {
 		let result: FetchResult | undefined
-		const listenerConfiguration = await this.getListenerConfiguration(name, true)
+		const listenerConfiguration = await this.getListenerConfigurationRaw(name, true)
 		if (!listenerConfiguration) {
 			result = undefined
 		} else {
@@ -60,7 +60,8 @@ export class KeyValueStorage extends Base {
 	}
 
 	async remove(name: string): Promise<"missing" | "deleted"> {
-		return (await this.getListenerConfiguration(name).then(Boolean)) && (await this.backend.set(name).then(() => true))
+		return (await this.getListenerConfigurationRaw(name).then(Boolean)) &&
+			(await this.backend.set(name).then(() => true))
 			? "deleted"
 			: "missing"
 	}
@@ -72,10 +73,16 @@ export class KeyValueStorage extends Base {
 	async listValues(): Promise<Listener.Configuration[]> {
 		return (await this.backend.list({ values: true })).map(item => item.value).flatMap(item => (item ? item : []))
 	}
+	getListenerConfiguration(name: string): Promise<Listener.Configuration | undefined> {
+		return this.getListenerConfigurationRaw(name)
+	}
 
-	private async getListenerConfiguration(name: string, metadata: true): Promise<ListenerConfigurationResult | undefined>
-	private async getListenerConfiguration(name: string, metadata?: false): Promise<Listener.Configuration | undefined>
-	private async getListenerConfiguration(
+	private async getListenerConfigurationRaw(
+		name: string,
+		metadata: true
+	): Promise<ListenerConfigurationResult | undefined>
+	private async getListenerConfigurationRaw(name: string, metadata?: false): Promise<Listener.Configuration | undefined>
+	private async getListenerConfigurationRaw(
 		name: string,
 		metadata?: boolean
 	): Promise<ListenerConfigurationResult | Listener.Configuration | undefined> {

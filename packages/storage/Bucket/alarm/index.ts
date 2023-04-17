@@ -1,4 +1,5 @@
-import { Listener } from "cloudly-analytics-administration"
+import * as gracely from "gracely"
+import { ContextMember, Listener } from "cloudly-analytics-administration"
 import { types } from "cloudly-analytics-common"
 import { generateKeyBatch } from "../../utility/Storage/functions"
 import { bucketRouter } from "../bucketRouter"
@@ -29,9 +30,27 @@ function* generateListenerBatch(waitingBatches: Map<string, types.HasUuid[]>, si
 }
 
 bucketRouter.alarm = async function (storageContext) {
-	const listenerConfiguration = await storageContext.durableObject.getListenerConfiguration()
-	if (!listenerConfiguration)
-		throw new Error("No listenerConfiguration in bucket.")
+	const administrationContext = new ContextMember(storageContext.environment)
+
+	const listenerConfigurationClient = administrationContext.listenerConfigurationClient
+	if (gracely.Error.is(listenerConfigurationClient))
+		throw listenerConfigurationClient
+
+	const listenerConfigurationName = storageContext.durableObject.getName()
+	if (!listenerConfigurationName)
+		throw new Error("listenerConfigurationName is missing in Bucket.alarm.")
+
+	const listenerConfiguration = await listenerConfigurationClient.getListenerConfiguration(listenerConfigurationName)
+
+	if (!listenerConfiguration) {
+		// Id the listenerConfigurationClient has a delay before values are fully propagated (Like KeyValueStorage)
+		// this could happen when listener is first added. However, the listener will be recreated when new events
+		// is added later.
+		storageContext.state.storage.deleteAll()
+		storageContext.state.storage.deleteAlarm()
+		console.error(`No listenerConfiguration for bucket ${storageContext.durableObject.getName()}.`, "Bucket terminated")
+		return
+	}
 	const listener = Listener.create(listenerConfiguration)
 
 	try {

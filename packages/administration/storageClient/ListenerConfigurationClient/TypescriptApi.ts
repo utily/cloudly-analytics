@@ -17,7 +17,7 @@ export class TypescriptApi extends Base {
 	}
 
 	async setup(name: string) {
-		const listenerConfiguration = this.getListenerConfiguration(name)
+		const listenerConfiguration = await this.getListenerConfiguration(name)
 
 		const result: CreateResult | undefined = listenerConfiguration
 			? {
@@ -33,7 +33,7 @@ export class TypescriptApi extends Base {
 
 	async fetch(name: string): Promise<FetchResult | undefined> {
 		let result: FetchResult | undefined
-		const listenerConfiguration = this.getListenerConfiguration(name)
+		const listenerConfiguration = await this.getListenerConfiguration(name)
 		if (!listenerConfiguration) {
 			result = undefined
 		} else {
@@ -59,7 +59,7 @@ export class TypescriptApi extends Base {
 		return Object.values(this.listenerConfiguration)
 	}
 
-	private getListenerConfiguration(name: string): Listener.Configuration | undefined {
+	async getListenerConfiguration(name: string): Promise<Listener.Configuration | undefined> {
 		return this.listenerConfiguration[name]
 	}
 }
