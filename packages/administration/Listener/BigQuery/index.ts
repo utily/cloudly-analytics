@@ -4,13 +4,16 @@ import { isly } from "isly"
 import { BaseListener } from "../Base"
 import { BigQueryApi } from "./BigQueryApi"
 
-export interface BigQuery extends BaseListener.Configuration {
+interface BigQueryBase extends BaseListener.Configuration {
 	type: "bigquery"
-	privateKey: types.PrivateKey
 	projectName: string
 	datasetName: string
 	tableName: string
 	tableSchema: BigQueryApi.TableSchemaField[]
+}
+
+export interface BigQuery extends BigQueryBase {
+	privateKey: types.PrivateKey
 }
 
 export namespace BigQuery {
@@ -25,7 +28,10 @@ export namespace BigQuery {
 		},
 		"Listener.BigQuery"
 	)
-
+	export type BaseConfiguration = BigQueryBase
+	export function createConfiguration(bigQueryConfiguration: BigQueryBase, privateKey: types.PrivateKey): BigQuery {
+		return { ...bigQueryConfiguration, ...{ privateKey } }
+	}
 	export class Implementation extends BaseListener<BigQuery> {
 		async addStatusDetails(result: BaseListener.StatusResult): Promise<BaseListener.StatusResult> {
 			const bigQueryApi = new BigQueryApi(this.configuration)

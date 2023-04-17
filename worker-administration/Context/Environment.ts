@@ -3,4 +3,5 @@ import { Environment as AdministrationEnvironment } from "cloudly-analytics-admi
 export type Environment = AdministrationEnvironment &
 	Partial<{
 		adminSecret: string
+		bigQueryPrivateKey: string
 	}>

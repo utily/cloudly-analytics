@@ -38,7 +38,7 @@ r2_buckets = []
 
 [env.local]
 workers_dev = true
-vars = { adminSecret = "adminSecret" }
+vars = { adminSecret = "adminSecret", bigQueryPrivateKey = '{"type":"service_account"...}' }
 #durable_objects.bindings = []
 #kv_namespaces = []
 r2_buckets = []
@@ -47,3 +47,4 @@ r2_buckets = []
 durable_objects_persist = "./.miniflare/durable-objects/"
 kv_persist = "./.miniflare/kv/"
 port = 8788
+
