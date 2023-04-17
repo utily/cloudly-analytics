@@ -1,6 +1,5 @@
 import * as gracely from "gracely"
 import { Environment } from "./Environment"
-import { Listener } from "./Listener"
 import { ListenerConfigurationClient } from "./storageClient"
 import { Bucket as ClientBucket } from "./storageClient/Bucket"
 
@@ -13,7 +12,7 @@ export class ContextMember {
 	 */
 	constructor(
 		public readonly environment: Environment,
-		public readonly listenerConfiguration?: Listener.Configuration[]
+		public readonly listenerConfigurationClientFactory?: () => ListenerConfigurationClient | gracely.Error
 	) {}
 
 	#bucket?: ClientBucket | gracely.Error
@@ -23,11 +22,12 @@ export class ContextMember {
 			gracely.server.misconfigured("bucketStorage", "Bucket storage configuration missing."))
 	}
 
-	#listenerConfiguration?: ListenerConfigurationClient | gracely.Error
+	#listenerConfigurationClient?: ListenerConfigurationClient | gracely.Error
 	get listenerConfigurationClient(): ListenerConfigurationClient | gracely.Error {
-		return (this.#listenerConfiguration ??= this.listenerConfiguration
-			? new ListenerConfigurationClient.TypescriptApi(this.listenerConfiguration)
-			: (this.environment.listenerConfigurationStorage &&
+		return (this.#listenerConfigurationClient ??= this.listenerConfigurationClientFactory
+			? this.listenerConfigurationClientFactory()
+			: // Default is a KeyValueStorage-backed client
+			  (this.environment.listenerConfigurationStorage &&
 					ListenerConfigurationClient.KeyValueStorage.open(this.environment.listenerConfigurationStorage)) ??
 			  gracely.server.misconfigured("listenerConfiguration", "Configuration or KeyValueNamespace missing."))
 	}

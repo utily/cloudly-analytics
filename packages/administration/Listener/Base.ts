@@ -30,7 +30,7 @@ export abstract class BaseListener<C extends BaseListener.Configuration> {
 	/**
 	 * Returns status of the listener.
 	 *
-	 *This is a stub, made to be overridden.
+	 * This is a stub, made to be overridden.
 	 * Override this to add details.
 	 */
 	async addStatusDetails(result: BaseListener.StatusResult): Promise<BaseListener.StatusResult> {

@@ -1,4 +1,5 @@
 export { ContextMember, WorkerContext } from "./Context"
+export { ListenerConfigurationClient } from "./storageClient"
 export { attachEndpoints } from "./endpoints"
 export { Environment } from "./Environment"
 export { Filter } from "./Filter"
