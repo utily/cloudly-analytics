@@ -21,10 +21,10 @@ export async function create(
 	if (gracely.Error.is(listenerConfigurationClient))
 		result = listenerConfigurationClient
 	else {
-		const listenerConfigurationName = storageContext.durableObject.getName()
+		const listenerConfigurationName = await storageContext.durableObject.getName()
 
 		if (!listenerConfigurationName)
-			result = gracely.server.databaseFailure(`Can't read bucket name while trying to create events.`)
+			result = gracely.server.databaseFailure(`Can't read name of bucket while trying to create events.`)
 		else {
 			const listenerConfiguration = await listenerConfigurationClient.getListenerConfiguration(
 				listenerConfigurationName
@@ -33,7 +33,7 @@ export async function create(
 			if (!isly.array(isly.object()).is(events))
 				result = gracely.client.flawedContent(isly.array(isly.object()).flaw(events))
 			else if (!listenerConfiguration?.batchInterval)
-				result = gracely.client.notFound("No configuration found in bucket.")
+				result = gracely.client.notFound("No configuration found for bucket.")
 			else
 				try {
 					await storageContext.state.storage.put<object[]>(

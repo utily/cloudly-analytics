@@ -1,5 +1,6 @@
 // Let handlers register in the storageRouter!
 import "./all"
+import "./name"
 import "./events"
 import "./alarm"
 import { DurableObjectState, Request, Response } from "@cloudflare/workers-types"
@@ -32,9 +33,8 @@ export class BucketStorage implements DurableObjectWithEnvironment<Environment> 
 	}
 
 	private listenerConfigurationName: string | undefined
-
-	public getName(): string | undefined {
-		return this.state.id.name
+	async getName(): Promise<string | undefined> {
+		return (this.listenerConfigurationName ??= await this.state.storage.get<string>("/name"))
 	}
 
 	constructor(private readonly state: DurableObjectState, public readonly environment: Environment) {}
