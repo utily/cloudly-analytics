@@ -1,24 +1,21 @@
 import * as gracely from "gracely"
-import { Listener } from "cloudly-analytics-administration"
 import * as http from "cloudly-http"
 import { Storage } from "../../utility/Storage"
 import { BucketStorage } from ".."
 import { bucketRouter } from "../bucketRouter"
 
-export async function fetch(
+export async function remove(
 	request: http.Request,
 	context: Storage.Context<BucketStorage>
 ): Promise<http.Response.Like | any> {
-	let result: Listener.Configuration | gracely.Error
-
+	let result: void | gracely.Error
 	try {
-		result =
-			(await context.durableObject.getListenerConfiguration()) ??
-			gracely.client.notFound("No configuration found in bucket.")
+		await context.state.storage.deleteAll()
+		await context.state.storage.deleteAlarm()
 	} catch (error) {
 		result = gracely.server.databaseFailure(error instanceof Error ? error.message : undefined)
 	}
 
 	return result
 }
-bucketRouter.add("GET", "/configuration", fetch)
+bucketRouter.add("DELETE", "/all", remove)

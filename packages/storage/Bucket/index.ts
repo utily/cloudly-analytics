@@ -1,10 +1,9 @@
 // Let handlers register in the storageRouter!
-import "./configuration"
+import "./all"
 import "./events"
 import "./alarm"
 import { DurableObjectState, Request, Response } from "@cloudflare/workers-types"
 import { Environment } from "cloudly-analytics-administration"
-import { Listener } from "cloudly-analytics-administration"
 import { Storage } from "../utility/Storage"
 import { DurableObjectWithEnvironment } from "../utility/Storage/DurableObjectWithEnvironment"
 import { bucketRouter } from "./bucketRouter"
@@ -32,12 +31,14 @@ export class BucketStorage implements DurableObjectWithEnvironment<Environment> 
 		return this.lastTimestamp
 	}
 
-	private listenerConfiguration: Listener.Configuration | undefined
-	public async getListenerConfiguration(): Promise<Listener.Configuration | undefined> {
-		return (this.listenerConfiguration ??= await this.state.storage.get<Listener.Configuration>("/configuration"))
+	private listenerConfigurationName: string | undefined
+
+	public getName(): string | undefined {
+		return this.state.id.name
 	}
 
 	constructor(private readonly state: DurableObjectState, public readonly environment: Environment) {}
+
 	async fetch(request: Request): Promise<Response> {
 		return bucketProcessor.handle(request, this.environment, this.state, this)
 	}
