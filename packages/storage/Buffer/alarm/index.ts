@@ -52,8 +52,10 @@ function* generateBucket(waitingBatches: Map<string, types.Batch>, listeners: Co
 
 bufferRouter.alarm = async function alarm(storageContext) {
 	const administrationContext = new ContextMember(storageContext.environment)
+	const listenerConfigurationClient = storageContext.durableObject.getListenerConfigurationClient(
+		storageContext.environment
+	)
 
-	const listenerConfigurationClient = administrationContext.listenerConfigurationClient
 	if (gracely.Error.is(listenerConfigurationClient)) {
 		console.error(
 			"Buffer.alarm: Can't initiate listenerConfigurationClient.",

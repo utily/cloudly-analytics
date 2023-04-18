@@ -1,5 +1,5 @@
 import * as gracely from "gracely"
-import { ContextMember, Listener } from "cloudly-analytics-administration"
+import { Listener } from "cloudly-analytics-administration"
 import { types } from "cloudly-analytics-common"
 import { generateKeyBatch } from "../../utility/Storage/functions"
 import { bucketRouter } from "../bucketRouter"
@@ -30,9 +30,9 @@ function* generateListenerBatch(waitingBatches: Map<string, types.HasUuid[]>, si
 }
 
 bucketRouter.alarm = async function (storageContext) {
-	const administrationContext = new ContextMember(storageContext.environment)
-
-	const listenerConfigurationClient = administrationContext.listenerConfigurationClient
+	const listenerConfigurationClient = storageContext.durableObject.getListenerConfigurationClient(
+		storageContext.environment
+	)
 	if (gracely.Error.is(listenerConfigurationClient)) {
 		console.error(
 			"Bucket.alarm: Can't initiate listenerConfigurationClient.",
