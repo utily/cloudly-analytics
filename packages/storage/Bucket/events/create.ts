@@ -1,5 +1,4 @@
 import * as gracely from "gracely"
-import { ContextMember } from "cloudly-analytics-administration"
 import * as http from "cloudly-http"
 import { isly } from "isly"
 import { Storage } from "../../utility/Storage"
@@ -15,9 +14,9 @@ export async function create(
 	let result: gracely.Result
 	const events = await request.body
 
-	const administrationContext = new ContextMember(storageContext.environment)
-
-	const listenerConfigurationClient = administrationContext.listenerConfigurationClient
+	const listenerConfigurationClient = storageContext.durableObject.getListenerConfigurationClient(
+		storageContext.environment
+	)
 	if (gracely.Error.is(listenerConfigurationClient))
 		result = listenerConfigurationClient
 	else {
