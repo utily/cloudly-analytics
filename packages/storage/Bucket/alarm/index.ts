@@ -33,10 +33,12 @@ bucketRouter.alarm = async function (storageContext) {
 	const administrationContext = new ContextMember(storageContext.environment)
 
 	const listenerConfigurationClient = administrationContext.listenerConfigurationClient
-	if (gracely.Error.is(listenerConfigurationClient))
+	if (gracely.Error.is(listenerConfigurationClient)) {
+		console.error("Bucket.alarm: Can't initiate listenerConfigurationClient.", listenerConfigurationClient.error)
 		throw listenerConfigurationClient
-
+	}
 	const listenerConfigurationName = await storageContext.durableObject.getName()
+	console.log(`Bucket.alarm ${listenerConfigurationName}`)
 
 	const listenerConfiguration =
 		listenerConfigurationName && (await listenerConfigurationClient.getListenerConfiguration(listenerConfigurationName))
