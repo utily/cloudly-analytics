@@ -1,3 +1,5 @@
+import * as gracely from "gracely"
+import { Environment } from "../../Environment"
 import { Listener } from "../../Listener"
 import { BaseListener } from "../../Listener/Base"
 import { KeyValueStorage as NKeyValueStorage } from "./KeyValueStorage"
@@ -16,6 +18,7 @@ export type ListenerConfigurationResult = { value: Listener.Configuration; meta?
 export type ListenerConfigurationClient = NKeyValueStorage | NTypescriptApi
 
 export namespace ListenerConfigurationClient {
+	export type Factory = (environment: Environment) => ListenerConfigurationClient | gracely.Error
 	export const KeyValueStorage = NKeyValueStorage
 	export type KeyValueStorage = NKeyValueStorage
 	export const TypescriptApi = NTypescriptApi

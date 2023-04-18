@@ -8,11 +8,10 @@ export type WorkerContext = { analyticsAdministration: ContextMember }
 export class ContextMember {
 	/**
 	 * @param environment
-	 * @param listenerConfiguration If supplied, This fixed configuration will be used. KeyValue-store is not used.
 	 */
 	constructor(
 		public readonly environment: Environment,
-		public readonly listenerConfigurationClientFactory?: () => ListenerConfigurationClient | gracely.Error
+		public readonly listenerConfigurationClientFactory?: ListenerConfigurationClient.Factory
 	) {}
 
 	#bucket?: ClientBucket | gracely.Error
@@ -24,11 +23,10 @@ export class ContextMember {
 
 	#listenerConfigurationClient?: ListenerConfigurationClient | gracely.Error
 	get listenerConfigurationClient(): ListenerConfigurationClient | gracely.Error {
-		return (this.#listenerConfigurationClient ??= this.listenerConfigurationClientFactory
-			? this.listenerConfigurationClientFactory()
-			: // Default is a KeyValueStorage-backed client
-			  (this.environment.listenerConfigurationStorage &&
-					ListenerConfigurationClient.KeyValueStorage.open(this.environment.listenerConfigurationStorage)) ??
-			  gracely.server.misconfigured("listenerConfiguration", "Configuration or KeyValueNamespace missing."))
+		return (this.#listenerConfigurationClient ??= (
+			this.listenerConfigurationClientFactory ??
+			// Default is a KeyValueStorage-backed client
+			ListenerConfigurationClient.KeyValueStorage.factory
+		)(this.environment))
 	}
 }
