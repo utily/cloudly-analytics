@@ -12,7 +12,10 @@ export default {
 }
 
 // All code that is needed for a worker to be responsible for the durable object is this:
-export { BufferStorage, BucketStorage } from "cloudly-analytics-storage"
+// export { BufferStorage, BucketStorage } from "cloudly-analytics-storage"
+// But we can also redefine the listenerConfigurationClient, like this is doing:
+export { BufferStorage, BucketStorage } from "./storage"
+
 /**
  * Also add this to wrangler.toml
  * [durable_objects]
