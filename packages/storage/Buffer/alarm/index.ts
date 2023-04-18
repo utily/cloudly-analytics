@@ -54,8 +54,12 @@ bufferRouter.alarm = async function alarm(storageContext) {
 	const administrationContext = new ContextMember(storageContext.environment)
 
 	const listenerConfigurationClient = administrationContext.listenerConfigurationClient
-	if (gracely.Error.is(listenerConfigurationClient))
+	if (gracely.Error.is(listenerConfigurationClient)) {
+		console.error("Buffer.alarm: Can't initiate listenerConfigurationClient.", listenerConfigurationClient.error)
 		throw listenerConfigurationClient
+	}
+	console.log(`Buffer.alarm`)
+
 	const waitingBatches = await storageContext.state.storage.list<types.Batch>()
 	const listeners: CompiledListeners = Object.fromEntries(
 		(await listenerConfigurationClient.listValues()).map(listener => [
