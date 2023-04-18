@@ -31,7 +31,7 @@ export class Bucket {
 		if (!result) {
 			result = this.backend.open(listenerConfiguration.name)
 			const existingName = await result.get<string>("/name")
-			if (existingName != existingName)
+			if (listenerConfiguration.name != existingName)
 				await result.post<string>("/name", listenerConfiguration.name)
 			this.bucketClient[listenerConfiguration.name] = result
 		}
