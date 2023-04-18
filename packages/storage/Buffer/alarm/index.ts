@@ -55,7 +55,10 @@ bufferRouter.alarm = async function alarm(storageContext) {
 
 	const listenerConfigurationClient = administrationContext.listenerConfigurationClient
 	if (gracely.Error.is(listenerConfigurationClient)) {
-		console.error("Buffer.alarm: Can't initiate listenerConfigurationClient.", listenerConfigurationClient.error)
+		console.error(
+			"Buffer.alarm: Can't initiate listenerConfigurationClient.",
+			JSON.stringify(listenerConfigurationClient)
+		)
 		throw listenerConfigurationClient
 	}
 	console.log(`Buffer.alarm`)
