@@ -3,8 +3,9 @@ import * as isoly from "isoly"
 import { KVNamespace } from "@cloudflare/workers-types"
 import * as storage from "cloudly-storage"
 import { Listener } from "../../Listener"
-import { CreateResult, FetchResult, ListenerConfigurationClient, ListenerConfigurationResult } from "."
+import { CreateResult, FetchResult, ListenerConfigurationResult } from "."
 import { Base } from "./Base"
+import { Factory } from "./Factory"
 
 export class KeyValueStorage extends Base {
 	private constructor(
@@ -110,8 +111,7 @@ export class KeyValueStorage extends Base {
 }
 
 export namespace KeyValueStorage {
-	export const factory: ListenerConfigurationClient.Factory = environment =>
-		(environment.listenerConfigurationStorage &&
-			ListenerConfigurationClient.KeyValueStorage.open(environment.listenerConfigurationStorage)) ??
+	export const factory: Factory = environment =>
+		(environment.listenerConfigurationStorage && KeyValueStorage.open(environment.listenerConfigurationStorage)) ??
 		gracely.server.misconfigured("listenerConfiguration", "Configuration or KeyValueNamespace missing.")
 }
