@@ -3,50 +3,52 @@
 Cloudflare Workers analytics Library.
 
 ```
-npm i cloudly-analytics
+npm i cloudly-analytics-sender
+npm i cloudly-analytics-administration
+npm i cloudly-analytics-storage
 ```
+
 
 # Roles
+## Workers that send analytics events:
 
-- worker with storage
-- worker listenerConfiguration (Rest API)
-- worker listenerConfiguration (Javascript API)
+Add cloudly-analytics-sender to your existing worker.
+This writes storage events to a Buffer-durableobject.
 
-- sender (http)
-- sender (Durable object)
+Specify the Typescript-type of the events you want to use.
+See examples in `worker-sender/Context/analytics.ts` and used in `worker-sender/Context/index.ts` 
 
-# Worker with storage
+## Worker with storage and administration
 
-## Minimum:
+Responsible for storage and listeners.
+ListenerConfiguration can be stored in:
+  - Cloudflare KeyValue-store
+	- Typescript-code
 
-In `./index.ts` add:
+A Buffer is processed and events is added to a listener's Bucket, where the finally will be processed.
 
-```typescript
-export { BufferStorage, BucketStorage } from "cloudly-analytics/Storage"
-```
 
-In `./wrangler.toml` add:
+## Minimum (Using KeyValue-store):
 
-```
-[durable_objects]
-bindings = [
-	{ name = "bufferStorage", class_name = "BufferStorage" },
-	{ name = "bucketStorage", class_name = "BucketStorage" },
-]
-```
+`worker-storage` is a minimum for implementing storage. However normally you would combine it with administration,
+like `worker-administration`.
 
-## Typescript API
+## Configuration for listeners with Typescript-code.
 
-TODO
+You need to override `getListenerConfigurationClient` in storage (See `worker-administation/storage`)
+and in the `analyticsAdministration`-property in your context. (See `worker-administation/Context/index.ts`)
 
-## Rest API
+## ListenerConfigurationClient and rest API for administration of listener
 
-TODO
+This works for all ListenerConfigurationClient's (KeyValueStorage/TypescriptApi, See `packages/administartion/storageClient/ListenerConfigurationClient`) but
+Typescript is readonly.
+
+It is possible to write a client combining both hardcoded typescript and KeyValue-stored.
 
 ## NPM-packages
 
 This repo is using [NPM workspaces](https://docs.npmjs.com/cli/v7/using-npm/workspaces).
 
-If you need to depend on a branch, normal "github:..."-links will not work in your `package.json`, use [https://gitpkg.vercel.app/] to create a link to the `packages/[package]`-folder.
+If you need to depend on a branch, normal `"github:..."`-links will not work in your `package.json`, use [https://gitpkg.vercel.app/] to create a link to the `packages/[package]`-folder.
 
-`lerna` is only used to bump the version in a Github-action.
+`lerna` is only used to bump the version across all packages in a Github-action. (Version is stored in `lerna.json`)
