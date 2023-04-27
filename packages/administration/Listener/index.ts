@@ -2,6 +2,7 @@ import * as isoly from "isoly"
 import { isly } from "isly"
 import { BaseListener } from "./Base"
 import { BigQuery as BigQueryListener } from "./BigQuery"
+import { Email } from "./Email"
 import { Http } from "./Http"
 import { Logger } from "./Logger"
 
@@ -13,10 +14,11 @@ type Implementations = {
 }
 
 const implementations: Implementations = {
-	// List all implementations her:
+	// List all implementations here:
 	bigquery: BigQueryListener.Implementation,
 	http: Http.Implementation,
 	logger: Logger.Implementation,
+	email: Email.Implementation,
 }
 
 export namespace Listener {
@@ -24,10 +26,10 @@ export namespace Listener {
 		return new implementations[listenerConfiguration.type](listenerConfiguration as any) as BaseListener<C>
 	}
 
-	export type Configuration = Logger | Http | BigQueryListener
+	export type Configuration = Logger | Http | BigQueryListener | Email
 	export type SetupResult = BaseListener.SetupResult
 	export namespace Configuration {
-		export const type = isly.union(Logger.type, Http.type, BigQueryListener.type)
+		export const type = isly.union(Logger.type, Http.type, BigQueryListener.type, Email.type)
 		export const is = type.is
 		export const flaw = type.flaw
 		export type Metadata = { created: isoly.DateTime; updated?: isoly.DateTime }
