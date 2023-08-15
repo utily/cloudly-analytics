@@ -1,5 +1,8 @@
 import { Listener } from "cloudly-analytics-administration"
 
+/**
+ * This is a Listener of events that just log to console.
+ */
 export const config: Listener.Configuration = {
 	name: "cloudly-analytics-demo-logger",
 	type: "logger",
