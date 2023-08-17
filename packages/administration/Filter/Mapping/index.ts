@@ -3,11 +3,12 @@ import { isly } from "isly"
 import { BaseFilter } from "../Base"
 import { Selector } from "./Selector"
 
-const transformNames = ["string", "boolean", "float", "integer", "number", "point"] as const
+const transformNames = ["string", "stringify", "boolean", "float", "integer", "number", "point"] as const
 
 type Transform = typeof transformNames[number]
 const transformers: Record<Transform, (value: any) => any> = {
 	string: value => `${value}`,
+	stringify: value => JSON.stringify(value),
 	boolean: value => Boolean(value),
 	float: value => Number.parseFloat(value),
 	integer: value => Number.parseInt(value),
