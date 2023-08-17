@@ -69,6 +69,9 @@
 	"overrides": {
 		"semver": "7.5.3"
 	},
+	"overridesComments": {
+		"semver": "Packages @babel/core, @babel/helper-compilation-targets, editorconfig, istanbul-lib-instrument, make-dir, and prettierx were depending on older vulnerable versions: <=5.7.1 || 6.0.0 - 6.3.0 || 7.0.0 - 7.5.1"
+	},
 	"workspaces": [
 		"packages/*"
 	]
