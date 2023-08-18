@@ -8,7 +8,7 @@ export async function remove(
 	request: http.Request,
 	context: Storage.Context<BucketStorage>
 ): Promise<http.Response.Like | any> {
-	let result: void | gracely.Error
+	let result: void | gracely.Error = undefined
 	try {
 		await context.state.storage.deleteAll()
 		await context.state.storage.deleteAlarm()

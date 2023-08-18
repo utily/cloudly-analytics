@@ -97,7 +97,7 @@ export class ContextMember<E extends Record<string, any> = object, D extends Par
 			} as types.Batch
 		}
 
-		let result: Promise<void> | void
+		let result: Promise<void> | void = undefined
 		if (gracely.Error.is(this.buffer)) {
 			console.error("Buffer for sending analytics is missing, will log to console.", this.buffer)
 			generateBatch().then(batch => console.log(JSON.stringify(batch, null, 2)))
