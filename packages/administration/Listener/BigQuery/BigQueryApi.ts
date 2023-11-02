@@ -63,7 +63,14 @@ export class BigQueryApi {
 					},
 			  })
 			: undefined
-		console.log(response ?? "Insert request not performed. Missing token.")
+		console.log(
+			"Rows",
+			rows,
+			"\nUrl",
+			insertUrl,
+			"\nInsertAll response:",
+			response ?? "Request not sent. Missing token."
+		)
 		return (response && response.status == 200 && (await response.body)) || undefined
 	}
 	/**
