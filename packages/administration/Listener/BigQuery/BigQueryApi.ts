@@ -201,7 +201,7 @@ export namespace BigQueryApi {
 					names: isly.array(isly.string(), { criteria: "maxLength", value: 5 }).optional(),
 				})
 				.optional(),
-			collationSpec: isly.string().optional(),
+			collation: isly.string().optional(),
 			description: isly.string(/* TODO: MaxLength 1024 */).optional(),
 			fields: isly.array(isly.lazy(() => type, "FieldDefinition")).optional(),
 			maxLength: isly.string().optional(),
@@ -212,6 +212,16 @@ export namespace BigQueryApi {
 				.optional(),
 			precision: isly.string().optional(),
 			scale: isly.string().optional(),
+			defaultValueExpression: isly.string().optional(),
+			foreignTypeDefinition: isly.string().optional(),
+			rangeElementType: isly.object<{ type?: string }>({ type: isly.string().optional() }),
+			roundingMode: isly
+				.string<"ROUNDING_MODE_UNSPECIFIED" | "ROUND_HALF_AWAY_FROM_ZERO" | "ROUND_HALF_EVEN">([
+					"ROUNDING_MODE_UNSPECIFIED",
+					"ROUND_HALF_AWAY_FROM_ZERO",
+					"ROUND_HALF_EVEN",
+				])
+				.optional(),
 		})
 	}
 	export type TableResponse = {
