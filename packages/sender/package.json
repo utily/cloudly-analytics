@@ -9,7 +9,7 @@
 	"dependencies": {
 		"cloudly-analytics-common": "^0.3.9",
 		"cloudly-http": "^0.1.7",
-		"cloudly-storage": "^0.7.14",
+		"cloudly-storage": "^0.10.7",
 		"gracely": "^2.0.8"
 	}
 }

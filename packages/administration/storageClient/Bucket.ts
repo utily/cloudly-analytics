@@ -1,32 +1,36 @@
-import * as gracely from "gracely"
+import { gracely } from "gracely"
 import { DurableObjectNamespace } from "@cloudflare/workers-types"
 import { types } from "cloudly-analytics-common"
-import * as storage from "cloudly-storage"
+import { storage } from "cloudly-storage"
 import { Listener } from "../Listener"
 /**
  * A bucket is a durable object-backed container for events
  * selected for a specific listener.
  */
 export class Bucket {
-	private bucketClient: Record<string, storage.DurableObject.Client<gracely.Error> | undefined> = {}
-	private constructor(private readonly backend: storage.DurableObject.Namespace<gracely.Error>) {}
+	private bucketClient: Record<string, storage.DurableObject.Client<storage.Error> | undefined> = {}
+	private constructor(private readonly backend: storage.DurableObject.Namespace<storage.Error>) {}
 
 	async addEvents(
 		listenerConfiguration: Listener.Configuration,
 		events: types.HasUuid[]
 	): Promise<types.Batch | gracely.Error> {
-		return (await this.getBucketClient(listenerConfiguration)).post<types.Batch>("/events", events)
+		const response = await (await this.getBucketClient(listenerConfiguration)).post<types.Batch>("/events", events)
+		return storage.Error.is(response)
+			? gracely.server.databaseFailure("types.HasUuid[]", "Failed to send events")
+			: response
 	}
 
 	async delete(name: string): Promise<gracely.Error | void> {
 		const bucketClient = this.bucketClient[name] ?? this.backend.open(name)
 		delete this.bucketClient[name]
-		return await bucketClient.delete("/all")
+		const response = await bucketClient.delete<void>("/all")
+		return storage.Error.is(response) ? gracely.server.databaseFailure("Bucket", `Could not remove bucket`) : response
 	}
 
 	private async getBucketClient(
 		listenerConfiguration: Listener.Configuration
-	): Promise<storage.DurableObject.Client<gracely.Error>> {
+	): Promise<storage.DurableObject.Client<storage.Error>> {
 		let result = this.bucketClient[listenerConfiguration.name]
 		if (!result) {
 			result = this.backend.open(listenerConfiguration.name)
