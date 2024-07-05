@@ -1,13 +1,13 @@
-import * as gracely from "gracely"
+import { gracely } from "gracely"
 import { DurableObjectNamespace } from "@cloudflare/workers-types"
 import { types } from "cloudly-analytics-common"
-import * as http from "cloudly-http"
-import * as storage from "cloudly-storage"
+import { http } from "cloudly-http"
+import { storage } from "cloudly-storage"
 
 type MaybePromise<T> = T | Promise<T>
 
 export class Buffer {
-	private constructor(private readonly backend: storage.DurableObject.Namespace<gracely.Error>) {}
+	private constructor(private readonly backend: storage.DurableObject.Namespace<storage.Error>) {}
 
 	public async addEvents(events: types.Event | types.Event[], request: http.Request) {
 		return this.addBatch({
@@ -19,7 +19,8 @@ export class Buffer {
 
 	async addBatch(batch: MaybePromise<types.Batch>, shard?: number): Promise<types.Batch | gracely.Error> {
 		const bufferClient = this.backend.open("buffer" + (shard ?? ""))
-		return await bufferClient.post<types.Batch>("/batch", await batch)
+		const response = await bufferClient.post<types.Batch>("/batch", await batch)
+		return storage.Error.is(response) ? gracely.server.databaseFailure("types.Batch", "Failed to send batch") : response
 	}
 
 	static open(backend?: DurableObjectNamespace | storage.DurableObject.Namespace): Buffer | undefined {
