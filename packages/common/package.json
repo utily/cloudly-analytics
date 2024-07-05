@@ -7,8 +7,8 @@
 		"build": "tsc --build"
 	},
 	"dependencies": {
-		"cloudly-http": "^0.1.3",
-		"isly": "^0.1.1",
-		"isoly": "^2.0.14"
+		"cloudly-http": "^0.1.7",
+		"isly": "^0.1.16",
+		"isoly": "^2.3.11"
 	}
 }
