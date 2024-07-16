@@ -63,6 +63,7 @@ export class BigQueryApi {
 					},
 			  })
 			: undefined
+		console.log("BigQueryApi.insertAll:", response)
 		return (response && response.status == 200 && (await response.body)) || undefined
 	}
 	/**
