@@ -30,6 +30,7 @@ function* generateBucket(waitingBatches: Map<string, types.Batch>, listeners: Co
 				if (filteredValue) {
 					filteredValue.uuid = uuid
 					// Limit for bucket is: 131072 bytes
+					console.log("generateBucket filteredValue:", filteredValue)
 					const size = JSON.stringify(filteredValue).length
 					let accumulatedSize = (bucketsSize[listener.name] ?? 0) + size + 1
 					// Unknown how the serialization is done, when the value is stored.
@@ -66,7 +67,6 @@ bufferRouter.alarm = async function alarm(storageContext) {
 	console.log(`Buffer.alarm`)
 
 	const waitingBatches = await storageContext.state.storage.list<types.Batch>({ limit: 100 })
-	console.log(`Buffer.alarm batch size: ${waitingBatches.size}`)
 	const listeners: CompiledListeners = Object.fromEntries(
 		(await listenerConfigurationClient.listValues()).map(listener => [
 			listener.name,
@@ -81,6 +81,7 @@ bufferRouter.alarm = async function alarm(storageContext) {
 		throw bucketStorage
 	}
 	for (const [listenerName, events] of generateBucket(waitingBatches, listeners)) {
+		console.log("Bucket events:", events)
 		console.log(`Filling bucket "${listenerName}" with ${events.length} events.`)
 		const appendResult = await bucketStorage.addEvents(listeners[listenerName], events)
 		if (gracely.Error.is(appendResult)) {
