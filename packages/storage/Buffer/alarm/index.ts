@@ -65,7 +65,7 @@ bufferRouter.alarm = async function alarm(storageContext) {
 	}
 	console.log(`Buffer.alarm`)
 
-	const waitingBatches = await storageContext.state.storage.list<types.Batch>()
+	const waitingBatches = await storageContext.state.storage.list<types.Batch>({ limit: 100 })
 	console.log(`Buffer.alarm batch size: ${waitingBatches.size}`)
 	const listeners: CompiledListeners = Object.fromEntries(
 		(await listenerConfigurationClient.listValues()).map(listener => [
