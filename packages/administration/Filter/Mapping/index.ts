@@ -3,7 +3,7 @@ import { isly } from "isly"
 import { BaseFilter } from "../Base"
 import { Selector } from "./Selector"
 
-const transformNames = ["string", "stringify", "boolean", "float", "integer", "number", "point"] as const
+const transformNames = ["string", "stringify", "boolean", "float", "integer", "number", "point", "array"] as const
 
 type Transform = typeof transformNames[number]
 const transformers: Record<Transform, (value: any) => any> = {
@@ -17,6 +17,7 @@ const transformers: Record<Transform, (value: any) => any> = {
 		const xy = isly.array(isly.number()).get(Array.isArray(value) && value.map(item => +item))
 		return xy ? `POINT(${xy[0]} ${xy[1]})` : undefined
 	},
+	array: value => Object.entries(value).map(([key, value]) => ({ key, value })), //To handle records with generic keys
 }
 
 function transform(type: Getter["transform"], value: any | undefined): any {
