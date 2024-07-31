@@ -11,7 +11,11 @@ export namespace Selector {
 		return selector
 			.split(".")
 			.flatMap(property => (property.endsWith("]") ? property.split("[") : property))
-			.map(property => (property.endsWith("]") ? Number.parseInt(property.slice(0, -1)) : property))
+			.map(property =>
+				property.endsWith("]")
+					? (prop => (prop == "*" ? prop : Number.parseInt(prop)))(property.slice(0, -1))
+					: property
+			)
 	}
 	export function get<T = any>(data: any, selector: Selector | (string | number)[]): T | undefined {
 		let result: any
@@ -20,7 +24,12 @@ export namespace Selector {
 		else if (data == undefined)
 			result = undefined
 		else
-			result = selector.length == 0 ? data : get(data[selector[0]], selector.slice(1))
+			result =
+				selector.length == 0
+					? data
+					: selector[0] == "*" && Array.isArray(data)
+					? data.map(element => get(element, selector.slice(1)))
+					: get(data[selector[0]], selector.slice(1))
 		return result as T
 	}
 
@@ -38,9 +47,11 @@ export namespace Selector {
 					? (({ [selector[0]]: _, ...left }) => left)(data)
 					: selector.length == 0
 					? value
+					: selector[0] == "*" && Array.isArray(value)
+					? value.map((item, index) => set(data, ([index] as (string | number)[]).concat(selector.slice(1)), item))
 					: Object.assign(Array.isArray(data) ? [...data] : { ...data }, {
 							[selector[0]]: set(
-								((data as any)[selector[0]] ??= typeof selector[1] == "string" ? {} : []),
+								((data as any)[selector[0]] ??= typeof selector[1] == "string" && selector[1] != "*" ? {} : []),
 								selector.slice(1),
 								value
 							),
