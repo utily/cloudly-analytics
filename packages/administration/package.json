@@ -1,6 +1,6 @@
 {
 	"name": "cloudly-analytics-administration",
-	"version": "0.3.16",
+	"version": "0.3.17",
 	"description": "",
 	"main": "./dist/index.js",
 	"scripts": {
@@ -8,7 +8,7 @@
 	},
 	"dependencies": {
 		"authly": "^3.1.1",
-		"cloudly-analytics-common": "^0.3.16",
+		"cloudly-analytics-common": "^0.3.17",
 		"cloudly-http": "^0.1.7",
 		"cloudly-router": "^0.1.1",
 		"cloudly-storage": "^0.10.8",
