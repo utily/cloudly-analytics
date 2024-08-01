@@ -17,6 +17,7 @@ export interface BigQuery extends BigQueryBase {
 }
 
 export namespace BigQuery {
+	export import Api = BigQueryApi
 	export const type = BaseListener.Configuration.type.extend<BigQuery>(
 		{
 			type: isly.string("bigquery"),

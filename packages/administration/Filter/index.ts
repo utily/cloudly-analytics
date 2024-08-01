@@ -1,8 +1,8 @@
 import { isly } from "isly"
 import { BaseFilter } from "./Base"
-import { Mapping } from "./Mapping"
-import { Selectively } from "./Selectively"
-import { Useragent } from "./Useragent"
+import { Mapping as FilterMapping } from "./Mapping"
+import { Selectively as FilterSelectively } from "./Selectively"
+import { Useragent as FilterUseragent } from "./Useragent"
 
 type Implementations = {
 	[Type in Filter.Configuration["type"]]: {
@@ -13,9 +13,9 @@ type Implementations = {
 
 const implementations: Implementations = {
 	// List all implementations here:
-	selectively: Selectively.Implementation,
-	mapping: Mapping.Implementation,
-	useragent: Useragent.Implementation,
+	selectively: Filter.Selectively.Implementation,
+	mapping: Filter.Mapping.Implementation,
+	useragent: Filter.Useragent.Implementation,
 }
 
 export namespace Filter {
@@ -25,10 +25,11 @@ export namespace Filter {
 	export function createList(filter: Configuration[]) {
 		return filter.map(filterConfiguration => create(filterConfiguration))
 	}
-
 	export type Configuration = Selectively | Mapping | Useragent
 	export const Configuration = isly.union(Selectively.type, Mapping.type, Useragent.type)
-
 	export type Base = BaseFilter
 	export const Base = BaseFilter
+	export import Selectively = FilterSelectively
+	export import Mapping = FilterMapping
+	export import Useragent = FilterUseragent
 }
