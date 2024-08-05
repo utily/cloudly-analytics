@@ -80,8 +80,6 @@ bufferRouter.alarm = async function alarm(storageContext) {
 		throw bucketStorage
 	}
 	for (const [listenerName, events] of generateBucket(waitingBatches, listeners)) {
-		console.log("Bucket events:", events)
-		//console.log(`Filling bucket "${listenerName}" with ${events.length} events.`)
 		const appendResult = await bucketStorage.addEvents(listeners[listenerName], events)
 		if (gracely.Error.is(appendResult)) {
 			console.error(appendResult)

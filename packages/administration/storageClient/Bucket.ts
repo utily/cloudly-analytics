@@ -16,7 +16,6 @@ export class Bucket {
 		events: types.HasUuid[]
 	): Promise<types.Batch | gracely.Error> {
 		const response = await (await this.getBucketClient(listenerConfiguration)).post<types.Batch>("/events", events)
-		console.log("Bucket.addEvents:", response)
 		return storage.Error.is(response)
 			? gracely.server.databaseFailure("types.HasUuid[]", "Failed to send events")
 			: response

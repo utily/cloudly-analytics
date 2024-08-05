@@ -83,7 +83,6 @@ export namespace Mapping {
 			)
 		}
 		private transform(type: Getter["transform"], value: any | undefined, map: boolean): any {
-			console.log("transform map:", map)
 			return !type || value == undefined
 				? value
 				: typeof type == "string"
