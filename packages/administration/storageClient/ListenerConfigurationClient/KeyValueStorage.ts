@@ -40,7 +40,7 @@ export class KeyValueStorage extends Base {
 			setup: await Listener.create(listenerConfiguration).setup(),
 		}
 		if (result.setup.success) {
-			result.action == "updated"
+			result.action = "updated"
 			Object.assign(result, await this.fetch(listenerConfiguration.name))
 		}
 		return result

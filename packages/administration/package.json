@@ -12,10 +12,11 @@
 		"cloudly-http": "^0.1.7",
 		"cloudly-router": "^0.1.1",
 		"cloudly-storage": "^0.10.8",
+		"@google-cloud/bigquery": "^7.8.0",
 		"gracely": "^2.0.8",
 		"isly": "^0.1.16",
 		"isoly": "^2.3.11",
-		"selectively": "^2.0.11",
+		"selectively": "^2.0.12",
 		"ua-parser-js": "^1.0.38"
 	}
 }
