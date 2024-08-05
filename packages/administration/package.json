@@ -15,7 +15,7 @@
 		"gracely": "^2.0.8",
 		"isly": "^0.1.16",
 		"isoly": "^2.3.11",
-		"selectively": "^2.0.11",
+		"selectively": "^2.0.12",
 		"ua-parser-js": "^1.0.38"
 	}
 }
