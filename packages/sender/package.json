@@ -1,13 +1,13 @@
 {
 	"name": "cloudly-analytics-sender",
-	"version": "0.3.19",
+	"version": "0.3.20",
 	"description": "",
 	"main": "./dist/index.js",
 	"scripts": {
 		"build": "tsc --build"
 	},
 	"dependencies": {
-		"cloudly-analytics-common": "^0.3.19",
+		"cloudly-analytics-common": "^0.3.20",
 		"cloudly-http": "^0.1.7",
 		"cloudly-storage": "^0.10.8",
 		"gracely": "^2.0.8"
