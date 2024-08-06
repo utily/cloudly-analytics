@@ -17,28 +17,46 @@ export interface Mapping extends BaseFilter.Configuration {
 }
 
 export namespace Mapping {
+	export import Transform = MappingTransform
 	type MaybeArray<T> = T | T[]
 	export type RecordWithSelector<T extends string> = Record<string, T | Getter<T>>
+	export namespace RecordWithSelector {
+		export const type = isly.record<RecordWithSelector<string>>(
+			isly.string(),
+			isly.union<string | Getter, string, Getter>(
+				isly.string(),
+				isly.lazy<Getter>((): isly.Type<Getter> => Getter.type)
+			)
+		)
+	}
 	export type Getter<T extends string = string> = {
 		selector: MaybeArray<T>
 		default?: MaybeArray<number | string | boolean>
 		transform?: Transform | RecordWithSelector<string>
 	}
-	export import Transform = MappingTransform
+	export namespace Getter {
+		type Default = number | string | boolean
+		const defaultType = isly
+			.union<Default | Default[], Default, Default[]>(
+				isly.union<Default>(isly.number(), isly.string(), isly.boolean()),
+				isly.union<Default>(isly.number(), isly.string(), isly.boolean()).array()
+			)
+			.optional()
+		export const type = isly.object<Getter>({
+			selector: isly.union<string | string[], string, string[]>(isly.string(), isly.string().array()),
+			default: defaultType,
+			transform: isly
+				.union<Transform | RecordWithSelector<string>, Transform, RecordWithSelector<string>>(
+					Transform.type,
+					RecordWithSelector.type
+				)
+				.optional(),
+		})
+	}
 	export const type = BaseFilter.Configuration.type.extend<Mapping>(
 		{
 			type: isly.string("mapping"),
-			mapping: isly.record(
-				Selector.type,
-				isly.union(
-					Selector.type,
-					isly.object<Getter<Selector>>({
-						selector: isly.union(Selector.type, isly.array(Selector.type)),
-						default: isly.any().optional(),
-						transform: Transform.type.optional(),
-					})
-				)
-			),
+			mapping: isly.record(Selector.type, isly.union(Selector.type, Getter.type)),
 		},
 		"Filter.Mapping"
 	)

@@ -57,6 +57,9 @@ describe("Mapping and filtering", () => {
 			{ key: "prop2", value: "haj" },
 		],
 	}
+	it("Type checks", () => {
+		expect(Mapping.is(mapping)).toBe(true)
+	})
 	it("Maps event", () => {
 		expect(new Mapping.Implementation(mapping).filter(event)).toEqual(result)
 	})
