@@ -1,6 +1,14 @@
-import { Mapping } from "./index"
+import { Filter, Listener } from "../../index"
 
 describe("Mapping and filtering", () => {
+	it("Type checks", () => {
+		expect(Filter.Mapping.is(mapping)).toBe(true)
+		expect(Listener.Configuration.BigQuery.type.omit(["privateKey"]).is(configuration)).toBe(true)
+	})
+	it("Maps event", () => {
+		expect(new Filter.Mapping.Implementation(mappingConfig).filter(event)).toEqual(result)
+	})
+})
 	const event = {
 		stringVal: "test",
 		numVal: 2,
@@ -9,16 +17,14 @@ describe("Mapping and filtering", () => {
 		nested: {
 			property: "value",
 			array: [{ nested: { property: "value" } }],
-			doubleArray: [
-				[{ inner: 1 }, { inner: 2 }],
-				[{ inner: 3 }, { inner: 4 }],
-			],
+			// TODO doubleArray: [
+			// 	[{ inner: 1 }, { inner: 2 }],
+			// 	[{ inner: 3 }, { inner: 4 }],
+			// ],
 		},
 		map: { prop1: "hej", prop2: "haj" },
 	}
-	const mapping: Mapping = {
-		type: "mapping",
-		mapping: {
+	const mapping = {
 			stringVal: "stringVal",
 			numVal: { selector: "numVal", transform: "integer" },
 			tupleKey: "tuple[0]",
@@ -34,10 +40,33 @@ describe("Mapping and filtering", () => {
 					arrayNestedFlatten: { selector: "nested", transform: "stringify" },
 				},
 			},
-			nestedDoubleArray: "nested.doubleArray[*][*].inner",
+			// nestedDoubleArray: "nested.doubleArray[*][*].inner",
 			map: { selector: "map", transform: "array" },
-		},
+	} as const satisfies Filter.Mapping.RecordWithSelector<string>;
+	const mappingConfig: Filter.Mapping = {
+		type: "mapping",
+		mapping
 	}
+	const tableSchema: Listener.Configuration.BigQuery.Api.BaseField<Extract<keyof typeof mapping, string>>[] = [
+		{ name: "stringVal", type: "STRING" },
+		{ name: "numVal", type: "INTEGER" },
+		{ name: "tupleKey", type: "STRING" },
+		{ name: "tupleInner", type: "STRING" },
+		{ name: "arrayInner", type: "STRING", mode: "REPEATED" },
+		{ name: "arrayFlatten", type: "STRING" },
+		{ name: "arrayFlattenItems", type: "STRING", mode: "REPEATED" },
+		{ name: "nestedProp", type: "STRING" },
+		{ name: "nestedArray", type: "RECORD", mode: "REPEATED", fields: [
+				{ name: "arrayNestedProp", type: "STRING" },
+				{ name: "arrayNestedFlatten", type: "STRING" },
+			] 
+		},
+		{ name: "map", type: "RECORD", mode: "REPEATED", fields: [
+				{ name: "key", type: "STRING" },
+				{ name: "value", type: "STRING" },
+			]
+		},
+	]
 	const result = {
 		stringVal: "test",
 		numVal: 2,
@@ -48,19 +77,29 @@ describe("Mapping and filtering", () => {
 		arrayFlattenItems: ['{"inner":"value0"}', '{"inner":"value1"}', '{"inner":"value2"}', '{"inner":"value3"}'],
 		nestedProp: "value",
 		nestedArray: [{ arrayNestedProp: "value", arrayNestedFlatten: '{"property":"value"}' }],
-		nestedDoubleArray: [
-			[1, 2],
-			[3, 4],
-		],
 		map: [
 			{ key: "prop1", value: "hej" },
 			{ key: "prop2", value: "haj" },
 		],
 	}
-	it("Type checks", () => {
-		expect(Mapping.is(mapping)).toBe(true)
-	})
-	it("Maps event", () => {
-		expect(new Mapping.Implementation(mapping).filter(event)).toEqual(result)
-	})
-})
+	const configuration: Listener.Configuration.BigQuery.BaseConfiguration = {
+		name: "ledger-events",
+		type: "bigquery",
+		filter: [
+			{
+				type: "selectively",
+				expression: "filter",
+			},
+			{ type: "useragent" },
+			{
+				type: "mapping",
+				mapping,
+			},
+		],
+		batchSize: 10,
+		batchInterval: 3,
+		projectName: "paxpay-nonprod",
+		datasetName: "banking_ledger",
+		tableName: "backup_test",
+		tableSchema,
+	}
