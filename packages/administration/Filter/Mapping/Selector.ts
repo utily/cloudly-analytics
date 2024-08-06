@@ -5,7 +5,7 @@ import { isly } from "isly"
 export type Selector = string
 
 export namespace Selector {
-	export const type = isly.string(/^((^|(?<!^)\.)[a-zA-Z]\w*|(\[\d+\]))*$/)
+	export const type = isly.string(/^((^|(?<!^)\.)[a-zA-Z]\w*|(\[(\d+|\*)\]))*$/)
 
 	function parse(selector: Selector): (string | number)[] {
 		return selector
