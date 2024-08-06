@@ -205,7 +205,8 @@ export namespace BigQueryApi {
 			mode: Mode.type.optional(),
 		})
 	}
-	export type TableSchemaField = TableField & BaseField
+	export type BigQueryTableField = TableField
+	export type TableSchemaField = BigQueryTableField & BaseField
 
 	export namespace TableSchemaField {
 		export const typeValues = BaseField.Type.values
