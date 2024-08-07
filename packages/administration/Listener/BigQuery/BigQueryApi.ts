@@ -1,6 +1,6 @@
 import { gracely } from "gracely"
 import { authly } from "authly"
-import type { InsertRowsOptions, InsertRowsStreamResponse, TableField, TableMetadata } from "@google-cloud/bigquery"
+import { type InsertRowsOptions, type InsertRowsStreamResponse, TableField, type TableMetadata } from "@google-cloud/bigquery"
 import { http, Response } from "cloudly-http"
 import { isly } from "isly"
 import type { BigQuery as BigQueryConfiguration } from "."
@@ -207,8 +207,7 @@ export namespace BigQueryApi {
 			fields: isly.lazy((): isly.Type<BaseField[] | undefined> => type.array().optional(), "fields"),
 		})
 	}
-	export type BigQueryTableField = TableField
-	export type TableSchemaField = BigQueryTableField & BaseField
+	export type TableSchemaField = TableField & BaseField
 
 	export namespace TableSchemaField {
 		export const typeValues = BaseField.Type.values
