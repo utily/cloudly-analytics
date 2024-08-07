@@ -2,8 +2,8 @@ import { Filter, Listener } from "../../index"
 
 describe("Mapping and filtering", () => {
 	it("Type checks", () => {
-		expect(Filter.Mapping.is(mapping)).toBe(true)
-		expect(Listener.Configuration.BigQuery.type.omit(["privateKey"]).is(configuration)).toBe(true)
+		expect(Filter.Mapping.is(mappingConfig)).toBe(true)
+		expect(Listener.Configuration.BigQuery.type.omit<"privateKey">(["privateKey"]).is(configuration)).toBe(true)
 	})
 	it("Maps event", () => {
 		expect(new Filter.Mapping.Implementation(mappingConfig).filter(event)).toEqual(result)
@@ -40,7 +40,7 @@ describe("Mapping and filtering", () => {
 					arrayNestedFlatten: { selector: "nested", transform: "stringify" },
 				},
 			},
-			// nestedDoubleArray: "nested.doubleArray[*][*].inner",
+			// TODO nestedDoubleArray: "nested.doubleArray[*][*].inner",
 			map: { selector: "map", transform: "array" },
 	} as const satisfies Filter.Mapping.RecordWithSelector<string>;
 	const mappingConfig: Filter.Mapping = {
@@ -101,5 +101,5 @@ describe("Mapping and filtering", () => {
 		projectName: "paxpay-nonprod",
 		datasetName: "banking_ledger",
 		tableName: "backup_test",
-		tableSchema,
+		tableSchema
 	}

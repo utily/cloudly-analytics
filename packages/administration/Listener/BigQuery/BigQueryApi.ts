@@ -232,7 +232,7 @@ export namespace BigQueryApi {
 			scale: isly.string().optional(),
 			defaultValueExpression: isly.string().optional(),
 			foreignTypeDefinition: isly.string().optional(),
-			rangeElementType: isly.object<{ type?: string }>({ type: isly.string().optional() }),
+			rangeElementType: isly.object<{ type?: string }>({ type: isly.string().optional() }).optional(),
 			roundingMode: isly
 				.string<"ROUNDING_MODE_UNSPECIFIED" | "ROUND_HALF_AWAY_FROM_ZERO" | "ROUND_HALF_EVEN">([
 					"ROUNDING_MODE_UNSPECIFIED",
