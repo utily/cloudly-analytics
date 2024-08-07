@@ -159,10 +159,11 @@ export class BigQueryApi {
 }
 
 export namespace BigQueryApi {
-	export type BaseField = {
-		name: string
+	export type BaseField<T extends string = string> = {
+		name: T
 		type: BaseField.Type
 		mode?: BaseField.Mode
+		fields?: BaseField[]
 	}
 	export namespace BaseField {
 		export type Type = typeof Type.values[number]
@@ -203,6 +204,7 @@ export namespace BigQueryApi {
 			name: isly.string(/^[a-zA-Z_][a-zA-Z0-9_]{0,299}$/),
 			type: Type.type,
 			mode: Mode.type.optional(),
+			fields: isly.lazy((): isly.Type<BaseField[] | undefined> => type.array().optional(), "fields"),
 		})
 	}
 	export type BigQueryTableField = TableField
@@ -230,7 +232,7 @@ export namespace BigQueryApi {
 			scale: isly.string().optional(),
 			defaultValueExpression: isly.string().optional(),
 			foreignTypeDefinition: isly.string().optional(),
-			rangeElementType: isly.object<{ type?: string }>({ type: isly.string().optional() }),
+			rangeElementType: isly.object<{ type?: string }>({ type: isly.string().optional() }).optional(),
 			roundingMode: isly
 				.string<"ROUNDING_MODE_UNSPECIFIED" | "ROUND_HALF_AWAY_FROM_ZERO" | "ROUND_HALF_EVEN">([
 					"ROUNDING_MODE_UNSPECIFIED",
