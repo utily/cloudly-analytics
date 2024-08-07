@@ -4,33 +4,41 @@ import { isly } from "isly"
 import { BaseListener } from "../Base"
 import { BigQueryApi } from "./BigQueryApi"
 
-interface BigQueryBase extends BaseListener.Configuration {
-	type: "bigquery"
-	projectName: string
-	datasetName: string
-	tableName: string
-	tableSchema: BigQueryApi.TableSchemaField[]
-}
-
-export interface BigQuery extends BigQueryBase {
+export interface BigQuery extends BigQuery.BaseConfiguration {
 	privateKey: types.PrivateKey
 }
 
 export namespace BigQuery {
 	export import Api = BigQueryApi
-	export const type = BaseListener.Configuration.type.extend<BigQuery>(
+	export interface BaseConfiguration extends BaseListener.Configuration {
+		type: "bigquery"
+		projectName: string
+		datasetName: string
+		tableName: string
+		tableSchema: Api.TableSchemaField[]
+	}
+	export namespace BaseConfiguration {
+		export const type = BaseListener.Configuration.type.extend<BaseConfiguration>(
+			{
+				type: isly.string("bigquery"),
+				projectName: isly.string(),
+				datasetName: isly.string(),
+				tableName: isly.string(),
+				tableSchema: isly.array(BigQueryApi.TableSchemaField.type),
+			},
+			"Listener.BigQuery.BaseConfiguration"
+		)
+	}
+	export const type = BaseConfiguration.type.extend<BigQuery>(
 		{
-			type: isly.string("bigquery"),
 			privateKey: types.PrivateKey.type,
-			projectName: isly.string(),
-			datasetName: isly.string(),
-			tableName: isly.string(),
-			tableSchema: isly.array(BigQueryApi.TableSchemaField.type),
 		},
 		"Listener.BigQuery"
 	)
-	export type BaseConfiguration = BigQueryBase
-	export function createConfiguration(bigQueryConfiguration: BigQueryBase, privateKey: types.PrivateKey): BigQuery {
+	export function createConfiguration(
+		bigQueryConfiguration: BaseConfiguration,
+		privateKey: types.PrivateKey
+	): BigQuery {
 		return { ...bigQueryConfiguration, ...{ privateKey } }
 	}
 	export class Implementation extends BaseListener<BigQuery> {
