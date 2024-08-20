@@ -1,7 +1,5 @@
 import * as gracely from "gracely"
-import { types } from "cloudly-analytics-common"
-import { isly } from "isly"
-import { Filter } from "../Filter"
+import { listener, types } from "cloudly-analytics-common"
 
 export abstract class BaseListener<C extends BaseListener.Configuration> {
 	constructor(protected readonly configuration: C) {}
@@ -43,37 +41,5 @@ export abstract class BaseListener<C extends BaseListener.Configuration> {
 export namespace BaseListener {
 	export type SetupResult = { success: boolean; details?: (string | gracely.Error)[] }
 	export type StatusResult = { ok: boolean; details?: Record<string, any> }
-
-	export interface Configuration {
-		readonly name: string
-		/**
-		 * Number of events to send in every call to processBatch().
-		 */
-		readonly batchSize: number
-		/**
-		 * Number of seconds between every batch.
-		 * Note: If queue is bigger than batchSize, the calls will be directly after each other.
-		 */
-		readonly batchInterval: number
-		/**
-		 * A selectively-expression
-		 */
-		readonly filter: Filter.Configuration[]
-
-		readonly comment?: string
-	}
-
-	export namespace Configuration {
-		export const namePattern = /^[a-z0-9_-]+$/
-		export const type = isly.object<Configuration>(
-			{
-				name: isly.string(namePattern),
-				batchSize: isly.number("positive"),
-				batchInterval: isly.number("positive"),
-				filter: isly.array(Filter.Configuration),
-				comment: isly.string().optional(),
-			},
-			"ListenerConfiguration"
-		)
-	}
+	export import Configuration = listener.BaseListenerConfiguration
 }

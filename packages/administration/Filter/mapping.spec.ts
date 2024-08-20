@@ -1,4 +1,4 @@
-import { Filter, Listener } from "../../index"
+import { Filter, Listener } from "../index"
 
 describe("Mapping and filtering", () => {
 	it("Type checks", () => {

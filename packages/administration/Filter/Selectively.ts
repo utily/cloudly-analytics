@@ -1,26 +1,11 @@
 import { selectively } from "selectively"
-import { types } from "cloudly-analytics-common"
-import { isly } from "isly"
+import { filter, types } from "cloudly-analytics-common"
 import { BaseFilter } from "./Base"
 
-export interface Selectively extends BaseFilter.Configuration {
-	type: "selectively"
-	/**
-	 * A selectively-expression
-	 * Real type is string, rest is for type-prediction.
-	 */
-	expression: `${types.EventWithMetadata.Selector}:` | (string & Record<never, never>)
-}
+export type Selectively = filter.Selectively
 
 export namespace Selectively {
-	export const type = BaseFilter.Configuration.type.extend<Selectively>(
-		{
-			type: isly.string("selectively"),
-			expression: isly.string(),
-		},
-		"Filter.Selectively"
-	)
-
+	export const type = filter.Selectively.type
 	export class Implementation extends BaseFilter<Selectively> {
 		protected selectivelyFilter: selectively.Rule
 

@@ -1,5 +1,4 @@
-import { types } from "cloudly-analytics-common"
-import { isly } from "isly"
+import { filter, types } from "cloudly-analytics-common"
 
 export abstract class BaseFilter<C extends BaseFilter.Configuration = BaseFilter.Configuration> {
 	constructor(protected readonly filterConfiguration: C) {}
@@ -10,17 +9,5 @@ export abstract class BaseFilter<C extends BaseFilter.Configuration = BaseFilter
 }
 
 export namespace BaseFilter {
-	export interface Configuration<T extends string = string> {
-		type: T
-		comment?: string
-	}
-	export namespace Configuration {
-		export const type = isly.object<Configuration>(
-			{
-				type: isly.string(),
-				comment: isly.string().optional(),
-			},
-			"FilterConfiguration"
-		)
-	}
+	export import Configuration = filter.BaseFilterConfiguration
 }

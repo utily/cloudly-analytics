@@ -1,6 +1,5 @@
-import * as gracely from "gracely"
-import { types } from "cloudly-analytics-common"
-import { isly } from "isly"
+import { gracely } from "gracely"
+import { listener, types } from "cloudly-analytics-common"
 import { BaseListener } from "../Base"
 import { BigQueryApi } from "./BigQueryApi"
 
@@ -10,25 +9,7 @@ export interface BigQuery extends BigQuery.BaseConfiguration {
 
 export namespace BigQuery {
 	export import Api = BigQueryApi
-	export interface BaseConfiguration extends BaseListener.Configuration {
-		type: "bigquery"
-		projectName: string
-		datasetName: string
-		tableName: string
-		tableSchema: Api.TableSchemaField[]
-	}
-	export namespace BaseConfiguration {
-		export const type = BaseListener.Configuration.type.extend<BaseConfiguration>(
-			{
-				type: isly.string("bigquery"),
-				projectName: isly.string(),
-				datasetName: isly.string(),
-				tableName: isly.string(),
-				tableSchema: isly.array(BigQueryApi.TableSchemaField.type),
-			},
-			"Listener.BigQuery.BaseConfiguration"
-		)
-	}
+	export import BaseConfiguration = listener.BigQueryBaseConfiguration
 	export const type = BaseConfiguration.type.extend<BigQuery>(
 		{
 			privateKey: types.PrivateKey.type,

@@ -1,36 +1,12 @@
-import { types } from "cloudly-analytics-common"
-import { isly } from "isly"
+import { filter, types } from "cloudly-analytics-common"
 import { UAParser } from "ua-parser-js"
 import { BaseFilter } from "./Base"
 
-const fieldValues = [
-	"useragent:string",
-	"browser:{name,version}",
-	"browser:string",
-	"browserVersion:string",
-	"device:{model,type,vendor}",
-	"deviceType:string",
-	"engine:{name,version}",
-	"os:{name,version}",
-	"os:string",
-	"osVersion:string",
-	"cpu:string",
-] as const
+export type Useragent = filter.Useragent
 
-type Field = typeof fieldValues[number]
-export interface Useragent extends BaseFilter.Configuration {
-	type: "useragent"
-	fields?: Field[]
-}
 export namespace Useragent {
-	export const type = BaseFilter.Configuration.type.extend<Useragent>(
-		{
-			type: isly.string("useragent"),
-			fields: isly.array(isly.string(fieldValues)).optional(),
-		},
-		"Filter.Useragent"
-	)
-
+	export const type = filter.Useragent.type
+	export import Field = filter.Useragent.Field
 	export class Implementation extends BaseFilter<Useragent> {
 		constructor(filterConfiguration: Useragent) {
 			super(filterConfiguration)

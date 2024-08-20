@@ -1,23 +1,10 @@
-import { types } from "cloudly-analytics-common"
-import { isly } from "isly"
+import { listener, types } from "cloudly-analytics-common"
 import { BaseListener } from "./Base"
 
-export interface Http extends BaseListener.Configuration {
-	type: "http"
-	/**
-	 * Url
-	 */
-	target: string
-}
+export type Http = listener.Http
 
 export namespace Http {
-	export const type = BaseListener.Configuration.type.extend<Http>(
-		{
-			type: isly.string("http"),
-			target: isly.string(),
-		},
-		"Listener.Http"
-	)
+	export const type = listener.Http.type
 	export class Implementation extends BaseListener<Http> {
 		setup(oldConfiguration?: Http | undefined): Promise<BaseListener.SetupResult> {
 			return Promise.resolve({ success: true as const })
