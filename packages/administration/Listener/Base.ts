@@ -1,4 +1,4 @@
-import * as gracely from "gracely"
+import { gracely } from "gracely"
 import { listener, types } from "cloudly-analytics-common"
 
 export abstract class BaseListener<C extends BaseListener.Configuration> {
