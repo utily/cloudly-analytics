@@ -1,4 +1,4 @@
-import * as isoly from "isoly"
+import { isoly } from "isoly"
 import { isly } from "isly"
 import { BaseListener } from "./Base"
 import { BigQuery as BigQueryListener } from "./BigQuery"
@@ -12,7 +12,7 @@ export namespace Listener {
 		export import Logger = LogListener
 		export import Http = HttpListener
 		export import BigQuery = BigQueryListener
-		export const type = isly.union(Logger.type, Http.type, BigQueryListener.type)
+		export const type = isly.union<Configuration, Logger, Http, BigQuery>(Logger.type, Http.type, BigQueryListener.type)
 		export const is = type.is
 		export const flaw = type.flaw
 		export type Metadata = { created: isoly.DateTime; updated?: isoly.DateTime }

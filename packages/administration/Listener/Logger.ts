@@ -1,20 +1,9 @@
-import { types } from "cloudly-analytics-common"
-import { isly } from "isly"
+import { listener, types } from "cloudly-analytics-common"
 import { BaseListener } from "./Base"
-export interface Logger extends BaseListener.Configuration {
-	readonly type: "logger"
-	/**
-	 * Url
-	 */
-}
-export namespace Logger {
-	export const type = BaseListener.Configuration.type.extend<Logger>(
-		{
-			type: isly.string("logger"),
-		},
-		"Listener.Logger"
-	)
 
+export type Logger = listener.Logger
+export namespace Logger {
+	export const type = listener.Logger.type
 	export class Implementation extends BaseListener<Logger> {
 		async addStatusDetails(result: BaseListener.StatusResult): Promise<BaseListener.StatusResult> {
 			console.log(`Status from Listener.Logger (Name: ${this.configuration.name})`)

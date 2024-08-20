@@ -1,4 +1,4 @@
-import { Filter, Listener } from "../../index"
+import { Filter, Listener } from "../index"
 
 describe("Mapping and filtering", () => {
 	it("Type checks", () => {
@@ -42,6 +42,7 @@ const mapping = {
 		},
 		// TODO nestedDoubleArray: "nested.doubleArray[*][*].inner",
 		map: { selector: "map", transform: "array" },
+		// eslint-disable-next-line
 } as const satisfies Filter.Mapping.RecordWithSelector<string>;
 const mappingConfig: Filter.Mapping = {
 	type: "mapping",

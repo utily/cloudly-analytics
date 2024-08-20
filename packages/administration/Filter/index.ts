@@ -1,4 +1,4 @@
-import { isly } from "isly"
+import { filter } from "cloudly-analytics-common"
 import { BaseFilter } from "./Base"
 import { Mapping as FilterMapping } from "./Mapping"
 import { Selectively as FilterSelectively } from "./Selectively"
@@ -9,8 +9,7 @@ export namespace Filter {
 	export import Mapping = FilterMapping
 	export import Useragent = FilterUseragent
 	export import Base = BaseFilter
-	export type Configuration = Selectively | Mapping | Useragent
-	export const Configuration = isly.union(Selectively.type, Mapping.type, Useragent.type)
+	export import Configuration = filter.Configuration
 	type Implementations = {
 		[Type in Configuration["type"]]: {
 			// About constructor-signature: https://stackoverflow.com/a/13408029/1003172
