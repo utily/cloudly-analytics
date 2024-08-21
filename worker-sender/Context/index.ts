@@ -1,5 +1,5 @@
 import { gracely } from "gracely"
-import { sender } from "cloudly-analytics-sender"
+import * as sender from "cloudly-analytics-sender"
 import { http } from "cloudly-http"
 import { router } from "../router"
 import { analyticsDefault, AnalyticsExtra } from "./analytics"
