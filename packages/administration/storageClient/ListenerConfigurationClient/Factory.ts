@@ -1,4 +1,4 @@
-import * as gracely from "gracely"
+import { gracely } from "gracely"
 import type { Environment } from "../../Environment"
 import type { ListenerConfigurationClient } from "."
 

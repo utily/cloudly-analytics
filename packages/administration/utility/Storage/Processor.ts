@@ -1,6 +1,6 @@
-import * as gracely from "gracely"
+import { gracely } from "gracely"
 import { DurableObjectState, Request, Response } from "@cloudflare/workers-types"
-import * as http from "cloudly-http"
+import { http } from "cloudly-http"
 import { Context } from "./Context"
 import { DurableObjectWithEnvironment } from "./DurableObjectWithEnvironment"
 import { Router } from "./Router"

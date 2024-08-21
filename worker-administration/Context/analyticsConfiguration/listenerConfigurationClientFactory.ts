@@ -1,4 +1,4 @@
-import * as gracely from "gracely"
+import { gracely } from "gracely"
 import { Listener, ListenerConfigurationClient } from "cloudly-analytics-administration"
 import { types } from "cloudly-analytics-common"
 import { Environment } from "Context/Environment"

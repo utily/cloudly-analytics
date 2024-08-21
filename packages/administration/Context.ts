@@ -1,4 +1,4 @@
-import * as gracely from "gracely"
+import { gracely } from "gracely"
 import { Environment } from "./Environment"
 import { ListenerConfigurationClient } from "./storageClient"
 import { Bucket as ClientBucket } from "./storageClient/Bucket"

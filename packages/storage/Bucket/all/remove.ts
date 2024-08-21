@@ -1,5 +1,5 @@
-import * as gracely from "gracely"
-import * as http from "cloudly-http"
+import { gracely } from "gracely"
+import { http } from "cloudly-http"
 import { Storage } from "../../utility/Storage"
 import { BucketStorage } from ".."
 import { bucketRouter } from "../bucketRouter"

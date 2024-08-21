@@ -1,6 +1,6 @@
-import * as gracely from "gracely"
+import { gracely } from "gracely"
 import { ContextMember as AdministrationContextMember, WorkerContext } from "cloudly-analytics-administration"
-import * as http from "cloudly-http"
+import { http } from "cloudly-http"
 import { router } from "../router"
 import { listenerConfigurationClientFactory } from "./analyticsConfiguration/listenerConfigurationClientFactory"
 import { Environment as ContextEnvironment } from "./Environment"
