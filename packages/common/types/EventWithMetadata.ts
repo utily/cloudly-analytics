@@ -1,5 +1,5 @@
 import { Request } from "@cloudflare/workers-types"
-import * as http from "cloudly-http"
+import { http } from "cloudly-http"
 import { isly } from "isly"
 import { Event } from "./Event"
 import { HasUuid } from "./HasUuid"

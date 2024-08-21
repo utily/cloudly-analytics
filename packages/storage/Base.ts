@@ -1,4 +1,4 @@
-import * as gracely from "gracely"
+import { gracely } from "gracely"
 import { DurableObjectState, Request, Response } from "@cloudflare/workers-types"
 import { Environment } from "cloudly-analytics-administration"
 import { ListenerConfigurationClient } from "cloudly-analytics-administration"

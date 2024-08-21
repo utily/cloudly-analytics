@@ -1,6 +1,7 @@
 import { TableField } from "@google-cloud/bigquery"
 import { isly } from "isly"
 
+// cspell:ignore BIGNUMERIC DATETIME
 export namespace BigQueryApi {
 	export type BaseField<T extends string = string> = {
 		name: T

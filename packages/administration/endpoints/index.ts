@@ -1,7 +1,7 @@
-import * as gracely from "gracely"
+import { gracely } from "gracely"
 // Let endpoints register
 import "./listener"
-import * as http from "cloudly-http"
+import { http } from "cloudly-http"
 import * as cloudlyRouter from "cloudly-router"
 import type { WorkerContext } from "../index"
 import { administrationRouter } from "./administrationRouter"

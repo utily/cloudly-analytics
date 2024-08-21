@@ -1,5 +1,5 @@
-import * as gracely from "gracely"
-import * as http from "cloudly-http"
+import { gracely } from "gracely"
+import { http } from "cloudly-http"
 import { isly } from "isly"
 import type { ContextMember as ContextMember } from "../../Context"
 import { administrationRouter } from "../administrationRouter"

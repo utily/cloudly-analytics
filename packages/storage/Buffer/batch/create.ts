@@ -1,6 +1,6 @@
-import * as gracely from "gracely"
+import { gracely } from "gracely"
 import { types } from "cloudly-analytics-common"
-import * as http from "cloudly-http"
+import { http } from "cloudly-http"
 import { Storage } from "../../utility/Storage"
 import type { BufferStorage } from ".."
 import { bufferRouter } from "../bufferRouter"
