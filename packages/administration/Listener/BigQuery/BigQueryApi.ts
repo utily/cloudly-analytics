@@ -1,10 +1,20 @@
 import { gracely } from "gracely"
 import { authly } from "authly"
-import type { InsertRowsOptions, InsertRowsStreamResponse, TableMetadata } from "@google-cloud/bigquery"
+import * as biqquery from "@google-cloud/bigquery"
 import { listener } from "cloudly-analytics-common"
 import { http, Response } from "cloudly-http"
 import { isly } from "isly"
 import type { BigQuery as BigQueryConfiguration } from "."
+
+interface BQError {
+	error: {
+		code: number
+		message: string
+		errors: Record<string, string>[]
+		status: string
+		details: any[]
+	}
+}
 
 export class BigQueryApi {
 	constructor(protected readonly listenerConfiguration: BigQueryConfiguration) {}
@@ -44,11 +54,11 @@ export class BigQueryApi {
 	/**
 	 * https://cloud.google.com/bigquery/docs/reference/rest/v2/tabledata/insertAll
 	 */
-	async insertAll(rows: InsertRowsOptions["rows"]): Promise<InsertRowsStreamResponse | undefined> {
+	async insertAll(rows: biqquery.InsertRowsOptions["rows"]): Promise<biqquery.InsertRowsStreamResponse | undefined> {
 		const { projectName: projectName, datasetName: datasetName, tableName } = this.listenerConfiguration
 		const insertUrl = `https://bigquery.googleapis.com/bigquery/v2/projects/${projectName}/datasets/${datasetName}/tables/${tableName}/insertAll`
 
-		const payload: InsertRowsOptions = {
+		const payload: biqquery.InsertRowsOptions = {
 			kind: "bigquery#tableDataInsertAllResponse",
 			rows,
 		}
@@ -64,6 +74,7 @@ export class BigQueryApi {
 					},
 			  })
 			: undefined
+		const body: biqquery.InsertRowsStreamResponse | BQError = await response?.body
 		return (response && response.status == 200 && (await response.body)) || undefined
 	}
 	/**
@@ -72,7 +83,7 @@ export class BigQueryApi {
 	async createTable(): Promise<BigQueryApi.TableResponse | gracely.Error> {
 		const { projectName, datasetName, tableName } = this.listenerConfiguration
 		const createUrl = `https://bigquery.googleapis.com/bigquery/v2/projects/${projectName}/datasets/${datasetName}/tables`
-		const payload: TableMetadata = {
+		const payload: biqquery.TableMetadata = {
 			tableReference: {
 				projectId: projectName,
 				datasetId: datasetName,
@@ -106,7 +117,7 @@ export class BigQueryApi {
 	async patchTable(): Promise<BigQueryApi.TableResponse | gracely.Error> {
 		const { projectName, datasetName, tableName } = this.listenerConfiguration
 		const patchUrl = `https://bigquery.googleapis.com/bigquery/v2/projects/${projectName}/datasets/${datasetName}/tables/${tableName}`
-		const payload: TableMetadata = {
+		const payload: biqquery.TableMetadata = {
 			tableReference: {
 				projectId: projectName,
 				datasetId: datasetName,

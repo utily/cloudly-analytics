@@ -35,7 +35,7 @@ export abstract class BaseListener<C extends BaseListener.Configuration> {
 		return result
 	}
 
-	abstract processBatch(batch: types.HasUuid[]): Promise<boolean[]>
+	abstract processBatch(batch: types.HasUuid[], errorHandler?: (error: any) => void): Promise<boolean[]>
 }
 
 export namespace BaseListener {

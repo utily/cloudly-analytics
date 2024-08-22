@@ -18,6 +18,7 @@ export interface BaseListenerConfiguration {
 	readonly filter: filter.Configuration[]
 
 	readonly comment?: string
+	errorHandler?: (error: any) => void
 }
 export namespace BaseListenerConfiguration {
 	export const namePattern = /^[a-z0-9_-]+$/
@@ -28,6 +29,7 @@ export namespace BaseListenerConfiguration {
 			batchInterval: isly.number("positive"),
 			filter: isly.array(filter.Configuration.type),
 			comment: isly.string().optional(),
+			errorHandler: isly.function<(error: any) => void>().optional(),
 		},
 		"ListenerConfiguration"
 	)

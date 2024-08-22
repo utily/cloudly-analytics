@@ -69,7 +69,7 @@ export namespace BigQuery {
 			return result
 		}
 
-		async processBatch(batch: types.HasUuid[]): Promise<boolean[]> {
+		async processBatch(batch: types.HasUuid[], errorHandler?: (error: any) => void): Promise<boolean[]> {
 			const bigQueryApi = new BigQueryApi(this.configuration)
 			const response = await bigQueryApi.insertAll(
 				batch.map((item, index) => {
@@ -81,6 +81,7 @@ export namespace BigQuery {
 					}
 				})
 			)
+			this.configuration?.errorHandler()
 			let success = false
 			if (!response) {
 				console.error(
