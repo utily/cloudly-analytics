@@ -3,7 +3,7 @@ import { isly } from "isly"
 /**
  * This is the format for private keys downloaded form Google.
  * (Optional properties are not used by the BigQuery-Listener
- * and therefor not necessary.)
+ * and therefore not necessary.)
  */
 export type PrivateKey = {
 	type?: string
@@ -16,6 +16,7 @@ export type PrivateKey = {
 	token_uri?: string
 	auth_provider_x509_cert_url?: string
 	client_x509_cert_url?: string
+	universe_domain?: string
 }
 
 export namespace PrivateKey {
@@ -30,6 +31,7 @@ export namespace PrivateKey {
 		token_uri: isly.string().optional(),
 		auth_provider_x509_cert_url: isly.string().optional(),
 		client_x509_cert_url: isly.string().optional(),
+		universe_domain: isly.string().optional(),
 	})
 	export const is = type.is
 	export const flaw = type.flaw
