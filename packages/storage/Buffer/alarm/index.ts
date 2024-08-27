@@ -3,8 +3,8 @@ import { ContextMember, Filter, Listener } from "cloudly-analytics-administratio
 import { types } from "cloudly-analytics-common"
 import { generateKeyBatch } from "../../utility/Storage/functions"
 import { bufferRouter } from "../bufferRouter"
-type CompiledListeners = Record<string, Listener.Configuration & { filterImplementations: Filter.Base[] }>
 
+type CompiledListeners = Record<string, Listener.Configuration & { filterImplementations: Filter.Base[] }>
 function* generateBucket(waitingBatches: Map<string, types.Batch>, listeners: CompiledListeners) {
 	const buckets: Record<string, types.HasUuid[]> = {}
 	const bucketsSize: Record<string, number> = {}

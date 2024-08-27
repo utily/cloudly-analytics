@@ -18,15 +18,16 @@ export namespace BigQuery {
 	)
 	export function createConfiguration(
 		bigQueryConfiguration: BaseConfiguration,
-		privateKey: types.PrivateKey
+		privateKey: types.PrivateKey,
+		errorHandler?: (error?: unknown) => Promise<void>,
+		logger?: { log: (message: string) => void }
 	): BigQuery {
-		return { ...bigQueryConfiguration, ...{ privateKey } }
+		return { ...bigQueryConfiguration, privateKey, errorHandler, logger }
 	}
 	export class Implementation extends BaseListener<BigQuery> {
 		async addStatusDetails(result: BaseListener.StatusResult): Promise<BaseListener.StatusResult> {
 			const bigQueryApi = new BigQueryApi(this.configuration)
 			;(result.details ??= {}).table = await bigQueryApi.getTable()
-
 			return result
 		}
 		getConfiguration() {
@@ -66,6 +67,7 @@ export namespace BigQuery {
 				} else
 					(result.details ??= []).push(`Table ${this.configuration.tableName} created.`)
 			}
+			this.log(JSON.stringify(result, undefined, 2))
 			return result
 		}
 
@@ -83,12 +85,10 @@ export namespace BigQuery {
 			)
 			let success = false
 			if (!response) {
-				console.error(
-					`Listener.BigQuery (Name: ${this.configuration.name}) failed to store values. Http-request failed.`
-				)
+				this.log(`Listener.BigQuery (Name: ${this.configuration.name}) failed to store values. Http-request failed.`)
 			} else if ((response.insertErrors?.length ?? 0) > 0) {
-				console.error(`Listener.BigQuery (Name: ${this.configuration.name}) failed to store values.`)
-				console.error(response.insertErrors)
+				this.log(`Listener.BigQuery (Name: ${this.configuration.name}) failed to store values.`)
+				this.log(JSON.stringify(response.insertErrors))
 			} else {
 				success = true
 			}
