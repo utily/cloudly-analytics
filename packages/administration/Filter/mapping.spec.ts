@@ -3,7 +3,7 @@ import { Filter, Listener } from "../index"
 describe("Mapping and filtering", () => {
 	it("Type checks", () => {
 		expect(Filter.Mapping.is(mappingConfig)).toBe(true)
-		expect(Listener.Configuration.BigQuery.type.omit<"privateKey">(["privateKey"]).is(configuration)).toBe(true)
+		expect(Listener.Configuration.BigQuery.type.omit<"privateKey" | "logger">(["privateKey", "logger"]).is(configuration)).toBe(true)
 	})
 	it("Maps event", () => {
 		expect(new Filter.Mapping.Implementation(mappingConfig).filter(event)).toEqual(result)

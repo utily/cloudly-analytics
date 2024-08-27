@@ -2,7 +2,10 @@ import { gracely } from "gracely"
 import { listener, types } from "cloudly-analytics-common"
 
 export abstract class BaseListener<C extends BaseListener.Configuration> {
-	constructor(protected readonly configuration: C) {}
+	constructor(protected readonly configuration: C) {
+		this.log = configuration.logger?.log ?? console.log
+	}
+	log: (message: string) => void
 	/**
 	 * Returns configuration, used by REST-API when returning the configuration.
 	 *
