@@ -20,7 +20,7 @@ export namespace BigQuery {
 		bigQueryConfiguration: BaseConfiguration,
 		privateKey: types.PrivateKey,
 		errorHandler?: (error?: unknown) => Promise<void>,
-		logger?: { log: (message: string) => void }
+		logger?: { log: (message: string, ...args: any[]) => void }
 	): BigQuery {
 		return { ...bigQueryConfiguration, privateKey, errorHandler, logger }
 	}
@@ -67,7 +67,7 @@ export namespace BigQuery {
 				} else
 					(result.details ??= []).push(`Table ${this.configuration.tableName} created.`)
 			}
-			this.log(JSON.stringify(result, undefined, 2))
+			this.log("BigQuery setup", result)
 			return result
 		}
 
@@ -87,8 +87,7 @@ export namespace BigQuery {
 			if (!response) {
 				this.log(`Listener.BigQuery (Name: ${this.configuration.name}) failed to store values. Http-request failed.`)
 			} else if ((response.insertErrors?.length ?? 0) > 0) {
-				this.log(`Listener.BigQuery (Name: ${this.configuration.name}) failed to store values.`)
-				this.log(JSON.stringify(response.insertErrors))
+				this.log(`Listener.BigQuery (Name: ${this.configuration.name}) failed to store values.`, response)
 			} else {
 				success = true
 			}
