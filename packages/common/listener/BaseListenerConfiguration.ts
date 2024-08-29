@@ -19,7 +19,7 @@ export interface BaseListenerConfiguration {
 
 	readonly comment?: string
 	errorHandler?: (error: unknown) => Promise<void>
-	logger?: { log: (message: string) => void }
+	logger?: { log: (message: string, ...args: any[]) => void }
 }
 export namespace BaseListenerConfiguration {
 	export const namePattern = /^[a-z0-9_-]+$/
@@ -33,7 +33,7 @@ export namespace BaseListenerConfiguration {
 			errorHandler: isly.function<Required<BaseListenerConfiguration>["errorHandler"]>().optional(),
 			logger: isly
 				.object<Required<BaseListenerConfiguration>["logger"]>({
-					log: isly.function<(message: string) => void>(),
+					log: isly.function<(message: string, ...args: any[]) => void>(),
 				})
 				.optional(),
 		},

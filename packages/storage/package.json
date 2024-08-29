@@ -11,6 +11,6 @@
 		"cloudly-analytics-common": "^0.3.30",
 		"cloudly-http": "^0.1.7",
 		"gracely": "^2.0.8",
-		"isly": "^0.1.16"
+		"isly": "^0.1.20"
 	}
 }

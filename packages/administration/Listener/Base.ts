@@ -5,7 +5,7 @@ export abstract class BaseListener<C extends BaseListener.Configuration> {
 	constructor(protected readonly configuration: C) {
 		this.log = configuration.logger?.log ?? console.log
 	}
-	log: (message: string) => void
+	log: (message: string, ...args: any[]) => void
 	/**
 	 * Returns configuration, used by REST-API when returning the configuration.
 	 *

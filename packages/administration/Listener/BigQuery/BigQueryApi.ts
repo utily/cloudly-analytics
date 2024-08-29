@@ -7,8 +7,11 @@ import { isly } from "isly"
 import type { BigQuery as BigQueryConfiguration } from "."
 
 export class BigQueryApi {
-	constructor(protected readonly listenerConfiguration: BigQueryConfiguration) {}
+	constructor(protected readonly listenerConfiguration: BigQueryConfiguration) {
+		this.#log = listenerConfiguration.logger?.log ?? console.log
+	}
 	#token?: string
+	#log: Required<BigQueryConfiguration>["logger"]["log"]
 	/**
 	 * https://developers.google.com/identity/protocols/oauth2/service-account#jwt-auth
 	 * @returns
@@ -22,6 +25,9 @@ export class BigQueryApi {
 					/(?:^|-+\s*BEGIN PRIVATE KEY\s*-+\s*)([A-Za-z0-9+/\s]+={0,3})(?:\s*-+\s*END PRIVATE KEY\s*-+|$)/s
 				) ?? [])[1] ?? ""
 			).replace(/\s/g, "")
+			if (base64key.length == 0) {
+				this.#log(`BigQuery private key has wrong format${/\\/.test(privateKey.private_key) ? ": Badly escaped" : ""}.`)
+			}
 			const key = authly.Algorithm.RS256(undefined, base64key)
 			if (key) {
 				key.kid = privateKey.private_key_id
@@ -32,8 +38,10 @@ export class BigQueryApi {
 					sub: privateKey.client_email,
 					aud: "https://bigquery.googleapis.com/",
 				})
+				if (!this.#token)
+					this.#log("BigQueryApi:getToken - Failed to sign token")
 			} else
-				console.error("BigQueryApi:getToken", "Failed to generate token")
+				this.#log("BigQueryApi:getToken - Failed to generate token")
 		}
 		return this.#token
 	}
@@ -56,7 +64,11 @@ export class BigQueryApi {
 				header: { "content-type": "application/json;charset=UTF-8", authorization: "Bearer " + token },
 			})
 			const body = await response.body
-			result = response.status != 200 ? await this.listenerConfiguration.errorHandler?.({ ...response, body }) : body
+			result =
+				response.status != 200
+					? (this.#log(`Request to ${insertUrl} failed`, body),
+					  await this.listenerConfiguration.errorHandler?.({ ...response, body }))
+					: body
 		}
 		return result
 	}
