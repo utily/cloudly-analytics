@@ -33,7 +33,7 @@ export namespace Mapping {
 	export type Getter<T extends string = string> = {
 		selector: MaybeArray<T>
 		default?: MaybeArray<number | string | boolean>
-		transform?: Transform | RecordWithSelector<string>
+		transform?: Transform | RecordWithSelector<string> | [Extract<Transform, "array">, RecordWithSelector<string>]
 	}
 	export namespace Getter {
 		type Default = number | string | boolean
@@ -47,9 +47,18 @@ export namespace Mapping {
 			selector: isly.union<string | string[], string, string[]>(isly.string(), isly.string().array()),
 			default: defaultType,
 			transform: isly
-				.union<Transform | RecordWithSelector<string>, Transform, RecordWithSelector<string>>(
+				.union<
+					Transform | RecordWithSelector<string> | [Extract<Transform, "array">, RecordWithSelector<string>],
+					Transform,
+					RecordWithSelector<string>,
+					[Extract<Transform, "array">, RecordWithSelector<string>]
+				>(
 					Transform.type,
-					RecordWithSelector.type
+					RecordWithSelector.type,
+					isly.tuple<[Extract<Transform, "array">, RecordWithSelector<string>]>(
+						isly.string(["array"]),
+						RecordWithSelector.type
+					)
 				)
 				.optional(),
 		})
