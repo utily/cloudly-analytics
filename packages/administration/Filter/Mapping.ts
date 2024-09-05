@@ -57,8 +57,7 @@ export namespace Mapping {
 					? value.map(item => Transform.to[type](item))
 					: Transform.to[type](value)
 				: Array.isArray(type)
-				? // TODO: fix cast to 'any'
-				  Transform.to[type[0]](value).map((item: any) => this.filter(item, type[1]))
+				? Transform.to[type[0]](value).map((item: any) => this.filter(item, type[1]))
 				: Array.isArray(value)
 				? value.map(item => this.filter(item, type))
 				: this.filter(value, type)
