@@ -11,7 +11,7 @@ describe("Mapping and filtering", () => {
 })
 const event = {
 	stringVal: "test",
-	numVal: 2,
+	numVal: 2.34,
 	tuple: ["key", { inner: "value" }],
 	array: [{ inner: "value0" }, { inner: "value1" }, { inner: "value2" }, { inner: "value3" }],
 	nested: {
@@ -23,10 +23,12 @@ const event = {
 		// ],
 	},
 	map: { prop1: "hej", prop2: "haj" },
+	map2: { pi: 3.1416, phi: 1.618 },
 }
 const mapping = {
 		stringVal: "stringVal",
-		numVal: { selector: "numVal", transform: "integer" },
+		integer: { selector: "numVal", transform: "integer" },
+		numeric: { selector: "numVal", transform: "number" },
 		tupleKey: "tuple[0]",
 		tupleInner: "tuple[1].inner",
 		arrayInner: "array[*].inner",
@@ -42,6 +44,7 @@ const mapping = {
 		},
 		// TODO nestedDoubleArray: "nested.doubleArray[*][*].inner",
 		map: { selector: "map", transform: "array" },
+		num2strMap: { selector: "map2", transform: ["array", { key: "key", value: { selector: "value", transform: "string" }}] },
 		// eslint-disable-next-line
 } as const satisfies Filter.Mapping.RecordWithSelector<string>;
 const mappingConfig: Filter.Mapping = {
@@ -50,7 +53,8 @@ const mappingConfig: Filter.Mapping = {
 }
 const tableSchema: Listener.Configuration.BigQuery.Api.BaseField<Extract<keyof typeof mapping, string>>[] = [
 	{ name: "stringVal", type: "STRING" },
-	{ name: "numVal", type: "INTEGER" },
+	{ name: "integer", type: "INTEGER" },
+	{ name: "numeric", type: "NUMERIC" },
 	{ name: "tupleKey", type: "STRING" },
 	{ name: "tupleInner", type: "STRING" },
 	{ name: "arrayInner", type: "STRING", mode: "REPEATED" },
@@ -67,10 +71,16 @@ const tableSchema: Listener.Configuration.BigQuery.Api.BaseField<Extract<keyof t
 			{ name: "value", type: "STRING" },
 		]
 	},
+	{ name: "num2strMap", type: "RECORD", mode: "REPEATED", fields: [
+			{ name: "key", type: "NUMERIC" },
+			{ name: "value", type: "NUMERIC" },
+		]
+	},
 ]
 const result = {
 	stringVal: "test",
-	numVal: 2,
+	integer: 2,
+	numeric: 2.34,
 	tupleKey: "key",
 	tupleInner: "value",
 	arrayInner: ["value0", "value1", "value2", "value3"],
@@ -82,6 +92,10 @@ const result = {
 		{ key: "prop1", value: "hej" },
 		{ key: "prop2", value: "haj" },
 	],
+	num2strMap: [
+		{ key: "pi", value: "3.1416" },
+		{ key: "phi", value: "1.618" },
+	]
 }
 const configuration: Listener.Configuration.BigQuery.BaseConfiguration = {
 	name: "test-events",

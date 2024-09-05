@@ -56,6 +56,8 @@ export namespace Mapping {
 				? map && Array.isArray(value) // TODO: make it work for nested arrays
 					? value.map(item => Transform.to[type](item))
 					: Transform.to[type](value)
+				: Array.isArray(type)
+				? Transform.to[type[0]](value).map((item: any) => this.filter(item, type[1]))
 				: Array.isArray(value)
 				? value.map(item => this.filter(item, type))
 				: this.filter(value, type)
