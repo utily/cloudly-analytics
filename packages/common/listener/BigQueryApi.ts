@@ -71,6 +71,7 @@ export namespace BigQueryApi {
 					names: isly.array(isly.string(), { criteria: "maxLength", value: 1 }).optional(),
 				})
 				.optional(),
+			dataPolicies: isly.object<{ name?: string }>({ name: isly.string().optional() }).array().optional(),
 			precision: isly.string().optional(),
 			scale: isly.string().optional(),
 			defaultValueExpression: isly.string().optional(),
