@@ -7,7 +7,7 @@
 		"build": "tsc --build"
 	},
 	"dependencies": {
-		"@google-cloud/bigquery": "^7.9.1",
+		"@google-cloud/bigquery": "^7.9.0",
 		"authly": "^3.1.2",
 		"cloudly-analytics-common": "^0.3.32",
 		"cloudly-http": "^0.1.7",
