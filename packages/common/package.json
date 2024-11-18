@@ -7,7 +7,7 @@
 		"build": "tsc --build"
 	},
 	"dependencies": {
-		"@google-cloud/bigquery": "^7.9.0",
+		"@google-cloud/bigquery": "^7.9.1",
 		"cloudly-http": "^0.1.7",
 		"isly": "^0.1.20",
 		"isoly": "^2.3.11"
