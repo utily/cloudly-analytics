@@ -31,7 +31,7 @@ export class TypescriptApi extends Base {
 		return result
 	}
 
-	async fetch(name: string): Promise<FetchResult | undefined> {
+	async fetch(name: string, statistics?: boolean): Promise<FetchResult | undefined> {
 		let result: FetchResult | undefined
 		const listenerConfiguration = await this.getListenerConfiguration(name)
 		if (!listenerConfiguration) {
@@ -40,7 +40,7 @@ export class TypescriptApi extends Base {
 			const listener = Listener.create(listenerConfiguration)
 			result = {
 				configuration: listener.getConfiguration(),
-				status: await listener.getStatus(),
+				status: await listener.getStatus(statistics),
 				readonly: true,
 			}
 		}

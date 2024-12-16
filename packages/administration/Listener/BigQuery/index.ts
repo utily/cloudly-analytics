@@ -25,9 +25,12 @@ export namespace BigQuery {
 		return { ...bigQueryConfiguration, privateKey, errorHandler, logger }
 	}
 	export class Implementation extends BaseListener<BigQuery> {
-		async addStatusDetails(result: BaseListener.StatusResult): Promise<BaseListener.StatusResult> {
+		async addStatusDetails(
+			result: BaseListener.StatusResult,
+			statistics?: boolean
+		): Promise<BaseListener.StatusResult> {
 			const bigQueryApi = new BigQueryApi(this.configuration)
-			;(result.details ??= {}).table = await bigQueryApi.getTable()
+			;(result.details ??= {}).table = await bigQueryApi.getTable(statistics ? "STORAGE_STATS" : undefined)
 			return result
 		}
 		getConfiguration() {

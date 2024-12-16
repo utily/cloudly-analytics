@@ -23,8 +23,8 @@ export abstract class BaseListener<C extends BaseListener.Configuration> {
 	 * Returns status of the listener.
 	 * Override `getStatus` instead to add details.
 	 */
-	async getStatus() {
-		const result: BaseListener.StatusResult = await this.addStatusDetails({ ok: true })
+	async getStatus(statistics?: boolean) {
+		const result: BaseListener.StatusResult = await this.addStatusDetails({ ok: true }, (statistics = false))
 		// TODO: Get statistics from bucket.
 		return result
 	}
@@ -34,7 +34,7 @@ export abstract class BaseListener<C extends BaseListener.Configuration> {
 	 * This is a stub, made to be overridden.
 	 * Override this to add details.
 	 */
-	async addStatusDetails(result: BaseListener.StatusResult): Promise<BaseListener.StatusResult> {
+	async addStatusDetails(result: BaseListener.StatusResult, statistics?: boolean): Promise<BaseListener.StatusResult> {
 		return result
 	}
 
